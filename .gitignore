@@ -21,6 +21,10 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# local-only project files (jamais commités)
+.mcp.json
+DESIGN.md
+
 # aidesigner runs (artefacts locaux, ne pas commit)
 .aidesigner/runs/
 .aidesigner/mcp-latest.html
