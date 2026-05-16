@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import { getStrings, type Locale } from "~/i18n/strings";
+import { localePath } from "~/lib/urls";
 
 interface Props {
   locale: Locale;
@@ -12,6 +13,8 @@ const t = getStrings(locale);
 const cohorts = (await getCollection("cohorts"))
   .map((entry) => entry.data)
   .sort((a, b) => a.ordre - b.ordre);
+
+const applyHref = localePath("/espace-candidats", locale);
 ---
 
 <section id="raffinerie" class="py-12 px-4 md:px-8 max-w-[1400px] mx-auto reveal">
@@ -68,7 +71,7 @@ const cohorts = (await getCollection("cohorts"))
       </div>
 
       <a
-        href="#"
+        href={applyHref}
         class="w-fit bg-accent-green text-white px-6 py-3 rounded-full text-sm font-medium hover:brightness-110 hover:-translate-y-0.5 transition-all shadow-[0_4px_14px_0_rgba(15,157,88,0.39)]"
       >
         {t.raffinerie.applyKigali}
