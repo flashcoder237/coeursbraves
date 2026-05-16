@@ -1,4 +1,5 @@
 import { getCollection, render, type CollectionEntry } from "astro:content";
+import { getStrings, type Locale } from "~/i18n/strings";
 
 export type PoleEntry = CollectionEntry<"poles">;
 export const POLE_SLUGS = [
@@ -11,38 +12,30 @@ export const POLE_SLUGS = [
 ] as const;
 export type PoleSlug = (typeof POLE_SLUGS)[number];
 
-/** Per-pôle hero image.
- *  4 pôles use brand-owned Cœurs Braves visuals (apparel mockups with
- *  pan-African / "BRAVE" branding). 2 pôles (immigration, fermiers)
- *  still use Unsplash because cb_images doesn't include topic-specific
- *  shots (airport, agriculture). Once `imageHero` is filled in the
- *  collection .md files, that takes precedence (see loadPoles below). */
-const fallbackImages: Record<string, { src: string; alt: string }> = {
-  "immigration-services": {
-    src: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80",
-    alt: "Voyageurs dans un hall international moderne",
-  },
-  "studios-tv": {
-    src: "/images/uploads/poles/studios-tv.png",
-    alt: "Visuel Studios & TV — ambiance nocturne, identité Brave Hearts",
-  },
-  "fermiers": {
-    src: "https://images.unsplash.com/photo-1592982537447-6f2b6c0a6cb7?auto=format&fit=crop&w=900&q=80",
-    alt: "Agriculteur dans un champ moderne",
-  },
-  "technology-innovation": {
-    src: "/images/uploads/poles/technology-innovation.png",
-    alt: "Visuel Technology & Innovation — femme avec son smartphone, sweat Cœurs Braves",
-  },
-  "academy": {
-    src: "/images/uploads/poles/academy.png",
-    alt: "Visuel Academy — étudiante enthousiaste portant un sweat Cœurs Braves",
-  },
-  "business-investissements": {
-    src: "/images/uploads/poles/business-investissements.png",
-    alt: "Visuel Business & Investissements — entrepreneur confiant en t-shirt Brave Heart",
-  },
+/** Per-pôle hero image source. The `alt` is resolved at call time from
+ *  the active locale (see strings.ts → images.poles). */
+const fallbackSrc: Record<string, string> = {
+  "immigration-services":
+    "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80",
+  "studios-tv": "/images/uploads/poles/studios-tv.png",
+  "fermiers":
+    "https://images.unsplash.com/photo-1592982537447-6f2b6c0a6cb7?auto=format&fit=crop&w=900&q=80",
+  "technology-innovation": "/images/uploads/poles/technology-innovation.png",
+  "academy": "/images/uploads/poles/academy.png",
+  "business-investissements": "/images/uploads/poles/business-investissements.png",
 };
+
+function fallbackImage(slug: string, locale: Locale, nom: string) {
+  const t = getStrings(locale);
+  const alt =
+    (t.images.poles as Record<string, string>)[slug] ?? nom;
+  return {
+    src:
+      fallbackSrc[slug] ??
+      "https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=900&q=80",
+    alt,
+  };
+}
 
 const ACCENT_BY_INDEX = ["ochre", "red", "green", "ochre", "red", "green"] as const;
 
@@ -60,7 +53,7 @@ export type PoleView = {
 
 /** Load + sort the 6 pôles for a given locale. Falls back to FR when an
  *  entry isn't authored for the target locale (matches Astro's i18n fallback). */
-export async function loadPoles(locale: string = "fr"): Promise<PoleView[]> {
+export async function loadPoles(locale: Locale = "fr"): Promise<PoleView[]> {
   const all = await getCollection("poles");
 
   const byLocale = (loc: string) =>
@@ -82,17 +75,14 @@ export async function loadPoles(locale: string = "fr"): Promise<PoleView[]> {
       emoji: entry.data.emoji ?? "",
       descriptionCourte: entry.data.descriptionCourte,
       services: entry.data.services.slice(0, 4),
-      image: fallbackImages[slug] ?? {
-        src: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=900&q=80",
-        alt: entry.data.nom,
-      },
+      image: fallbackImage(slug, locale, entry.data.nom),
     };
   });
 }
 
 /** Load a single pôle by slug + locale, with FR fallback when the localised
  *  file is missing. Returns the entry, its position index and image. */
-export async function loadPole(slug: PoleSlug, locale: string = "fr") {
+export async function loadPole(slug: PoleSlug, locale: Locale = "fr") {
   const all = await getCollection("poles");
   const localised = all.find((e) => e.id === `${slug}.${locale}`);
   const fr = all.find((e) => e.id === `${slug}.fr`);
@@ -109,10 +99,7 @@ export async function loadPole(slug: PoleSlug, locale: string = "fr") {
     entry,
     index: String(i + 1).padStart(2, "0"),
     accent,
-    image: fallbackImages[slug] ?? {
-      src: "https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&w=1600&q=80",
-      alt: entry.data.nom,
-    },
+    image: fallbackImage(slug, locale, entry.data.nom),
     render: () => render(entry),
   };
 }

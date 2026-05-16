@@ -1,0 +1,137 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "~/components/Layout.astro";
+import Nav from "~/components/Nav.astro";
+import Footer from "~/components/Footer.astro";
+import { loadPoles } from "~/lib/poles";
+import { localePath } from "~/lib/urls";
+import { getStrings, type Locale } from "~/i18n/strings";
+
+const locale = (Astro.currentLocale as Locale) ?? "fr";
+const t = getStrings(locale);
+const poles = await loadPoles(locale);
+const poleLinks = poles.map((p) => ({ nom: p.nom, slug: p.slug }));
+
+const cohorts = (await getCollection("cohorts"))
+  .map((entry) => entry.data)
+  .sort((a, b) => a.ordre - b.ordre);
+
+const applyHref = localePath("/espace-candidats", locale);
+
+const meta = {
+  fr: { title: "La Raffinerie — Cœurs Braves", description: "Le programme premium de transformation sociale et relationnelle de Cœurs Braves Academy. 9 piliers, cohortes par villes, sélection sur dossier." },
+  en: { title: "The Refinery — Cœurs Braves", description: "The premium programme of social and relational transformation by Cœurs Braves Academy. 9 pillars, city cohorts, application-based selection." },
+  de: { title: "Die Raffinerie — Cœurs Braves", description: "Das Premium-Programm sozialer und relationaler Transformation der Cœurs Braves Academy. 9 Säulen, Stadtkohorten, Auswahl nach Bewerbung." },
+};
+const m = meta[locale];
+---
+
+<Layout title={m.title} description={m.description} locale={locale}>
+  <Nav locale={locale} />
+  <main class="pt-32 pb-24 px-4 md:px-8 max-w-[1400px] mx-auto">
+    <header class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-20 reveal">
+      <div class="lg:col-span-7">
+        <div class="font-mono text-xs uppercase tracking-widest text-ink-soft mb-6 flex items-center gap-3">
+          <span class="dot dot-green"></span>
+          <span>{t.raffinerie.badge}</span>
+        </div>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tightest leading-[0.95] text-balance mb-8">
+          {t.raffinerie.title}
+        </h1>
+        <p class="text-lg md:text-xl text-ink-soft font-light leading-relaxed max-w-2xl">
+          {t.raffinerie.intro}
+        </p>
+        <a
+          href={applyHref}
+          class="mt-8 inline-flex items-center gap-2 bg-accent-green text-white px-6 py-3 rounded-full text-sm font-medium hover:brightness-110 hover:-translate-y-0.5 transition-all shadow-[0_4px_14px_0_rgba(15,157,88,0.39)]"
+        >
+          <span>{t.raffinerie.applyKigali}</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="13 6 19 12 13 18"></polyline>
+          </svg>
+        </a>
+      </div>
+
+      <div class="lg:col-span-5 reveal">
+        <div class="aspect-[4/5] rounded-[1.5rem] overflow-hidden shadow-soft border border-black/5">
+          <img
+            src="/images/uploads/site/raffinerie.png"
+            alt={t.images.raffinerieAlt}
+            class="w-full h-full object-cover"
+            loading="eager"
+          />
+        </div>
+      </div>
+    </header>
+
+    <section class="mb-24 reveal">
+      <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-6 flex items-center gap-2">
+        <span class="dot dot-ochre"></span>
+        <span>{t.raffinerie.pillarsTitle}</span>
+      </p>
+      <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-4">
+        {t.raffinerie.pillars.map((p, i) => (
+          <li class="flex items-start gap-4 py-3 border-t border-hairline">
+            <span class="font-mono text-xs text-accent-ochre mt-1 w-8 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+            <span class="font-medium text-base md:text-lg text-ink">{p}</span>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <section class="mb-24 reveal">
+      <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-6 flex items-center gap-2">
+        <span class="dot dot-green"></span>
+        <span>{t.raffinerie.cohortLabel}s</span>
+      </p>
+      <div class="rounded-[1.5rem] border-hairline bg-paper-dark p-6 md:p-10">
+        <div class="flex flex-col divider-y">
+          {cohorts.map((c) => (
+            <div class:list={["py-5 flex justify-between items-center gap-4", c.state === "open" ? "" : "opacity-70"]}>
+              <span class="font-medium text-lg md:text-xl">{t.raffinerie.cohortLabel} {c.index} — {c.city}</span>
+              {c.state === "open" ? (
+                <div class="flex items-center gap-2 bg-accent-green/10 px-3 py-1.5 rounded-full border border-accent-green/20">
+                  <span class="dot dot-green animate-pulse-slow"></span>
+                  <span class="font-mono text-[10px] uppercase text-accent-green font-medium">{t.raffinerie.cohortOpen}</span>
+                </div>
+              ) : c.state === "soon" ? (
+                <div class="flex items-center gap-2 bg-accent-ochre/10 px-3 py-1.5 rounded-full border border-accent-ochre/20">
+                  <span class="dot dot-ochre"></span>
+                  <span class="font-mono text-[10px] uppercase text-accent-ochre font-medium">{t.raffinerie.cohortSoon}</span>
+                </div>
+              ) : (
+                <div class="flex items-center gap-2 bg-black/5 px-3 py-1.5 rounded-full">
+                  <span class="w-1.5 h-1.5 rounded-full bg-ink-soft"></span>
+                  <span class="font-mono text-[10px] uppercase text-ink-soft">{t.raffinerie.cohortClosed}</span>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="reveal">
+      <div class="rounded-[1.5rem] bg-ink text-paper p-8 md:p-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-8">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-white/40 mb-3">{t.raffinerie.badge}</p>
+          <h2 class="text-3xl md:text-4xl font-semibold tracking-tight text-balance">{t.raffinerie.applyKigali}</h2>
+        </div>
+        <div class="md:col-span-4 flex md:justify-end">
+          <a
+            href={applyHref}
+            class="inline-flex items-center gap-2 bg-accent-green text-white px-6 py-3 rounded-full text-sm font-medium hover:brightness-110 hover:-translate-y-0.5 transition-all"
+          >
+            <span>{t.raffinerie.applyKigali}</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="13 6 19 12 13 18"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer locale={locale} poleLinks={poleLinks} />
+</Layout>

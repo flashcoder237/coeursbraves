@@ -18,6 +18,21 @@ type Dict = {
     megaRaffinerieBadge: string;
     openMenu: string;
     closeMenu: string;
+    lang: string;
+    ecosystemEyebrow: string;
+  };
+  images: {
+    heroAlt: string;
+    manifestoAlt: string;
+    raffinerieAlt: string;
+    poles: {
+      "immigration-services": string;
+      "studios-tv": string;
+      "fermiers": string;
+      "technology-innovation": string;
+      "academy": string;
+      "business-investissements": string;
+    };
   };
   hero: {
     eyebrow: string[];
@@ -50,12 +65,14 @@ type Dict = {
     cohortOpen: string;
     cohortSoon: string;
     applyKigali: string;
+    discoverProgramme: string;
     pillarsTitle: string;
     pillars: string[];
   };
   journal: {
     title: string;
     seeAll: string;
+    eyebrow: string;
   };
   branches: {
     sectionLabel: string;
@@ -80,6 +97,7 @@ type Dict = {
     eyebrow: string;
     title: string;
     socialTitle: string;
+    officeLabelFallback: string;
   };
   footer: {
     ctaTitle: string;
@@ -148,6 +166,21 @@ const fr: Dict = {
     megaRaffinerieBadge: "Programme premium",
     openMenu: "Menu",
     closeMenu: "Fermer",
+    lang: "Langue",
+    ecosystemEyebrow: "§ Écosystème",
+  },
+  images: {
+    heroAlt: "Cœurs Braves — femme rayonnante portant un sweat aux couleurs panafricaines",
+    manifestoAlt: "Portrait du conseil d'administration",
+    raffinerieAlt: "Étudiante de La Raffinerie célébrant sa transformation",
+    poles: {
+      "immigration-services": "Voyageurs dans un hall international moderne",
+      "studios-tv": "Visuel Studios & TV — ambiance nocturne, identité Brave Hearts",
+      "fermiers": "Agriculteur dans un champ moderne",
+      "technology-innovation": "Visuel Technology & Innovation — femme avec son smartphone, sweat Cœurs Braves",
+      "academy": "Visuel Academy — étudiante enthousiaste portant un sweat Cœurs Braves",
+      "business-investissements": "Visuel Business & Investissements — entrepreneur confiant en t-shirt Brave Heart",
+    },
   },
   hero: {
     eyebrow: [
@@ -189,6 +222,7 @@ const fr: Dict = {
     cohortOpen: "Ouvert",
     cohortSoon: "Bientôt",
     applyKigali: "Postuler pour Kigali",
+    discoverProgramme: "Découvrir le programme complet",
     pillarsTitle: "Les 9 piliers de la transformation",
     pillars: [
       "Raffinement personnel",
@@ -205,6 +239,7 @@ const fr: Dict = {
   journal: {
     title: "Journal & analyses",
     seeAll: "Voir tout",
+    eyebrow: "§ Journal",
   },
   branches: {
     sectionLabel: "§ 05 / Sous-organisations",
@@ -232,6 +267,7 @@ const fr: Dict = {
     eyebrow: "§ Contact",
     title: "Parlons d’un projet commun.",
     socialTitle: "Nous suivre",
+    officeLabelFallback: "Bureau",
   },
   footer: {
     ctaTitle: "Prêt à bâtir ?",
@@ -301,6 +337,21 @@ const en: Dict = {
     megaRaffinerieBadge: "Premium programme",
     openMenu: "Menu",
     closeMenu: "Close",
+    lang: "Language",
+    ecosystemEyebrow: "§ Ecosystem",
+  },
+  images: {
+    heroAlt: "Cœurs Braves — radiant woman wearing a sweatshirt in pan-African colours",
+    manifestoAlt: "Portrait of the board of directors",
+    raffinerieAlt: "Refinery student celebrating her transformation",
+    poles: {
+      "immigration-services": "Travellers in a modern international hall",
+      "studios-tv": "Studios & TV visual — night-time mood, Brave Hearts identity",
+      "fermiers": "Farmer in a modern field",
+      "technology-innovation": "Technology & Innovation visual — woman with her smartphone, Cœurs Braves sweatshirt",
+      "academy": "Academy visual — enthusiastic student wearing a Cœurs Braves sweatshirt",
+      "business-investissements": "Business & Investments visual — confident entrepreneur in a Brave Heart t-shirt",
+    },
   },
   hero: {
     eyebrow: [
@@ -342,6 +393,7 @@ const en: Dict = {
     cohortOpen: "Open",
     cohortSoon: "Soon",
     applyKigali: "Apply for Kigali",
+    discoverProgramme: "Explore the full programme",
     pillarsTitle: "The 9 pillars of transformation",
     pillars: [
       "Personal refinement",
@@ -358,6 +410,7 @@ const en: Dict = {
   journal: {
     title: "Journal & insights",
     seeAll: "See all",
+    eyebrow: "§ Journal",
   },
   branches: {
     sectionLabel: "§ 05 / Sub-organisations",
@@ -385,6 +438,7 @@ const en: Dict = {
     eyebrow: "§ Contact",
     title: "Let’s talk about a shared project.",
     socialTitle: "Follow us",
+    officeLabelFallback: "Office",
   },
   footer: {
     ctaTitle: "Ready to build?",
@@ -454,6 +508,21 @@ const de: Dict = {
     megaRaffinerieBadge: "Premium-Programm",
     openMenu: "Menü",
     closeMenu: "Schließen",
+    lang: "Sprache",
+    ecosystemEyebrow: "§ Ökosystem",
+  },
+  images: {
+    heroAlt: "Cœurs Braves — strahlende Frau in einem Sweatshirt in panafrikanischen Farben",
+    manifestoAlt: "Porträt des Vorstands",
+    raffinerieAlt: "Raffinerie-Studentin feiert ihre Transformation",
+    poles: {
+      "immigration-services": "Reisende in einer modernen internationalen Halle",
+      "studios-tv": "Studios & TV — nächtliche Stimmung, Brave-Hearts-Identität",
+      "fermiers": "Landwirt in einem modernen Feld",
+      "technology-innovation": "Technology & Innovation — Frau mit Smartphone, Cœurs-Braves-Sweatshirt",
+      "academy": "Academy — begeisterte Studentin in einem Cœurs-Braves-Sweatshirt",
+      "business-investissements": "Business & Investitionen — selbstbewusster Unternehmer im Brave-Heart-T-Shirt",
+    },
   },
   hero: {
     eyebrow: [
@@ -495,6 +564,7 @@ const de: Dict = {
     cohortOpen: "Offen",
     cohortSoon: "Bald",
     applyKigali: "Für Kigali bewerben",
+    discoverProgramme: "Das gesamte Programm entdecken",
     pillarsTitle: "Die 9 Säulen der Transformation",
     pillars: [
       "Persönliche Verfeinerung",
@@ -511,6 +581,7 @@ const de: Dict = {
   journal: {
     title: "Journal & Analysen",
     seeAll: "Alle ansehen",
+    eyebrow: "§ Journal",
   },
   branches: {
     sectionLabel: "§ 05 / Sub-Organisationen",
@@ -538,6 +609,7 @@ const de: Dict = {
     eyebrow: "§ Kontakt",
     title: "Sprechen wir über ein gemeinsames Projekt.",
     socialTitle: "Folgen Sie uns",
+    officeLabelFallback: "Büro",
   },
   footer: {
     ctaTitle: "Bereit zu bauen?",

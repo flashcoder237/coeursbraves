@@ -1,7 +1,7 @@
 ---
 import { getStrings, type Locale } from "~/i18n/strings";
 import { loadPartners } from "~/lib/orgs";
-import { partnerUrl } from "~/lib/urls";
+import { partnerUrl, localePath } from "~/lib/urls";
 
 interface Props {
   locale: Locale;
@@ -10,6 +10,7 @@ interface Props {
 const { locale } = Astro.props;
 const t = getStrings(locale);
 const partners = await loadPartners(locale);
+const partnersIndex = localePath("/partenaires", locale);
 
 const typeLabels: Record<string, Record<Locale, string>> = {
   institutionnel: { fr: "Institutionnel", en: "Institutional", de: "Institutionell" },
@@ -29,6 +30,13 @@ const typeLabels: Record<string, Record<Locale, string>> = {
         <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-balance mb-4">{t.partners.title}</h2>
         <p class="text-ink-soft text-base md:text-lg font-light leading-relaxed">{t.partners.intro}</p>
       </div>
+      <a href={partnersIndex} class="font-mono text-xs uppercase tracking-widest text-ink-soft hover-underline-anim shrink-0 inline-flex items-center gap-2">
+        <span>{t.journal.seeAll}</span>
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="13 6 19 12 13 18"></polyline>
+        </svg>
+      </a>
     </div>
 
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">

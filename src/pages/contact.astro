@@ -21,7 +21,7 @@ const title = page.data.title;
 const description = page.data.description ?? page.data.intro ?? "";
 const eyebrow = page.data.eyebrow ?? t.contact.eyebrow;
 const intro = page.data.intro ?? "";
-const officeLabel = c.officeLabel ?? "Bureau";
+const officeLabel = c.officeLabel ?? t.contact.officeLabelFallback;
 ---
 
 <Layout title={title} description={description} locale={locale}>

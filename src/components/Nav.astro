@@ -57,16 +57,16 @@ const langs: { code: Locale; label: string }[] = [
           </button>
         </div>
 
-        <a href={`${homeHref}#raffinerie`} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+        <a href={localePath("/raffinerie", locale)} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
           {t.nav.primary.raffinerie}
         </a>
-        <a href={`${homeHref}#branches`} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+        <a href={localePath("/branches", locale)} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
           {t.nav.primary.branches}
         </a>
-        <a href={`${homeHref}#partners`} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+        <a href={localePath("/partenaires", locale)} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
           {t.nav.primary.partners}
         </a>
-        <a href={`${homeHref}#journal`} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+        <a href={localePath("/journal", locale)} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
           {t.nav.primary.journal}
         </a>
         <a href={contactHref} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
@@ -76,7 +76,7 @@ const langs: { code: Locale; label: string }[] = [
 
       <!-- Right actions -->
       <div class="flex items-center gap-2 md:gap-3">
-        <nav class="hidden md:flex items-center gap-3 text-xs font-medium text-ink-soft pr-2 md:pr-3 md:border-r border-hairline" aria-label="Langue">
+        <nav class="hidden md:flex items-center gap-3 text-xs font-medium text-ink-soft pr-2 md:pr-3 md:border-r border-hairline" aria-label={t.nav.lang}>
           {langs.map((l) => (
             <a
               href={localePath("/", l.code)}
@@ -125,7 +125,7 @@ const langs: { code: Locale; label: string }[] = [
       <div class="border-t border-hairline px-6 py-8">
         <div class="grid grid-cols-12 gap-8">
           <div class="col-span-3">
-            <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-3">§ Écosystème</p>
+            <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-3">{t.nav.ecosystemEyebrow}</p>
             <h3 class="text-2xl font-semibold tracking-tight leading-tight mb-4">{t.nav.megaTitle}</h3>
             <p class="text-sm text-ink-soft leading-relaxed">{t.nav.megaSubtitle}</p>
             <a href={`${homeHref}#ecosystem`} class="mt-6 inline-flex items-center gap-2 text-sm font-medium hover-underline-anim">
@@ -196,11 +196,11 @@ const langs: { code: Locale; label: string }[] = [
     <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-4">§ Navigation</p>
     <nav class="flex flex-col gap-1 mb-10" aria-label="Mobile primary">
       <a href={`${homeHref}#ecosystem`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.ecosystem}</a>
-      <a href={`${homeHref}#raffinerie`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.raffinerie}</a>
-      <a href={`${homeHref}#branches`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.branches}</a>
-      <a href={`${homeHref}#partners`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.partners}</a>
+      <a href={localePath("/raffinerie", locale)} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.raffinerie}</a>
+      <a href={localePath("/branches", locale)} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.branches}</a>
+      <a href={localePath("/partenaires", locale)} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.partners}</a>
       <a href={`${homeHref}#manifesto`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.manifesto}</a>
-      <a href={`${homeHref}#journal`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.journal}</a>
+      <a href={localePath("/journal", locale)} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.journal}</a>
       <a href={contactHref} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.contact}</a>
     </nav>
 
@@ -224,7 +224,7 @@ const langs: { code: Locale; label: string }[] = [
     </div>
 
     <div class="flex items-center justify-between border-t border-hairline pt-6 mb-8">
-      <span class="font-mono text-[10px] uppercase tracking-widest text-ink-soft">Langue</span>
+      <span class="font-mono text-[10px] uppercase tracking-widest text-ink-soft">{t.nav.lang}</span>
       <div class="flex gap-4 font-medium text-sm">
         {langs.map((l) => (
           <a

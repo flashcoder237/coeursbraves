@@ -7,7 +7,7 @@ import { loadPoles } from "~/lib/poles";
 import type { Locale } from "~/i18n/strings";
 
 export async function getStaticPaths() {
-  const RESERVED = new Set(["contact", "journal", "poles", "branches", "partenaires"]);
+  const RESERVED = new Set(["contact", "journal", "poles", "branches", "partenaires", "raffinerie"]);
   const all = await getCollection("pages");
   const seen = new Set<string>();
   const paths: { params: { slug: string } }[] = [];

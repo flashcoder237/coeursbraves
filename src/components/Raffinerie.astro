@@ -15,6 +15,7 @@ const cohorts = (await getCollection("cohorts"))
   .sort((a, b) => a.ordre - b.ordre);
 
 const applyHref = localePath("/espace-candidats", locale);
+const detailHref = localePath("/raffinerie", locale);
 ---
 
 <section id="raffinerie" class="py-12 px-4 md:px-8 max-w-[1400px] mx-auto reveal">
@@ -70,18 +71,30 @@ const applyHref = localePath("/espace-candidats", locale);
         ))}
       </div>
 
-      <a
-        href={applyHref}
-        class="w-fit bg-accent-green text-white px-6 py-3 rounded-full text-sm font-medium hover:brightness-110 hover:-translate-y-0.5 transition-all shadow-[0_4px_14px_0_rgba(15,157,88,0.39)]"
-      >
-        {t.raffinerie.applyKigali}
-      </a>
+      <div class="flex flex-wrap items-center gap-3">
+        <a
+          href={applyHref}
+          class="bg-accent-green text-white px-6 py-3 rounded-full text-sm font-medium hover:brightness-110 hover:-translate-y-0.5 transition-all shadow-[0_4px_14px_0_rgba(15,157,88,0.39)]"
+        >
+          {t.raffinerie.applyKigali}
+        </a>
+        <a
+          href={detailHref}
+          class="inline-flex items-center gap-2 text-sm font-medium text-ink hover-underline-anim"
+        >
+          <span>{t.raffinerie.discoverProgramme}</span>
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="13 6 19 12 13 18"></polyline>
+          </svg>
+        </a>
+      </div>
     </div>
 
     <div class="w-full md:w-[40%] h-64 md:h-auto min-h-[400px]">
       <img
         src="/images/uploads/site/raffinerie.png"
-        alt="Étudiante de La Raffinerie célébrant sa transformation"
+        alt={t.images.raffinerieAlt}
         class="w-full h-full object-cover rounded-b-[1.5rem] md:rounded-bl-none md:rounded-r-[2rem]"
         loading="lazy"
       />
