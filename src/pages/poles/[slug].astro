@@ -1,0 +1,149 @@
+---
+import Layout from "~/components/Layout.astro";
+import Nav from "~/components/Nav.astro";
+import Footer from "~/components/Footer.astro";
+import {
+  loadPole,
+  loadPoles,
+  POLE_SLUGS,
+  type PoleSlug,
+} from "~/lib/poles";
+import { poleUrl, localePath } from "~/lib/urls";
+import { getStrings, type Locale } from "~/i18n/strings";
+
+export async function getStaticPaths() {
+  return POLE_SLUGS.map((slug) => ({ params: { slug } }));
+}
+
+const slug = Astro.params.slug as PoleSlug;
+const locale = (Astro.currentLocale as Locale) ?? "fr";
+const pole = await loadPole(slug, locale);
+
+if (!pole) return Astro.redirect(localePath("/", locale));
+
+const { entry, image, index, accent } = pole;
+const { Content } = await pole.render();
+const t = getStrings(locale);
+
+const poles = await loadPoles(locale);
+const nextIdx = (poles.findIndex((p) => p.slug === slug) + 1) % poles.length;
+const next = poles[nextIdx];
+const poleLinks = poles.map((p) => ({ nom: p.nom, slug: p.slug }));
+
+const accentDot =
+  accent === "green" ? "dot-green" : accent === "red" ? "dot-red" : "dot-ochre";
+const accentText =
+  accent === "green"
+    ? "text-accent-green"
+    : accent === "red"
+      ? "text-accent-red"
+      : "text-accent-ochre";
+const accentBg =
+  accent === "green"
+    ? "bg-accent-green"
+    : accent === "red"
+      ? "bg-accent-red"
+      : "bg-accent-ochre";
+
+const metaDesc = entry.data.descriptionCourte;
+---
+
+<Layout title={`${entry.data.nom} — Cœurs Braves`} description={metaDesc} locale={locale}>
+  <Nav locale={locale} />
+
+  <main class="pt-32 pb-24 px-4 md:px-8 max-w-[1400px] mx-auto">
+    <!-- Eyebrow back link -->
+    <a
+      href={localePath("/", locale) + "#ecosystem"}
+      class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-widest text-ink-soft hover:text-ink transition-colors mb-12"
+    >
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="11 6 5 12 11 18"></polyline>
+      </svg>
+      <span>{t.poleDetail.back}</span>
+    </a>
+
+    <header class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-end mb-20 reveal">
+      <div class="lg:col-span-7">
+        <div class="font-mono text-xs uppercase tracking-widest text-ink-soft mb-6 flex items-center gap-3">
+          <span>§ {index}</span>
+          <span class={`dot ${accentDot}`}></span>
+          <span>{t.ecosystem.sectionLabel.replace(/§\s*\d+\s*\/\s*/, "")}</span>
+        </div>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tightest leading-[0.95] text-balance">
+          {entry.data.emoji && <span class="mr-2">{entry.data.emoji}</span>}{entry.data.nom}
+        </h1>
+        <p class="mt-8 text-xl md:text-2xl text-ink-soft font-light leading-relaxed max-w-2xl">
+          {entry.data.descriptionCourte}
+        </p>
+      </div>
+
+      <div class="lg:col-span-5 reveal">
+        <div class="aspect-[4/3] rounded-[1.5rem] overflow-hidden shadow-soft border border-black/5 relative">
+          <img src={image.src} alt={image.alt} class="w-full h-full object-cover" loading="eager" />
+          <div class={`absolute inset-0 bg-gradient-to-tr from-paper/10 ${accentText.replace("text-", "to-").replace("-accent-", "-accent-")}/10 mix-blend-overlay`}></div>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+      <article class="lg:col-span-7 reveal">
+        <div class="prose prose-neutral max-w-none font-sans text-lg leading-relaxed text-ink-soft prose-headings:font-semibold prose-headings:text-ink prose-headings:tracking-tight prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4 prose-p:my-4 prose-ul:my-4 prose-li:my-1 prose-strong:text-ink">
+          <Content />
+        </div>
+      </article>
+
+      <aside class="lg:col-span-5 reveal">
+        <div class="rounded-[1.5rem] border-hairline bg-white p-8 md:p-10 shadow-soft sticky top-28">
+          <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-6 flex items-center gap-2">
+            <span class={`dot ${accentDot}`}></span>
+            <span>{t.poleDetail.servicesTitle}</span>
+          </p>
+          <ul class="flex flex-col divider-y">
+            {entry.data.services.map((service, i) => (
+              <li class="py-3 flex items-start gap-3">
+                <span class={`font-mono text-[10px] mt-1.5 ${accentText}`}>
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span class="font-medium text-base text-ink">{service}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href="#raffinerie"
+            class:list={["mt-8 inline-flex items-center gap-2 text-white px-5 py-3 rounded-full text-sm font-medium hover:brightness-110 hover:-translate-y-0.5 transition-all", accentBg]}
+          >
+            <span>{t.poleDetail.cta}</span>
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="13 6 19 12 13 18"></polyline>
+            </svg>
+          </a>
+          <p class="text-xs text-ink-soft mt-4 leading-relaxed">{t.poleDetail.ctaIntro}</p>
+        </div>
+      </aside>
+    </div>
+
+    {next && (
+      <a
+        href={poleUrl(next.slug, locale)}
+        class="mt-32 group flex items-center justify-between border-t border-hairline pt-8"
+      >
+        <div>
+          <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-2">{t.poleDetail.nextPole}</p>
+          <h2 class="text-3xl md:text-4xl font-semibold tracking-tight group-hover:translate-x-1 transition-transform">
+            {next.index} — {next.nom}
+          </h2>
+        </div>
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" class="text-ink-soft group-hover:text-ink group-hover:translate-x-2 transition-all">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="13 6 19 12 13 18"></polyline>
+        </svg>
+      </a>
+    )}
+  </main>
+
+  <Footer locale={locale} poleLinks={poleLinks} />
+</Layout>

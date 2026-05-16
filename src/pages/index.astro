@@ -1,0 +1,51 @@
+---
+import Layout from "~/components/Layout.astro";
+import Nav from "~/components/Nav.astro";
+import Hero from "~/components/Hero.astro";
+import Ecosystem from "~/components/Ecosystem.astro";
+import Manifesto from "~/components/Manifesto.astro";
+import Raffinerie from "~/components/Raffinerie.astro";
+import Branches from "~/components/Branches.astro";
+import Partners from "~/components/Partners.astro";
+import Journal from "~/components/Journal.astro";
+import Footer from "~/components/Footer.astro";
+import { loadPoles } from "~/lib/poles";
+import type { Locale } from "~/i18n/strings";
+
+const locale = (Astro.currentLocale as Locale) ?? "fr";
+const poles = await loadPoles(locale);
+const poleLinks = poles.map((p) => ({ nom: p.nom, slug: p.slug }));
+
+const meta = {
+  fr: {
+    title: "Cœurs Braves — écosystème international africain",
+    description:
+      "Cœurs Braves : Immigration Services, Studios & TV, Fermiers, Technology, Academy avec La Raffinerie, Business & Investissements. Une nouvelle génération de leaders africains.",
+  },
+  de: {
+    title: "Cœurs Braves — internationales afrikanisches Ökosystem",
+    description:
+      "Cœurs Braves: Immigration Services, Studios & TV, Landwirte, Technologie, Academy mit La Raffinerie, Business & Investments.",
+  },
+  en: {
+    title: "Cœurs Braves — international African ecosystem",
+    description:
+      "Cœurs Braves: Immigration Services, Studios & TV, Farmers, Technology, Academy with La Raffinerie, Business & Investments.",
+  },
+};
+const m = meta[locale];
+---
+
+<Layout title={m.title} description={m.description} locale={locale}>
+  <Nav locale={locale} />
+  <main class="relative">
+    <Hero locale={locale} />
+    <Ecosystem locale={locale} poles={poles} />
+    <Manifesto locale={locale} />
+    <Raffinerie locale={locale} />
+    <Branches locale={locale} />
+    <Partners locale={locale} />
+    <Journal locale={locale} />
+  </main>
+  <Footer locale={locale} poleLinks={poleLinks} />
+</Layout>

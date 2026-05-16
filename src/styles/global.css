@@ -1,0 +1,168 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ================================================================
+   Cœurs Braves — Design tokens
+   Direction visuelle « Soft Futurist » :
+   - Fond papier chaud dominant (#FBFAF7), respiration généreuse
+   - Trois accents (vert / rouge / ocre) utilisés en ponctuation
+   - Plus Jakarta Sans (humaniste, moderne) + JetBrains Mono
+   ================================================================ */
+
+@theme {
+  /* Surfaces */
+  --color-paper: #fbfaf7;
+  --color-paper-dark: #f4f1ea;
+  --color-surface: #ffffff;
+
+  /* Ink */
+  --color-ink: #1c1c1a;
+  --color-ink-soft: #3a3a35;
+  --color-ink-mute: #6b6b63;
+
+  /* Accents — pan-africains, ponctuels, jamais en aplat plein */
+  --color-accent-green: #0f9d58;
+  --color-accent-red: #d9381e;
+  --color-accent-ochre: #e59819;
+
+  /* Hairline */
+  --color-hairline: #eae7df;
+
+  /* Aliases conservés pour compat */
+  --color-brand-green: #0f9d58;
+  --color-brand-red: #d9381e;
+  --color-brand-yellow: #e59819;
+
+  /* Typographie */
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
+  --font-display: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", system-ui, sans-serif;
+
+  /* Easings */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-accent-ochre);
+  color: var(--color-ink);
+}
+
+/* Tight modern display tracking */
+.tracking-tightest {
+  letter-spacing: -0.04em;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Hairline border helper */
+.border-hairline {
+  border-color: var(--color-hairline);
+  border-width: 1px;
+}
+
+/* Divider-y utility — applies hairline between stacked items */
+.divider-y > * + * {
+  border-top: 1px solid var(--color-hairline);
+}
+
+/* Soft elevation shared by photo cards and nav */
+.shadow-soft {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    0 8px 32px -12px rgba(0, 0, 0, 0.04);
+}
+.shadow-nav {
+  box-shadow:
+    0 4px 24px -8px rgba(0, 0, 0, 0.06),
+    inset 0 0 0 1px var(--color-hairline);
+}
+
+/* Animated underline used on links */
+.hover-underline-anim {
+  position: relative;
+}
+.hover-underline-anim::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.4s var(--ease-smooth);
+}
+.hover-underline-anim:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* Signature motif — small filled dot used on each pôle */
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  vertical-align: middle;
+}
+.dot-green { background: var(--color-accent-green); }
+.dot-red { background: var(--color-accent-red); }
+.dot-ochre { background: var(--color-accent-ochre); }
+
+/* Slow pulse for live status badges */
+@keyframes cb-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.animate-pulse-slow {
+  animation: cb-pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Float for the small focus card next to the hero */
+@keyframes cb-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.animate-float {
+  animation: cb-float 6s ease-in-out infinite;
+}
+
+/* Scroll-reveal helper triggered by IntersectionObserver */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.8s var(--ease-smooth),
+    transform 0.8s var(--ease-smooth);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Scrollbar (subtle) */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-hairline);
+  border-radius: 10px;
+}

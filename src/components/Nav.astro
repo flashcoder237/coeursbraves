@@ -1,0 +1,302 @@
+---
+import { getStrings, type Locale } from "~/i18n/strings";
+import { loadPoles } from "~/lib/poles";
+import { localePath, poleUrl } from "~/lib/urls";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getStrings(locale);
+const poles = await loadPoles(locale);
+
+const homeHref = localePath("/", locale);
+const contactHref = localePath("/contact", locale);
+
+const langs: { code: Locale; label: string }[] = [
+  { code: "fr", label: "FR" },
+  { code: "de", label: "DE" },
+  { code: "en", label: "EN" },
+];
+---
+
+<header class="fixed top-4 left-0 w-full z-50 px-4 md:px-8 pointer-events-none flex justify-center">
+  <div
+    data-nav-shell
+    class="pointer-events-auto bg-white/85 backdrop-blur-md rounded-[28px] shadow-nav w-full max-w-[1240px] transition-transform duration-500 hover:-translate-y-[1px]"
+  >
+    <div class="flex items-center justify-between gap-4 px-4 py-2">
+      <!-- Logo + status -->
+      <div class="flex items-center gap-4 md:gap-6 min-w-0">
+        <a href={homeHref} class="text-ink font-semibold tracking-tight text-base md:text-lg whitespace-nowrap">
+          Cœurs Braves<span class="text-ink-soft">.</span>
+        </a>
+
+        <div class="hidden xl:flex items-center gap-2 bg-paper-dark px-3 py-1.5 rounded-full border-hairline">
+          <span class="dot dot-green animate-pulse-slow"></span>
+          <span class="font-mono text-[10px] uppercase tracking-wider text-ink-soft">{t.nav.status}</span>
+        </div>
+      </div>
+
+      <!-- Desktop primary nav -->
+      <nav class="hidden lg:flex items-center gap-1 text-sm font-medium text-ink" aria-label="Navigation principale">
+        <!-- Ecosystem (mega menu trigger) -->
+        <div class="relative group">
+          <button
+            type="button"
+            data-mega-trigger
+            class="flex items-center gap-1 px-3 py-2 rounded-full hover:bg-paper-dark transition-colors"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <span>{t.nav.primary.ecosystem}</span>
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="opacity-60 group-hover:rotate-180 transition-transform">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <a href={`${homeHref}#raffinerie`} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+          {t.nav.primary.raffinerie}
+        </a>
+        <a href={`${homeHref}#branches`} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+          {t.nav.primary.branches}
+        </a>
+        <a href={`${homeHref}#partners`} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+          {t.nav.primary.partners}
+        </a>
+        <a href={`${homeHref}#journal`} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+          {t.nav.primary.journal}
+        </a>
+        <a href={contactHref} class="px-3 py-2 rounded-full hover:bg-paper-dark transition-colors">
+          {t.nav.primary.contact}
+        </a>
+      </nav>
+
+      <!-- Right actions -->
+      <div class="flex items-center gap-2 md:gap-3">
+        <nav class="hidden md:flex items-center gap-3 text-xs font-medium text-ink-soft pr-2 md:pr-3 md:border-r border-hairline" aria-label="Langue">
+          {langs.map((l) => (
+            <a
+              href={localePath("/", l.code)}
+              class:list={["transition-opacity hover:opacity-100", l.code === locale ? "text-ink" : "opacity-50"]}
+              aria-current={l.code === locale ? "true" : undefined}
+            >
+              {l.label}
+            </a>
+          ))}
+        </nav>
+
+        <a
+          href={contactHref}
+          class="group hidden sm:flex items-center gap-2 bg-paper text-ink pl-4 pr-2 py-1.5 rounded-full border-hairline hover:border-ink hover:bg-ink hover:text-white transition-all duration-300"
+        >
+          <span class="text-sm font-medium">{t.nav.candidatez}</span>
+          <span class="flex items-center justify-center w-6 h-6 rounded-full bg-paper-dark group-hover:bg-white/15 transition-colors">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-accent-ochre group-hover:text-white">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="13 6 19 12 13 18"></polyline>
+            </svg>
+          </span>
+        </a>
+
+        <!-- Mobile hamburger -->
+        <button
+          type="button"
+          data-mobile-trigger
+          class="lg:hidden flex items-center justify-center w-9 h-9 rounded-full border-hairline hover:bg-paper-dark transition-colors"
+          aria-label={t.nav.openMenu}
+        >
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" y1="7" x2="20" y2="7"></line>
+            <line x1="4" y1="12" x2="20" y2="12"></line>
+            <line x1="4" y1="17" x2="14" y2="17"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- DESKTOP MEGA PANEL -->
+    <div
+      data-mega-panel
+      class="hidden lg:block max-h-0 overflow-hidden transition-[max-height] duration-500 ease-out"
+    >
+      <div class="border-t border-hairline px-6 py-8">
+        <div class="grid grid-cols-12 gap-8">
+          <div class="col-span-3">
+            <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-3">§ Écosystème</p>
+            <h3 class="text-2xl font-semibold tracking-tight leading-tight mb-4">{t.nav.megaTitle}</h3>
+            <p class="text-sm text-ink-soft leading-relaxed">{t.nav.megaSubtitle}</p>
+            <a href={`${homeHref}#ecosystem`} class="mt-6 inline-flex items-center gap-2 text-sm font-medium hover-underline-anim">
+              {t.ecosystem.explore}
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="13 6 19 12 13 18"></polyline>
+              </svg>
+            </a>
+          </div>
+
+          <div class="col-span-9 grid grid-cols-3 gap-4">
+            {poles.map((p) => {
+              const isAcademy = p.slug === "academy";
+              const dot = p.accent === "green" ? "dot-green" : p.accent === "red" ? "dot-red" : "dot-ochre";
+              return (
+                <a href={poleUrl(p.slug, locale)} class="group p-4 rounded-2xl border-hairline hover:border-ink/40 hover:bg-paper-dark transition-all flex flex-col gap-2 relative">
+                  <div class="flex items-center justify-between">
+                    <div class="font-mono text-[10px] uppercase tracking-wider text-ink-soft flex items-center gap-2">
+                      <span>{p.index}</span>
+                      <span class={`dot ${dot}`}></span>
+                    </div>
+                    {isAcademy && (
+                      <span class="font-mono text-[9px] uppercase tracking-widest text-accent-ochre">{t.nav.megaRaffinerieBadge}</span>
+                    )}
+                  </div>
+                  <h4 class="text-base font-medium leading-tight text-ink">{p.nom}</h4>
+                  <p class="text-xs text-ink-soft leading-relaxed line-clamp-2">{p.descriptionCourte}</p>
+                  <span class="mt-auto pt-3 text-xs font-medium text-ink-soft group-hover:text-ink transition-colors flex items-center gap-1">
+                    <span>{t.ecosystem.discoverLink}</span>
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="13 6 19 12 13 18"></polyline>
+                    </svg>
+                  </span>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE OVERLAY MENU -->
+<div
+  data-mobile-overlay
+  class="fixed inset-0 z-[60] bg-paper opacity-0 invisible transition-opacity duration-300 lg:hidden flex flex-col"
+  aria-hidden="true"
+>
+  <div class="flex items-center justify-between px-4 py-4 border-b border-hairline">
+    <a href={homeHref} class="font-semibold text-lg tracking-tight">Cœurs Braves<span class="text-ink-soft">.</span></a>
+    <button
+      type="button"
+      data-mobile-close
+      class="flex items-center justify-center w-10 h-10 rounded-full border-hairline hover:bg-white"
+      aria-label={t.nav.closeMenu}
+    >
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <div class="flex-1 overflow-y-auto px-4 py-8">
+    <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-4">§ Navigation</p>
+    <nav class="flex flex-col gap-1 mb-10" aria-label="Mobile primary">
+      <a href={`${homeHref}#ecosystem`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.ecosystem}</a>
+      <a href={`${homeHref}#raffinerie`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.raffinerie}</a>
+      <a href={`${homeHref}#branches`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.branches}</a>
+      <a href={`${homeHref}#partners`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.partners}</a>
+      <a href={`${homeHref}#manifesto`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.manifesto}</a>
+      <a href={`${homeHref}#journal`} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.journal}</a>
+      <a href={contactHref} class="py-3 text-2xl font-semibold tracking-tight border-b border-hairline">{t.nav.primary.contact}</a>
+    </nav>
+
+    <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-4">{t.nav.megaTitle}</p>
+    <div class="grid grid-cols-1 gap-2 mb-10">
+      {poles.map((p) => {
+        const dot = p.accent === "green" ? "dot-green" : p.accent === "red" ? "dot-red" : "dot-ochre";
+        return (
+          <a href={poleUrl(p.slug, locale)} class="p-4 rounded-2xl border-hairline bg-white flex items-start gap-3">
+            <span class="font-mono text-[10px] uppercase tracking-wider text-ink-soft mt-1 flex items-center gap-2">
+              {p.index}
+              <span class={`dot ${dot}`}></span>
+            </span>
+            <span class="flex-1">
+              <span class="block font-medium text-base text-ink">{p.nom}</span>
+              <span class="block text-xs text-ink-soft leading-relaxed">{p.descriptionCourte}</span>
+            </span>
+          </a>
+        );
+      })}
+    </div>
+
+    <div class="flex items-center justify-between border-t border-hairline pt-6 mb-8">
+      <span class="font-mono text-[10px] uppercase tracking-widest text-ink-soft">Langue</span>
+      <div class="flex gap-4 font-medium text-sm">
+        {langs.map((l) => (
+          <a
+            href={localePath("/", l.code)}
+            class:list={[l.code === locale ? "text-ink" : "text-ink-soft"]}
+            aria-current={l.code === locale ? "true" : undefined}
+          >
+            {l.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <a href={contactHref} class="block w-full text-center bg-ink text-white py-4 rounded-full font-medium">
+      {t.nav.candidatez}
+    </a>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    const trigger = document.querySelector("[data-mega-trigger]");
+    const panel = document.querySelector("[data-mega-panel]");
+    const shell = document.querySelector("[data-nav-shell]");
+    if (trigger && panel && shell) {
+      let open = false;
+      const close = () => {
+        open = false;
+        panel.style.maxHeight = "0px";
+        trigger.setAttribute("aria-expanded", "false");
+      };
+      const openPanel = () => {
+        open = true;
+        panel.style.maxHeight = panel.scrollHeight + "px";
+        trigger.setAttribute("aria-expanded", "true");
+      };
+      trigger.addEventListener("click", (e) => {
+        e.stopPropagation();
+        open ? close() : openPanel();
+      });
+      document.addEventListener("click", (e) => {
+        if (open && !shell.contains(e.target)) close();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && open) close();
+      });
+      shell.addEventListener("mouseenter", () => window.matchMedia("(min-width:1024px)").matches && openPanel());
+      shell.addEventListener("mouseleave", () => window.matchMedia("(min-width:1024px)").matches && close());
+    }
+
+    const mobileTrigger = document.querySelector("[data-mobile-trigger]");
+    const mobileOverlay = document.querySelector("[data-mobile-overlay]");
+    const mobileClose = document.querySelector("[data-mobile-close]");
+    if (mobileTrigger && mobileOverlay && mobileClose) {
+      const open = () => {
+        mobileOverlay.classList.remove("opacity-0", "invisible");
+        mobileOverlay.classList.add("opacity-100");
+        mobileOverlay.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+      };
+      const close = () => {
+        mobileOverlay.classList.add("opacity-0", "invisible");
+        mobileOverlay.classList.remove("opacity-100");
+        mobileOverlay.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      };
+      mobileTrigger.addEventListener("click", open);
+      mobileClose.addEventListener("click", close);
+      mobileOverlay.querySelectorAll("a").forEach((a) => a.addEventListener("click", close));
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") close();
+      });
+    }
+  })();
+</script>

@@ -1,0 +1,56 @@
+---
+import { getStrings, type Locale } from "~/i18n/strings";
+import type { PoleView } from "~/lib/poles";
+import PoleCard from "./PoleCard.astro";
+
+interface Props {
+  locale: Locale;
+  poles: PoleView[];
+}
+
+const { locale, poles } = Astro.props;
+const t = getStrings(locale);
+
+// Asymmetric layout: 1st pôle = tall, 2nd = wide (2 columns), 3rd–5th = tall.
+const layout = [
+  { col: "md:col-span-4", variant: "tall" as const },
+  { col: "md:col-span-8", variant: "wide" as const },
+  { col: "md:col-span-4", variant: "tall" as const },
+  { col: "md:col-span-4", variant: "tall" as const },
+  { col: "md:col-span-4", variant: "tall" as const },
+];
+
+const main = poles.slice(0, 5);
+const last = poles[5];
+---
+
+<section id="ecosystem" class="py-24 md:py-32 px-4 md:px-8 max-w-[1400px] mx-auto">
+  <div class="flex items-end justify-between mb-16 reveal flex-wrap gap-4">
+    <div>
+      <p class="font-mono text-[11px] uppercase tracking-widest text-ink-soft mb-4">{t.ecosystem.sectionLabel}</p>
+      <h2 class="text-3xl md:text-5xl font-semibold tracking-tight text-balance whitespace-pre-line">
+        {t.ecosystem.title}
+      </h2>
+    </div>
+    <p class="hidden md:flex items-center gap-2 text-ink-soft font-mono text-xs uppercase tracking-wider">
+      {t.ecosystem.explore}
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="7" y1="7" x2="17" y2="17"></line>
+        <polyline points="9 17 17 17 17 9"></polyline>
+      </svg>
+    </p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
+    {main.map((pole, i) => (
+      <div class={`${layout[i].col}`}>
+        <PoleCard pole={pole} variant={layout[i].variant} discoverLabel={t.ecosystem.discoverLink} locale={locale} />
+      </div>
+    ))}
+    {last && (
+      <div class="md:col-span-12">
+        <PoleCard pole={last} variant="wide" discoverLabel={t.ecosystem.discoverLink} locale={locale} />
+      </div>
+    )}
+  </div>
+</section>

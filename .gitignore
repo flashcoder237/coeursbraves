@@ -1,0 +1,32 @@
+# build
+dist/
+.astro/
+
+# deps
+node_modules/
+
+# images sources
+cb_images/
+
+# logs
+*.log
+npm-debug.log*
+
+# env
+.env
+.env.*
+!.env.example
+
+# os
+.DS_Store
+Thumbs.db
+
+# aidesigner runs (artefacts locaux, ne pas commit)
+.aidesigner/runs/
+.aidesigner/mcp-latest.html
+.aidesigner/*
+!.aidesigner/.gitkeep
+.aidesigner/
+.claude/
+
+.agents/

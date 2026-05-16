@@ -1,0 +1,87 @@
+---
+import { getCollection } from "astro:content";
+import { getStrings, type Locale } from "~/i18n/strings";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getStrings(locale);
+
+const cohorts = (await getCollection("cohorts"))
+  .map((entry) => entry.data)
+  .sort((a, b) => a.ordre - b.ordre);
+---
+
+<section id="raffinerie" class="py-12 px-4 md:px-8 max-w-[1400px] mx-auto reveal">
+  <div class="bg-paper-dark rounded-[1.5rem] md:rounded-[2rem] border-hairline relative overflow-hidden flex flex-col md:flex-row shadow-soft">
+    <div class="w-full md:w-[60%] p-8 md:p-16 lg:p-20 flex flex-col justify-center">
+      <div class="font-mono text-xs text-ink-soft mb-6 flex items-center gap-2">
+        <span>06</span>
+        <span class="dot dot-green"></span>
+        <span>{t.raffinerie.badge}</span>
+      </div>
+
+      <h2 class="text-4xl md:text-5xl font-semibold tracking-tight mb-6">{t.raffinerie.title}</h2>
+      <p class="text-ink-soft text-lg mb-10 max-w-md font-light">{t.raffinerie.intro}</p>
+
+      <div class="mb-12">
+        <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-4 flex items-center gap-2">
+          <span class="dot dot-ochre"></span>
+          <span>{t.raffinerie.pillarsTitle}</span>
+        </p>
+        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 max-w-lg">
+          {t.raffinerie.pillars.map((p, i) => (
+            <li class="flex items-start gap-3 py-1.5 text-sm md:text-base">
+              <span class="font-mono text-[10px] text-ink-soft mt-1 w-5 shrink-0">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span class="font-medium text-ink">{p}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="flex flex-col mb-12 divider-y">
+        {cohorts.map((c) => (
+          <div class:list={["py-4 flex justify-between items-center", c.state === "open" ? "cursor-pointer" : "cursor-not-allowed opacity-60"]}>
+            <span class="font-medium">{t.raffinerie.cohortLabel} {c.index} — {c.city}</span>
+            {c.state === "open" ? (
+              <div class="flex items-center gap-2 bg-accent-green/10 px-2 py-1 rounded-full border border-accent-green/20">
+                <span class="dot dot-green animate-pulse-slow"></span>
+                <span class="font-mono text-[10px] uppercase text-accent-green font-medium">{t.raffinerie.cohortOpen}</span>
+              </div>
+            ) : c.state === "soon" ? (
+              <div class="flex items-center gap-2 bg-accent-ochre/10 px-2 py-1 rounded-full border border-accent-ochre/20">
+                <span class="dot dot-ochre"></span>
+                <span class="font-mono text-[10px] uppercase text-accent-ochre font-medium">{t.raffinerie.cohortSoon}</span>
+              </div>
+            ) : (
+              <div class="flex items-center gap-2 bg-black/5 px-2 py-1 rounded-full">
+                <span class="w-1.5 h-1.5 rounded-full bg-ink-soft"></span>
+                <span class="font-mono text-[10px] uppercase text-ink-soft">{t.raffinerie.cohortClosed}</span>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <a
+        href="#"
+        class="w-fit bg-accent-green text-white px-6 py-3 rounded-full text-sm font-medium hover:brightness-110 hover:-translate-y-0.5 transition-all shadow-[0_4px_14px_0_rgba(15,157,88,0.39)]"
+      >
+        {t.raffinerie.applyKigali}
+      </a>
+    </div>
+
+    <div class="w-full md:w-[40%] h-64 md:h-auto min-h-[400px]">
+      <img
+        src="https://images.unsplash.com/photo-1542596594-649edbc13630?auto=format&fit=crop&w=900&q=80"
+        alt="Étudiante de La Raffinerie dans une lumière naturelle"
+        class="w-full h-full object-cover rounded-b-[1.5rem] md:rounded-bl-none md:rounded-r-[2rem]"
+        loading="lazy"
+      />
+    </div>
+  </div>
+</section>

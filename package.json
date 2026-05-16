@@ -1,0 +1,32 @@
+{
+  "name": "coeurs-braves",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cœurs Braves — écosystème international africain (Immigration, Studios & TV, Fermiers, Technology, Academy, Business)",
+  "scripts": {
+    "dev": "astro dev",
+    "dev:cms": "concurrently -n astro,cms -c blue,magenta \"astro dev\" \"decap-server\"",
+    "cms": "decap-server",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "typecheck": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/sitemap": "^3.2.1",
+    "@tailwindcss/vite": "^4.1.0",
+    "astro": "^5.0.0",
+    "embla-carousel": "^8.5.2",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.7.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "concurrently": "^9.2.1",
+    "decap-server": "^3.7.0",
+    "lightningcss": "^1.32.0"
+  }
+}
