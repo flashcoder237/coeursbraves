@@ -11,3 +11,15 @@ export function localePath(path: string, locale: Locale = "fr"): string {
 export function poleUrl(slug: string, locale: Locale = "fr"): string {
   return localePath(`/poles/${slug}`, locale);
 }
+
+export function articleUrl(slug: string, locale: Locale = "fr"): string {
+  return localePath(`/journal/${slug}`, locale);
+}
+
+export function branchUrl(slug: string, locale: Locale = "fr"): string {
+  return localePath(`/branches/${slug}`, locale);
+}
+
+export function partnerUrl(slug: string, locale: Locale = "fr"): string {
+  return localePath(`/partenaires/${slug}`, locale);
+}

@@ -1,6 +1,7 @@
 ---
 import { getStrings, type Locale } from "~/i18n/strings";
 import { loadPartners } from "~/lib/orgs";
+import { partnerUrl } from "~/lib/urls";
 
 interface Props {
   locale: Locale;
@@ -33,36 +34,29 @@ const typeLabels: Record<string, Record<Locale, string>> = {
     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
       {partners.map((p) => {
         const typeLabel = typeLabels[p.data.type]?.[locale] ?? p.data.type;
-        const inner = (
-          <div class="h-full rounded-[1rem] border-hairline bg-white p-6 md:p-7 flex flex-col shadow-soft hover:shadow-nav hover:-translate-y-1 transition-all duration-300">
-            <span class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-4">{typeLabel}</span>
-            {p.data.logo ? (
-              <div class="h-14 mb-4 flex items-center">
-                <img src={p.data.logo} alt={p.data.nom} class="max-h-full max-w-[80%] object-contain grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" loading="lazy" />
-              </div>
-            ) : (
-              <h3 class="text-lg md:text-xl font-semibold tracking-tight mb-3 text-ink leading-tight">{p.data.nom}</h3>
-            )}
-            {p.data.descriptionCourte && (
-              <p class="text-sm text-ink-soft leading-relaxed flex-grow">{p.data.descriptionCourte}</p>
-            )}
-            {p.data.url && (
+        return (
+          <a href={partnerUrl(p.data.slug, locale)} class="group block h-full">
+            <div class="h-full rounded-[1rem] border-hairline bg-white p-6 md:p-7 flex flex-col shadow-soft hover:shadow-nav hover:-translate-y-1 transition-all duration-300">
+              <span class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-4">{typeLabel}</span>
+              {p.data.logo ? (
+                <div class="h-14 mb-4 flex items-center">
+                  <img src={p.data.logo} alt={p.data.nom} class="max-h-full max-w-[80%] object-contain grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all" loading="lazy" />
+                </div>
+              ) : (
+                <h3 class="text-lg md:text-xl font-semibold tracking-tight mb-3 text-ink leading-tight">{p.data.nom}</h3>
+              )}
+              {p.data.descriptionCourte && (
+                <p class="text-sm text-ink-soft leading-relaxed flex-grow">{p.data.descriptionCourte}</p>
+              )}
               <span class="mt-4 inline-flex items-center gap-1.5 text-xs font-medium font-mono uppercase tracking-widest text-ink-soft group-hover:text-ink transition-colors">
                 <span>{t.partners.visitLink}</span>
                 <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <line x1="7" y1="17" x2="17" y2="7"></line>
-                  <polyline points="9 7 17 7 17 15"></polyline>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="13 6 19 12 13 18"></polyline>
                 </svg>
               </span>
-            )}
-          </div>
-        );
-        return p.data.url ? (
-          <a href={p.data.url} target="_blank" rel="noopener noreferrer" class="group block h-full">
-            {inner}
+            </div>
           </a>
-        ) : (
-          <div class="group h-full">{inner}</div>
         );
       })}
     </div>

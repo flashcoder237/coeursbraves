@@ -116,6 +116,7 @@ type Dict = {
       candidates: string;
       investors: string;
       diaspora: string;
+      donate: string;
     };
     legal: {
       mentions: string;
@@ -268,6 +269,7 @@ const fr: Dict = {
       candidates: "Espace candidats",
       investors: "Investor desk",
       diaspora: "Diaspora",
+      donate: "Faire un don",
     },
     legal: {
       mentions: "Mentions légales",
@@ -420,6 +422,7 @@ const en: Dict = {
       candidates: "Candidates desk",
       investors: "Investor desk",
       diaspora: "Diaspora",
+      donate: "Donate",
     },
     legal: {
       mentions: "Legal notice",
@@ -572,6 +575,7 @@ const de: Dict = {
       candidates: "Kandidaten-Desk",
       investors: "Investor-Desk",
       diaspora: "Diaspora",
+      donate: "Spenden",
     },
     legal: {
       mentions: "Impressum",

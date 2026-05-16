@@ -1,0 +1,73 @@
+---
+import Layout from "~/components/Layout.astro";
+import Nav from "~/components/Nav.astro";
+import Footer from "~/components/Footer.astro";
+import { loadPoles } from "~/lib/poles";
+import { loadArticles, formatArticleDate, categoryLabel } from "~/lib/articles";
+import { articleUrl } from "~/lib/urls";
+import { getStrings, type Locale } from "~/i18n/strings";
+
+const locale = (Astro.currentLocale as Locale) ?? "fr";
+const t = getStrings(locale);
+const poles = await loadPoles(locale);
+const poleLinks = poles.map((p) => ({ nom: p.nom, slug: p.slug }));
+const articles = await loadArticles(locale);
+
+const dotForAccent = (a: string) =>
+  a === "green" ? "dot-green" : a === "red" ? "dot-red" : "dot-ochre";
+const hoverForAccent = (a: string) =>
+  a === "green"
+    ? "group-hover:text-accent-green"
+    : a === "red"
+      ? "group-hover:text-accent-red"
+      : "group-hover:text-accent-ochre";
+
+const meta = {
+  fr: { title: "Journal & analyses — Cœurs Braves", description: "Articles, analyses et retours de terrain depuis l'écosystème Cœurs Braves." },
+  en: { title: "Journal & insights — Cœurs Braves", description: "Articles, insights and field reports from the Cœurs Braves ecosystem." },
+  de: { title: "Journal & Analysen — Cœurs Braves", description: "Artikel, Analysen und Berichte aus dem Cœurs-Braves-Ökosystem." },
+};
+const m = meta[locale];
+---
+
+<Layout title={m.title} description={m.description} locale={locale}>
+  <Nav locale={locale} />
+  <main class="pt-32 pb-24 px-4 md:px-8 max-w-[1400px] mx-auto">
+    <header class="mb-16 reveal max-w-3xl">
+      <p class="font-mono text-[11px] uppercase tracking-widest text-ink-soft mb-6">§ Journal</p>
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tightest leading-[0.95] text-balance mb-6">
+        {t.journal.title}
+      </h1>
+      <p class="text-lg md:text-xl text-ink-soft font-light leading-relaxed">{m.description}</p>
+    </header>
+
+    {articles.length === 0 ? (
+      <p class="text-ink-soft text-sm font-mono">—</p>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 reveal">
+        {articles.map((a) => (
+          <a href={articleUrl(a.baseSlug, locale)} class="group block">
+            <div class="aspect-[4/3] rounded-[0.75rem] overflow-hidden mb-4 border border-black/5 relative shadow-soft">
+              <img
+                src={a.imageCouverture}
+                alt={a.titre}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-[1s]"
+                loading="lazy"
+              />
+              <div class="absolute top-3 left-3 bg-white/90 backdrop-blur px-2 py-1 rounded-full text-[10px] font-mono text-ink shadow flex items-center gap-1.5">
+                <span class={`dot ${dotForAccent(a.accent)}`}></span>
+                <span>{categoryLabel(a.categorie, locale)}</span>
+              </div>
+            </div>
+            <div class="font-mono text-[11px] text-ink-soft mb-2">{formatArticleDate(a.date, locale)}</div>
+            <h2 class:list={["text-xl md:text-2xl font-medium tracking-tight mb-2 text-balance transition-colors", hoverForAccent(a.accent)]}>
+              {a.titre}
+            </h2>
+            <p class="text-sm text-ink-soft leading-relaxed">{a.extrait}</p>
+          </a>
+        ))}
+      </div>
+    )}
+  </main>
+  <Footer locale={locale} poleLinks={poleLinks} />
+</Layout>

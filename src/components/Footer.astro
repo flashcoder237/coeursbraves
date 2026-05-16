@@ -22,6 +22,7 @@ const langs: { code: Locale; label: string; href: string }[] = [
 
 const homeHref = localePath("/", locale);
 const contactHref = localePath("/contact", locale);
+const investorHref = localePath("/investor-desk", locale);
 ---
 
 <footer class="bg-[#171715] text-paper rounded-t-[2rem] md:rounded-t-[3rem] mt-12 pt-20 pb-8 px-4 md:px-8 relative z-10">
@@ -48,7 +49,7 @@ const contactHref = localePath("/contact", locale);
             </svg>
           </a>
           <a
-            href={contactHref}
+            href={investorHref}
             class="group flex items-center justify-between bg-white/5 border border-white/10 p-4 rounded-xl hover:bg-accent-ochre transition-colors"
           >
             <div>
@@ -97,25 +98,26 @@ const contactHref = localePath("/contact", locale);
       <div class="flex flex-col gap-3">
         <span class="font-mono text-xs text-white/40 mb-2 uppercase tracking-widest">{t.footer.columns.initiative}</span>
         <a href={`${homeHref}#manifesto`} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.initiative.manifesto}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.initiative.council}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.initiative.history}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.initiative.careers}</a>
+        <a href={localePath("/a-propos/conseil", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.initiative.council}</a>
+        <a href={localePath("/a-propos/histoire", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.initiative.history}</a>
+        <a href={localePath("/a-propos/carrieres", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.initiative.careers}</a>
       </div>
 
       <div class="flex flex-col gap-3">
         <span class="font-mono text-xs text-white/40 mb-2 uppercase tracking-widest">{t.footer.columns.resources}</span>
-        <a href={`${homeHref}#journal`} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.resources.journal}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.resources.press}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.resources.reports}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.resources.faq}</a>
+        <a href={localePath("/journal", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.resources.journal}</a>
+        <a href={localePath("/salle-de-presse", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.resources.press}</a>
+        <a href={localePath("/rapports", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.resources.reports}</a>
+        <a href={localePath("/faq", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.resources.faq}</a>
       </div>
 
       <div class="flex flex-col gap-3">
         <span class="font-mono text-xs text-white/40 mb-2 uppercase tracking-widest">{t.footer.columns.programmes}</span>
         <a href={`${homeHref}#raffinerie`} class="text-sm font-medium hover:text-accent-ochre transition-colors">{t.footer.programmes.raffinerie}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.programmes.candidates}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.programmes.investors}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.programmes.diaspora}</a>
+        <a href={localePath("/espace-candidats", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.programmes.candidates}</a>
+        <a href={localePath("/investor-desk", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.programmes.investors}</a>
+        <a href={localePath("/diaspora", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.programmes.diaspora}</a>
+        <a href={localePath("/dons", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.programmes.donate}</a>
       </div>
 
       <div class="flex flex-col gap-3">
@@ -128,10 +130,10 @@ const contactHref = localePath("/contact", locale);
 
       <div class="flex flex-col gap-3">
         <span class="font-mono text-xs text-white/40 mb-2 uppercase tracking-widest">{t.footer.columns.legal}</span>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.legal.mentions}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.legal.privacy}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.legal.terms}</a>
-        <a href="#" class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.legal.cookies}</a>
+        <a href={localePath("/legal/mentions", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.legal.mentions}</a>
+        <a href={localePath("/legal/confidentialite", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.legal.privacy}</a>
+        <a href={localePath("/legal/conditions", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.legal.terms}</a>
+        <a href={localePath("/legal/cookies", locale)} class="text-sm font-medium hover:text-white/70 transition-colors">{t.footer.legal.cookies}</a>
       </div>
     </div>
 

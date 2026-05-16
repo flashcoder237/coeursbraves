@@ -1,6 +1,7 @@
 ---
 import { getStrings, type Locale } from "~/i18n/strings";
 import { loadBranches } from "~/lib/orgs";
+import { branchUrl } from "~/lib/urls";
 
 interface Props {
   locale: Locale;
@@ -35,7 +36,7 @@ const typeLabels: Record<string, Record<Locale, string>> = {
       {branches.map((b) => {
         const typeLabel = typeLabels[b.data.type]?.[locale] ?? b.data.type;
         return (
-          <article class="group rounded-[1.25rem] border-hairline bg-white overflow-hidden flex flex-col shadow-soft hover:shadow-nav hover:-translate-y-1 transition-all duration-300">
+          <a href={branchUrl(b.data.slug, locale)} class="group rounded-[1.25rem] border-hairline bg-white overflow-hidden flex flex-col shadow-soft hover:shadow-nav hover:-translate-y-1 transition-all duration-300">
             {b.data.image && (
               <div class="aspect-[4/5] overflow-hidden bg-paper-dark relative">
                 <img
@@ -55,22 +56,15 @@ const typeLabels: Record<string, Record<Locale, string>> = {
               </div>
               <h3 class="text-lg md:text-xl font-semibold tracking-tight mb-2 text-ink">{b.data.nom}</h3>
               <p class="text-sm text-ink-soft leading-relaxed flex-grow">{b.data.descriptionCourte}</p>
-              {b.data.url && (
-                <a
-                  href={b.data.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-ink hover-underline-anim w-fit"
-                >
-                  <span>{t.branches.discoverLink}</span>
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="9 7 17 7 17 15"></polyline>
-                  </svg>
-                </a>
-              )}
+              <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-ink-soft group-hover:text-ink transition-colors">
+                <span>{t.branches.discoverLink}</span>
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-x-1 transition-transform">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="13 6 19 12 13 18"></polyline>
+                </svg>
+              </span>
             </div>
-          </article>
+          </a>
         );
       })}
     </div>

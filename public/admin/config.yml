@@ -15,7 +15,7 @@ backend:
 
 site_url: https://coeurs-braves.com
 display_url: https://coeurs-braves.com
-logo_url: /logo.png
+logo_url: /admin/logo.svg
 
 media_folder: public/images/uploads
 public_folder: /images/uploads
@@ -125,6 +125,13 @@ collections:
           label: "Base slug (partagé entre locales)",
           widget: string,
           required: false,
+        }
+      - {
+          name: body,
+          label: "Corps de la page (Markdown)",
+          widget: markdown,
+          required: false,
+          i18n: true,
         }
       - name: contact
         label: "Bloc Contact (page /contact uniquement)"

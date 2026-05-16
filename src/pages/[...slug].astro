@@ -1,0 +1,70 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "~/components/Layout.astro";
+import Nav from "~/components/Nav.astro";
+import Footer from "~/components/Footer.astro";
+import { loadPoles } from "~/lib/poles";
+import type { Locale } from "~/i18n/strings";
+
+export async function getStaticPaths() {
+  const RESERVED = new Set(["contact", "journal", "poles", "branches", "partenaires"]);
+  const all = await getCollection("pages");
+  const seen = new Set<string>();
+  const paths: { params: { slug: string } }[] = [];
+  for (const entry of all) {
+    const base = entry.data.baseSlug;
+    if (!base) continue;
+    const first = base.split("/")[0];
+    if (RESERVED.has(first)) continue;
+    if (seen.has(base)) continue;
+    seen.add(base);
+    paths.push({ params: { slug: base } });
+  }
+  return paths;
+}
+
+const { slug } = Astro.params;
+const locale = (Astro.currentLocale as Locale) ?? "fr";
+
+const all = await getCollection("pages");
+const matches = all.filter((e) => e.data.baseSlug === slug);
+const page =
+  matches.find((e) => e.id.endsWith(`.${locale}`)) ??
+  matches.find((e) => e.id.endsWith(`.fr`)) ??
+  matches[0];
+
+if (!page) {
+  return Astro.redirect("/");
+}
+
+const { Content } = await render(page);
+const poles = await loadPoles(locale);
+const poleLinks = poles.map((p) => ({ nom: p.nom, slug: p.slug }));
+
+const title = page.data.title;
+const description = page.data.description ?? page.data.intro ?? "";
+const eyebrow = page.data.eyebrow;
+const intro = page.data.intro;
+---
+
+<Layout title={`${title} — Cœurs Braves`} description={description} locale={locale}>
+  <Nav locale={locale} />
+  <main class="pt-32 pb-24 px-4 md:px-8 max-w-[1100px] mx-auto">
+    <header class="mb-16 reveal">
+      {eyebrow && (
+        <p class="font-mono text-[11px] uppercase tracking-widest text-ink-soft mb-6">{eyebrow}</p>
+      )}
+      <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tightest leading-[0.95] text-balance mb-8">
+        {title}
+      </h1>
+      {intro && (
+        <p class="text-lg md:text-xl text-ink-soft font-light leading-relaxed max-w-3xl">{intro}</p>
+      )}
+    </header>
+
+    <article class="reveal prose prose-neutral max-w-none font-sans text-base md:text-lg leading-relaxed text-ink-soft prose-headings:font-semibold prose-headings:text-ink prose-headings:tracking-tight prose-h2:text-2xl md:prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-4 prose-p:my-4 prose-ul:my-4 prose-li:my-1 prose-strong:text-ink prose-a:text-ink prose-a:underline hover:prose-a:text-accent-ochre">
+      <Content />
+    </article>
+  </main>
+  <Footer locale={locale} poleLinks={poleLinks} />
+</Layout>
