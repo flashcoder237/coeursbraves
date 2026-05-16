@@ -11,34 +11,36 @@ export const POLE_SLUGS = [
 ] as const;
 export type PoleSlug = (typeof POLE_SLUGS)[number];
 
-/** Example online photography per pôle.
- *  Content authored in `src/content/poles/*.md` doesn't have an `imageHero`
- *  yet — these placeholders mirror the artifact's visual intent until the
- *  CMS team supplies real assets. Each URL points to Unsplash (CDN-served). */
+/** Per-pôle hero image.
+ *  4 pôles use brand-owned Cœurs Braves visuals (apparel mockups with
+ *  pan-African / "BRAVE" branding). 2 pôles (immigration, fermiers)
+ *  still use Unsplash because cb_images doesn't include topic-specific
+ *  shots (airport, agriculture). Once `imageHero` is filled in the
+ *  collection .md files, that takes precedence (see loadPoles below). */
 const fallbackImages: Record<string, { src: string; alt: string }> = {
   "immigration-services": {
     src: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=900&q=80",
     alt: "Voyageurs dans un hall international moderne",
   },
   "studios-tv": {
-    src: "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=900&q=80",
-    alt: "Plateau de tournage avec éclairage cinéma",
+    src: "/images/uploads/poles/studios-tv.png",
+    alt: "Visuel Studios & TV — ambiance nocturne, identité Brave Hearts",
   },
   "fermiers": {
     src: "https://images.unsplash.com/photo-1592982537447-6f2b6c0a6cb7?auto=format&fit=crop&w=900&q=80",
     alt: "Agriculteur dans un champ moderne",
   },
   "technology-innovation": {
-    src: "https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=900&q=80",
-    alt: "Programmeuse au travail dans un espace lumineux",
+    src: "/images/uploads/poles/technology-innovation.png",
+    alt: "Visuel Technology & Innovation — femme avec son smartphone, sweat Cœurs Braves",
   },
   "academy": {
-    src: "https://images.unsplash.com/photo-1542596594-649edbc13630?auto=format&fit=crop&w=900&q=80",
-    alt: "Étudiante en formation",
+    src: "/images/uploads/poles/academy.png",
+    alt: "Visuel Academy — étudiante enthousiaste portant un sweat Cœurs Braves",
   },
   "business-investissements": {
-    src: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?auto=format&fit=crop&w=900&q=80",
-    alt: "Réunion d’affaires contemporaine",
+    src: "/images/uploads/poles/business-investissements.png",
+    alt: "Visuel Business & Investissements — entrepreneur confiant en t-shirt Brave Heart",
   },
 };
 
