@@ -84,7 +84,7 @@ export const events: CBEvent[] = [
     place: "La Marmite des Cœurs Braves",
     city: "Sangmélima",
     online: false,
-    image: "/images/cb/marmite-food.jpg",
+    image: "/images/cb/events/rassemblement.jpg",
     excerpt: "L'ouverture d'un nouveau point de restauration solidaire dans le Sud du Cameroun.",
     registerUrl: "#",
   },
