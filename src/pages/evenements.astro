@@ -6,10 +6,18 @@ import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
 import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
 import { getEvents } from "~/i18n/content";
+import { site } from "~/data/site";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const L = (p: string) => localizePath(p, lang);
+
+// Lien d'inscription : le vrai lien s'il existe, sinon un e-mail pré-rempli
+// (inscription par mail, sans back-end) plutôt qu'un « # » qui ne mène nulle part.
+const regHref = (url: string | undefined, title: string) =>
+  url && url !== "#"
+    ? url
+    : `mailto:${site.email}?subject=${encodeURIComponent(`${t("events.register")} — ${title}`)}`;
 
 const todayIso = new Date().toISOString().slice(0, 10);
 const all = await getEvents(lang);
@@ -104,7 +112,7 @@ const gallery = [
               </div>
             </div>
             <div class="ev-cta">
-              <a href={e.data.registerUrl ?? "#"} class="btn btn-gold text-sm"><Icon name="ticket" class="w-4 h-4" /> {t("events.register")}</a>
+              <a href={regHref(e.data.registerUrl, e.data.title)} class="btn btn-gold text-sm"><Icon name="ticket" class="w-4 h-4" /> {t("events.register")}</a>
             </div>
           </article>
         ))}
