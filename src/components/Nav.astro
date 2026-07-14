@@ -1,5 +1,6 @@
 ---
 import { nav } from "~/data/site";
+import Icon from "./Icon.astro";
 const path = Astro.url.pathname;
 const isActive = (href: string) =>
   href === "/" ? path === "/" : path.startsWith(href);
@@ -28,7 +29,10 @@ const isActive = (href: string) =>
       ))}
     </nav>
 
-    <div class="flex items-center gap-2">
+    <div class="flex items-center gap-1.5">
+      <button type="button" id="cb-search-open" class="search-trigger" aria-label="Rechercher sur le site">
+        <Icon name="search" class="w-5 h-5" />
+      </button>
       <a href="/soutenir/" class="btn btn-dark text-sm px-6 py-3 hidden sm:inline-flex">Soutenir nos actions</a>
       <button id="cb-burger" class="lg:hidden p-2 text-ink" aria-label="Ouvrir le menu" aria-expanded="false">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">

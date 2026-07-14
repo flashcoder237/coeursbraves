@@ -44,6 +44,16 @@ const related = articles.filter((a) => a.slug !== article.slug).sort((a, b) => b
         ))}
       </div>
 
+      {article.gallery && (
+        <div class="mt-10 grid grid-cols-2 gap-3 sm:gap-4">
+          {article.gallery.map((g) => (
+            <div class="rounded-xl overflow-hidden">
+              <img src={g.src} alt={g.alt} class="w-full aspect-[16/10] object-cover hover:scale-[1.03] transition-transform duration-500" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      )}
+
       <div class="mt-12 pt-8 border-t border-hairline flex flex-wrap items-center justify-between gap-4">
         <a href="/journal/" class="inline-flex items-center gap-2 font-display font-600 text-ink hover:text-terra transition-colors" style="font-weight:600"><span class="text-lg">←</span> Tous les articles</a>
         <a href="/soutenir/" class="btn btn-terra text-sm">Soutenir nos actions <Icon name="heart" class="w-4 h-4" /></a>

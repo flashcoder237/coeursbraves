@@ -1,0 +1,132 @@
+---
+import Icon from "./Icon.astro";
+import { poles, faq } from "~/data/site";
+import { articles } from "~/data/journal";
+
+// Index de recherche construit au build depuis les données du site.
+type Entry = { t: string; u: string; k: string; c: string };
+
+const pages: Entry[] = [
+  { t: "Accueil", u: "/", k: "accueil investir humain communauté mission", c: "Page" },
+  { t: "Notre histoire", u: "/notre-histoire/", k: "histoire fondateur brave djamal origine vision valeurs", c: "Page" },
+  { t: "Notre écosystème", u: "/ecosysteme/", k: "écosystème pôles programmes academy fermiers technologies immigration marmite", c: "Page" },
+  { t: "Rejoindre", u: "/rejoindre/", k: "rejoindre adhésion membre bénévole mentor expert engagement", c: "Page" },
+  { t: "Partenaires", u: "/partenaires/", k: "partenaires partenariat entreprises fondations institutions mécénat", c: "Page" },
+  { t: "L'équipe", u: "/equipe/", k: "équipe gouvernance bureau fondateur président trésorier", c: "Page" },
+  { t: "Journal", u: "/journal/", k: "journal actualités articles blog nouvelles terrain", c: "Page" },
+  { t: "Événements", u: "/evenements/", k: "événements agenda rendez-vous ateliers conférences calendrier", c: "Page" },
+  { t: "Soutenir", u: "/soutenir/", k: "soutenir don donation faire un don mécénat contribuer stripe", c: "Page" },
+  { t: "FAQ", u: "/faq/", k: "faq questions réponses aide", c: "Page" },
+  { t: "Contact", u: "/contact/", k: "contact email téléphone whatsapp écrire message", c: "Page" },
+];
+
+const poleEntries: Entry[] = poles.map((p) => ({
+  t: p.name, u: "/ecosysteme/", k: `${p.baseline} ${p.text}`, c: "Pôle",
+}));
+const articleEntries: Entry[] = articles.map((a) => ({
+  t: a.title, u: `/journal/${a.slug}/`, k: `${a.category} ${a.excerpt}`, c: "Article",
+}));
+const faqEntries: Entry[] = faq.map((f) => ({
+  t: f.q, u: "/faq/", k: f.a, c: "FAQ",
+}));
+
+const index = [...pages, ...poleEntries, ...articleEntries, ...faqEntries];
+---
+
+<div id="cb-search" class="search-overlay" hidden aria-hidden="true">
+  <div class="search-backdrop" data-close></div>
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Recherche">
+    <div class="search-field">
+      <Icon name="search" class="w-5 h-5 text-ink-mute shrink-0" />
+      <input id="cb-search-input" type="search" autocomplete="off" placeholder="Rechercher une page, un pôle, un article…" aria-label="Termes de recherche" />
+      <button type="button" data-close class="search-close" aria-label="Fermer la recherche"><Icon name="x" class="w-5 h-5" /></button>
+    </div>
+    <div id="cb-search-results" class="search-results" role="listbox"></div>
+    <p class="search-hint"><kbd>↑</kbd><kbd>↓</kbd> naviguer · <kbd>↵</kbd> ouvrir · <kbd>Esc</kbd> fermer</p>
+  </div>
+</div>
+
+<script type="application/json" id="cb-search-data" is:inline set:html={JSON.stringify(index)}></script>
+
+<script is:inline>
+  (function () {
+    var overlay = document.getElementById("cb-search");
+    var openBtn = document.getElementById("cb-search-open");
+    var input = document.getElementById("cb-search-input");
+    var results = document.getElementById("cb-search-results");
+    if (!overlay || !input || !results) return;
+    var data = [];
+    try { data = JSON.parse(document.getElementById("cb-search-data").textContent || "[]"); } catch (e) {}
+    var active = -1;
+
+    function norm(s) { return (s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, ""); }
+
+    function open() {
+      overlay.hidden = false;
+      overlay.setAttribute("aria-hidden", "false");
+      requestAnimationFrame(function () { overlay.classList.add("is-open"); input.focus(); });
+      document.documentElement.style.overflow = "hidden";
+    }
+    function close() {
+      overlay.classList.remove("is-open");
+      overlay.setAttribute("aria-hidden", "true");
+      document.documentElement.style.overflow = "";
+      setTimeout(function () { overlay.hidden = true; }, 250);
+    }
+    function render(list) {
+      active = list.length ? 0 : -1;
+      if (!input.value.trim()) { results.innerHTML = ""; return; }
+      if (!list.length) {
+        results.innerHTML = '<p class="search-empty">Aucun résultat. Essayez un autre terme.</p>';
+        return;
+      }
+      results.innerHTML = list.map(function (r, i) {
+        return '<a href="' + r.u + '" class="search-item' + (i === 0 ? " is-active" : "") + '" role="option">' +
+          '<span class="search-item-t">' + r.t + '</span>' +
+          '<span class="search-item-c">' + r.c + '</span></a>';
+      }).join("");
+    }
+    function search(q) {
+      var n = norm(q);
+      if (!n) return [];
+      var toks = n.split(/\s+/).filter(Boolean);
+      return data.map(function (e) {
+        var hayT = norm(e.t), hayK = norm(e.k);
+        var score = 0;
+        toks.forEach(function (tk) {
+          if (hayT.indexOf(tk) !== -1) score += 3;
+          if (hayK.indexOf(tk) !== -1) score += 1;
+        });
+        return { e: e, s: score };
+      }).filter(function (x) { return x.s > 0; })
+        .sort(function (a, b) { return b.s - a.s; })
+        .slice(0, 8).map(function (x) { return x.e; });
+    }
+    function setActive(i) {
+      var items = results.querySelectorAll(".search-item");
+      if (!items.length) return;
+      active = (i + items.length) % items.length;
+      items.forEach(function (el, idx) { el.classList.toggle("is-active", idx === active); });
+      items[active].scrollIntoView({ block: "nearest" });
+    }
+
+    openBtn && openBtn.addEventListener("click", open);
+    overlay.querySelectorAll("[data-close]").forEach(function (el) { el.addEventListener("click", close); });
+    input.addEventListener("input", function () { render(search(input.value)); });
+    input.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowDown") { e.preventDefault(); setActive(active + 1); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); setActive(active - 1); }
+      else if (e.key === "Enter") {
+        var items = results.querySelectorAll(".search-item");
+        if (items[active]) window.location.href = items[active].getAttribute("href");
+      }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !overlay.hidden) close();
+      var tag = (document.activeElement && document.activeElement.tagName) || "";
+      var typing = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+      if (!typing && e.key === "/" && overlay.hidden) { e.preventDefault(); open(); }
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") { e.preventDefault(); overlay.hidden ? open() : close(); }
+    });
+  })();
+</script>

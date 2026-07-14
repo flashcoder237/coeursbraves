@@ -12,15 +12,11 @@ const rest = actualites.filter((a) => !a.featured).slice(0, 4);
 
 const partenaires = ["Seed Fund", "Diaspora Connect", "Institut de Formation de Yaoundé", "Tech4Africa", "Brave Djamal Foundation", "Clean Hope Center"];
 
-// couleur d'accent d'icône par pôle
+// carte pleine largeur mise en avant (Immigration)
 const poleAccent: Record<string, string> = {
   academy: "terra", fermiers: "emerald", "assaa-technologies": "terra",
   "technology-center": "gold", "immigration-services": "feature", "la-marmite": "emerald",
 };
-const chipClass = (c: string) =>
-  c === "emerald" ? "bg-emerald/15 text-emerald"
-  : c === "gold" ? "bg-gold/15 text-gold"
-  : "bg-terra/15 text-terra";
 ---
 
 <Layout
@@ -126,27 +122,24 @@ const chipClass = (c: string) =>
           return (
             <a href="/ecosysteme/"
               class:list={[
-                "pole-card group relative overflow-hidden rounded-2xl p-7 flex flex-col reveal transition-colors",
+                "pole-card group relative overflow-hidden rounded-2xl p-7 flex flex-col reveal border border-white/10",
                 p.slug === "academy" && "lg:row-span-2",
-                feature ? "bg-terra hover:bg-terra-dark lg:col-span-2" : "bg-white/[0.04] hover:bg-white/[0.07] border border-white/10",
+                feature && "lg:col-span-2",
               ]}
             >
-              {p.slug === "academy" && (
-                <Fragment>
-                  <img src={p.image} alt="" width="1080" height="810"
-                    class="absolute inset-0 w-full h-full object-cover opacity-30 transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-                  <span class="absolute inset-0 bg-gradient-to-t from-ink via-ink/90 to-ink/35"></span>
-                </Fragment>
-              )}
+              <img src={p.image} alt="" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+              <span class:list={["absolute inset-0", feature
+                ? "bg-gradient-to-t from-terra via-terra/80 to-terra/45"
+                : "bg-gradient-to-t from-ink via-ink/85 to-ink/45"]}></span>
               <span class="pole-arrow" aria-hidden="true">↗</span>
-              <span class:list={["relative z-10 icon-chip w-14 h-14 mb-auto", feature ? "bg-white/20 text-white" : chipClass(accent)]}>
+              <span class:list={["relative z-10 icon-chip w-14 h-14 mb-auto backdrop-blur-sm", feature ? "bg-white/20 text-white" : "bg-white/10 text-white"]}>
                 <Icon name={p.icon} class="w-7 h-7" />
               </span>
               <div class:list={["relative z-10", p.slug === "academy" ? "mt-24" : "mt-10"]}>
-                <h3 class="font-display font-700 text-xl leading-snug" style="font-weight:700">{p.name}</h3>
-                <p class:list={["mt-2 text-sm leading-relaxed", feature ? "text-white/85" : "text-white/55"]}>{p.baseline}</p>
+                <h3 class="font-display font-700 text-xl leading-snug text-white" style="font-weight:700;text-shadow:0 2px 14px rgba(0,0,0,0.4)">{p.name}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-white/80" style="text-shadow:0 1px 10px rgba(0,0,0,0.5)">{p.baseline}</p>
                 {(p.slug === "academy" || feature) && (
-                  <p class:list={["mt-3 text-sm leading-relaxed", feature ? "text-white/70" : "text-white/45"]}>{p.text}</p>
+                  <p class:list={["mt-3 text-sm leading-relaxed", feature ? "text-white/80" : "text-white/65"]}>{p.text}</p>
                 )}
               </div>
             </a>

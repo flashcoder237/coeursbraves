@@ -26,6 +26,7 @@ export const nav = [
   { label: "Rejoindre", href: "/rejoindre/" },
   { label: "Partenaires", href: "/partenaires/" },
   { label: "Journal", href: "/journal/" },
+  { label: "Événements", href: "/evenements/" },
   { label: "Contact", href: "/contact/" },
 ];
 
