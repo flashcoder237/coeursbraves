@@ -5,52 +5,33 @@ import Icon from "~/components/Icon.astro";
 import Eyebrow from "~/components/Eyebrow.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
-import { engagementTypes } from "~/data/site";
+import { useTranslations, getLangFromUrl } from "~/i18n/ui";
+import { getJoin } from "~/i18n/rejoindre";
 
-const profils = [
-  { t: "Les étudiants", d: "Pour développer leurs compétences et préparer leur avenir." },
-  { t: "Les jeunes diplômés", d: "Pour renforcer leur employabilité et construire leur carrière." },
-  { t: "Les entrepreneurs", d: "Pour structurer leurs projets, développer leur réseau et accélérer leur croissance." },
-  { t: "Les femmes", d: "Pour favoriser leur autonomie économique, leur leadership et leur participation." },
-  { t: "Les professionnels", d: "Pour partager leur expertise et accompagner de nouveaux talents." },
-  { t: "La diaspora", d: "Pour contribuer au développement de leurs communautés d'origine." },
-  { t: "Les associations", d: "Pour renforcer leurs capacités et développer leurs projets." },
-  { t: "Entreprises & institutions", d: "Pour créer des partenariats stratégiques et développer leur impact." },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const j = getJoin(lang);
 
 const engIcons = ["users", "hand-heart", "graduation-cap", "bulb", "briefcase", "scale"];
 const engChips = ["bg-terra/12 text-terra", "bg-emerald/12 text-emerald", "bg-gold/15 text-gold"];
-
-const parcours = [
-  "Vous découvrez la communauté, sa vision, ses programmes et ses opportunités.",
-  "Vous rejoignez le mouvement en remplissant votre demande d'adhésion.",
-  "Nous apprenons à vous connaître pour vous orienter vers les initiatives adaptées.",
-  "Vous participez aux formations, événements, projets et activités.",
-  "Vous grandissez : vous développez vos compétences, votre réseau et vos projets.",
-  "Vous inspirez les autres en devenant à votre tour acteur du changement.",
-];
 ---
 
-<Layout title="Rejoindre" description="Rejoignez Cœurs Braves : membre, bénévole, mentor, expert, partenaire ou mécène. Ensemble, transformons les ambitions en actions.">
+<Layout title={t("nav.join")} description={j.hero.subtitle}>
   <PageHero
     image="/images/cb/team-clean-hope.jpg"
-    kicker="Rejoindre Cœurs Braves"
-    title="Ensemble, transformons les ambitions en actions"
-    subtitle="Un mouvement est plus fort lorsqu'il grandit avec celles et ceux qui partagent sa vision."
+    kicker={j.hero.kicker}
+    title={j.hero.title}
+    subtitle={j.hero.subtitle}
   />
 
   <!-- Pourquoi -->
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
       <div class="reveal">
-        <Eyebrow label="Pourquoi nous rejoindre" />
-        <h2 class="mt-6 section-title left">Grandir tout en aidant les autres à <strong>grandir.</strong></h2>
-        <p class="mt-5 prose-cb">
-          En devenant membre, vous intégrez un réseau qui place l'humain au cœur du développement.
-          Vous rejoignez une communauté qui partage les mêmes ambitions : apprendre, entreprendre,
-          créer de la valeur et contribuer positivement au développement de la société.
-        </p>
-        <a href="#adhesion" class="btn btn-terra mt-6">Faire ma demande <Icon name="arrow-right" class="w-4 h-4" /></a>
+        <Eyebrow label={j.why.eyebrow} />
+        <h2 class="mt-6 section-title left">{j.why.title} <strong>{j.why.strong}</strong></h2>
+        <p class="mt-5 prose-cb">{j.why.lead}</p>
+        <a href="#adhesion" class="btn btn-terra mt-6">{j.why.cta} <Icon name="arrow-right" class="w-4 h-4" /></a>
       </div>
       <div class="reveal relative rounded-[2rem] overflow-hidden shadow-xl">
         <img src="/images/cb/youth-celebrating.jpg" alt="Communauté Cœurs Braves" class="w-full object-cover aspect-[4/3]" loading="lazy" />
@@ -62,10 +43,10 @@ const parcours = [
   <!-- Communauté ouverte à tous -->
   <section class="bg-cream-2">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="Pour qui" align="center" /></div>
-      <h2 class="mt-6 section-title">Une communauté <strong>ouverte à tous.</strong></h2>
+      <div class="text-center"><Eyebrow label={j.who.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{j.who.title} <strong>{j.who.strong}</strong></h2>
       <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {profils.map((p, i) => (
+        {j.who.profils.map((p, i) => (
           <div class="bg-cream border border-hairline rounded-2xl p-6 card-hover reveal">
             <span class="font-display font-700 text-terra text-lg" style="font-weight:700">{String(i + 1).padStart(2, "0")}</span>
             <h3 class="mt-2 font-display font-700 text-base" style="font-weight:700">{p.t}</h3>
@@ -79,10 +60,10 @@ const parcours = [
   <!-- Formes d'engagement -->
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="S'engager" align="center" /></div>
-      <h2 class="mt-6 section-title">Les différentes façons de <strong>s'engager.</strong></h2>
+      <div class="text-center"><Eyebrow label={j.engage.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{j.engage.title} <strong>{j.engage.strong}</strong></h2>
       <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {engagementTypes.map((e, i) => (
+        {j.engage.types.map((e, i) => (
           <div class="bg-cream border border-hairline rounded-2xl p-7 card-hover reveal">
             <span class:list={["icon-chip w-14 h-14", engChips[i % 3]]}><Icon name={engIcons[i % engIcons.length]} class="w-7 h-7" /></span>
             <h3 class="mt-5 font-display font-700 text-lg" style="font-weight:700">{e.title}</h3>
@@ -96,10 +77,10 @@ const parcours = [
   <!-- Parcours -->
   <section class="bg-cream-2">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="Le parcours" align="center" /></div>
-      <h2 class="mt-6 section-title">Le parcours d'un <strong>membre.</strong></h2>
+      <div class="text-center"><Eyebrow label={j.parcours.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{j.parcours.title} <strong>{j.parcours.strong}</strong></h2>
       <div class="mt-14 grid md:grid-cols-3 gap-5">
-        {parcours.map((p, i) => (
+        {j.parcours.steps.map((p, i) => (
           <div class="bg-cream border border-hairline rounded-2xl p-7 reveal">
             <span class="icon-chip w-11 h-11 bg-terra text-white font-display font-700 text-lg" style="font-weight:700">{i + 1}</span>
             <p class="mt-4 text-ink-soft leading-relaxed">{p}</p>
@@ -117,23 +98,20 @@ const parcours = [
     <div class="relative container-cb py-20 md:py-24">
       <div class="max-w-2xl mx-auto">
         <div class="text-center text-white">
-          <Eyebrow label="Adhésion" align="center" light />
-          <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">Faites le premier <span class="text-terra-bright">pas.</span></h2>
-          <p class="mt-4 text-white/70">
-            Remplissez votre demande : notre équipe vous accompagnera pour vous orienter
-            vers les opportunités correspondant à votre profil.
-          </p>
+          <Eyebrow label={j.form.eyebrow} align="center" light />
+          <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">{j.form.title} <span class="text-terra-bright">{j.form.accent}</span></h2>
+          <p class="mt-4 text-white/70">{j.form.lead}</p>
         </div>
         <form class="cb-form mt-10 bg-cream rounded-[1.6rem] p-7 md:p-9 grid sm:grid-cols-2 gap-4" data-subject="Demande d'adhésion Cœurs Braves">
-          <input required placeholder="Nom et prénom" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-white" />
-          <input required type="email" placeholder="Adresse e-mail" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-white" />
-          <input placeholder="Pays de résidence" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-white" />
-          <select data-label="Profil souhaité" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra text-ink-mute bg-white">
-            <option>Je souhaite devenir…</option>
-            {engagementTypes.map((e) => <option>{e.title}</option>)}
+          <input required placeholder={t("form.name")} class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-white" />
+          <input required type="email" placeholder={t("form.email")} class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-white" />
+          <input placeholder={t("form.country")} class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-white" />
+          <select data-label={j.form.profilLabel} class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra text-ink-mute bg-white">
+            <option>{j.form.selectPlaceholder}</option>
+            {j.engage.types.map((e) => <option>{e.title}</option>)}
           </select>
-          <textarea placeholder="Présentez votre parcours et vos centres d'intérêt" rows="4" class="sm:col-span-2 rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-white"></textarea>
-          <button type="submit" class="btn btn-terra sm:col-span-2">Envoyer ma demande d'adhésion <Icon name="arrow-right" class="w-4 h-4" /></button>
+          <textarea placeholder={j.form.message} rows="4" class="sm:col-span-2 rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-white"></textarea>
+          <button type="submit" class="btn btn-terra sm:col-span-2">{j.form.submit} <Icon name="arrow-right" class="w-4 h-4" /></button>
         </form>
       </div>
     </div>

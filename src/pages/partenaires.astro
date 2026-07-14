@@ -6,59 +6,40 @@ import Eyebrow from "~/components/Eyebrow.astro";
 import Motif from "~/components/Motif.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
-import { partnershipTypes } from "~/data/site";
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getPartners } from "~/i18n/partenaires";
 
-const domaines = [
-  { t: "Développement des compétences", d: "Programmes de formation, ateliers, conférences et mentorat.", icon: "graduation-cap" },
-  { t: "Entrepreneuriat", d: "Accompagnement des porteurs de projets, incubation et accélération.", icon: "rocket" },
-  { t: "Technologies et innovation", d: "Solutions numériques, projets technologiques et recherche appliquée.", icon: "code" },
-  { t: "Agriculture", d: "Projets agricoles, sécurité alimentaire et innovation rurale.", icon: "sprout" },
-  { t: "Santé communautaire", d: "Campagnes de sensibilisation, prévention et actions communautaires.", icon: "hand-heart" },
-  { t: "Éducation", d: "Apprentissage, orientation et accès aux compétences.", icon: "bulb" },
-  { t: "Investissement", d: "Mobilisation de ressources et soutien aux projets à fort impact.", icon: "scale" },
-  { t: "Recherche & développement", d: "Études, expérimentations et innovation sociale.", icon: "compass" },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const L = (p: string) => localizePath(p, lang);
+const c = getPartners(lang);
 
-const contributions = [
-  "Développer les compétences des jeunes",
-  "Accompagner les entrepreneurs",
-  "Favoriser l'innovation",
-  "Soutenir l'agriculture durable",
-  "Promouvoir l'éducation et la formation",
-  "Renforcer les initiatives communautaires",
-  "Créer des emplois",
-  "Générer un impact durable",
-];
-
+const domIcons = ["graduation-cap", "rocket", "code", "sprout", "hand-heart", "bulb", "scale", "compass"];
 const cardBg = ["bg-terra", "bg-emerald", "bg-forest"];
 const cardMotif = ["star", "cross", "chevron"];
 ---
 
-<Layout title="Devenir partenaire" description="Entreprises, fondations, universités, institutions et investisseurs : construisons ensemble des solutions à fort impact avec Cœurs Braves.">
+<Layout title={c.hero.kicker} description={c.hero.subtitle}>
   <PageHero
     image="/images/cb/partners-meeting.jpg"
-    kicker="Devenir partenaire"
-    title="Les plus grands changements se construisent ensemble"
-    subtitle="En mettant en commun nos compétences, nos ressources et nos expériences, nous créons des solutions à fort impact."
+    kicker={c.hero.kicker}
+    title={c.hero.title}
+    subtitle={c.hero.subtitle}
   />
 
   <!-- Pourquoi -->
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
       <div class="lg:col-span-5 reveal">
-        <Eyebrow label="Pourquoi un partenariat" />
-        <h2 class="mt-6 section-title left">Un écosystème engagé pour les personnes et les <strong>territoires.</strong></h2>
-        <p class="mt-5 prose-cb">
-          Nos partenariats sont fondés sur une vision commune, la confiance et la recherche
-          de résultats concrets. En collaborant avec nous, vous contribuez directement à un
-          impact durable.
-        </p>
+        <Eyebrow label={c.why.eyebrow} />
+        <h2 class="mt-6 section-title left">{c.why.title} <strong>{c.why.strong}</strong></h2>
+        <p class="mt-5 prose-cb">{c.why.lead}</p>
       </div>
       <ul class="lg:col-span-7 grid sm:grid-cols-2 gap-3 reveal">
-        {contributions.map((c, i) => (
+        {c.why.contributions.map((item, i) => (
           <li class="flex items-center gap-3 bg-cream border border-hairline rounded-xl px-5 py-4">
             <span class:list={["w-2.5 h-2.5 rounded-full shrink-0", ["bg-terra", "bg-emerald", "bg-gold"][i % 3]]}></span>
-            <span class="text-sm text-ink-soft font-medium">{c}</span>
+            <span class="text-sm text-ink-soft font-medium">{item}</span>
           </li>
         ))}
       </ul>
@@ -68,12 +49,12 @@ const cardMotif = ["star", "cross", "chevron"];
   <!-- Domaines de collaboration -->
   <section class="bg-cream-2">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="Collaborations" align="center" /></div>
-      <h2 class="mt-6 section-title">Nos domaines de <strong>collaboration.</strong></h2>
+      <div class="text-center"><Eyebrow label={c.collab.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{c.collab.title} <strong>{c.collab.strong}</strong></h2>
       <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {domaines.map((d, i) => (
+        {c.collab.domaines.map((d, i) => (
           <div class="bg-cream border border-hairline rounded-2xl p-6 card-hover reveal">
-            <span class:list={["icon-chip w-14 h-14", ["bg-terra/12 text-terra", "bg-emerald/12 text-emerald", "bg-gold/15 text-gold"][i % 3]]}><Icon name={d.icon} class="w-7 h-7" /></span>
+            <span class:list={["icon-chip w-14 h-14", ["bg-terra/12 text-terra", "bg-emerald/12 text-emerald", "bg-gold/15 text-gold"][i % 3]]}><Icon name={domIcons[i % domIcons.length]} class="w-7 h-7" /></span>
             <h3 class="mt-5 font-display font-700 text-base leading-snug" style="font-weight:700">{d.t}</h3>
             <p class="mt-2 text-sm text-ink-mute leading-relaxed">{d.d}</p>
           </div>
@@ -87,10 +68,10 @@ const cardMotif = ["star", "cross", "chevron"];
   <!-- Formes de partenariat -->
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="Formats" align="center" /></div>
-      <h2 class="mt-6 section-title">Les formes de <strong>partenariat.</strong></h2>
+      <div class="text-center"><Eyebrow label={c.formats.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{c.formats.title} <strong>{c.formats.strong}</strong></h2>
       <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {partnershipTypes.map((p, i) => (
+        {c.formats.types.map((p, i) => (
           <div class:list={["relative overflow-hidden rounded-2xl p-8 text-white reveal card-hover", cardBg[i % 3]]}>
             <Motif name={cardMotif[i % 3]} class="absolute -right-6 -top-6 w-28 h-28 text-white/10" />
             <h3 class="relative font-display font-700 text-xl" style="font-weight:700">{p.title}</h3>
@@ -105,17 +86,14 @@ const cardMotif = ["star", "cross", "chevron"];
   <section class="relative bg-forest overflow-hidden">
     <MotifTexture class="text-white/[0.05]" />
     <div class="relative container-cb py-20 md:py-24 text-center max-w-2xl">
-      <div class="flex justify-center"><Eyebrow label="Construisons ensemble" align="center" light /></div>
+      <div class="flex justify-center"><Eyebrow label={c.cta.eyebrow} align="center" light /></div>
       <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">
-        Des solutions à <span class="text-terra-bright">fort impact.</span>
+        {c.cta.title} <span class="text-terra-bright">{c.cta.accent}</span>
       </h2>
-      <p class="mt-5 text-white/70 leading-relaxed">
-        Entreprise, fondation, université, institution, investisseur, incubateur, média ou
-        expert : construisons ensemble des projets créateurs d'opportunités.
-      </p>
+      <p class="mt-5 text-white/70 leading-relaxed">{c.cta.lead}</p>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <a href="/contact/" class="btn btn-terra">Contacter l'équipe Partenariats <Icon name="arrow-right" class="w-4 h-4" /></a>
-        <a href="/soutenir/" class="btn btn-ghost-white">Découvrir le mécénat</a>
+        <a href={L("/contact/")} class="btn btn-terra">{c.cta.primary} <Icon name="arrow-right" class="w-4 h-4" /></a>
+        <a href={L("/soutenir/")} class="btn btn-ghost-white">{c.cta.secondary}</a>
       </div>
     </div>
   </section>

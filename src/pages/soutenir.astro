@@ -6,60 +6,41 @@ import Eyebrow from "~/components/Eyebrow.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
 import { donation, allocation } from "~/data/org";
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getSoutenir } from "~/i18n/soutenir";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const L = (p: string) => localizePath(p, lang);
+const s = getSoutenir(lang);
+const w = s.widget;
 
 const pct = Math.min(100, Math.round((donation.campaign.raised / donation.campaign.goal) * 100));
-const fmtEur = (n: number) => new Intl.NumberFormat("fr-FR").format(n);
+const fmt = (n: number) => new Intl.NumberFormat(lang).format(n);
 
-const impacts = [
-  { icon: "graduation-cap", t: "Former", d: "Développer les compétences professionnelles et entrepreneuriales.", chip: "bg-terra/12 text-terra" },
-  { icon: "hand-heart", t: "Accompagner", d: "Offrir un mentorat, des conseils et un suivi personnalisé.", chip: "bg-emerald/12 text-emerald" },
-  { icon: "bulb", t: "Innover", d: "Créer des solutions technologiques au service des communautés.", chip: "bg-gold/15 text-gold" },
-  { icon: "rocket", t: "Entreprendre", d: "Soutenir les porteurs de projets et favoriser la création d'emplois.", chip: "bg-terra/12 text-terra" },
-  { icon: "sprout", t: "Nourrir", d: "Développer des initiatives agricoles innovantes.", chip: "bg-emerald/12 text-emerald" },
-  { icon: "users", t: "Mobiliser", d: "Créer des actions collectives qui renforcent les communautés.", chip: "bg-gold/15 text-gold" },
-];
-
-const modes = [
-  { t: "Faire un don ponctuel", d: "Une contribution unique pour soutenir les actions prioritaires de l'association.", c: "terra" },
-  { t: "Devenir donateur régulier", d: "Un soutien mensuel pour accompagner durablement le développement de nos programmes.", c: "emerald" },
-  { t: "Soutenir un programme", d: "Affectez votre contribution à un domaine qui vous tient à cœur : éducation, agriculture, innovation…", c: "gold" },
-  { t: "Devenir mécène", d: "Entreprises, fondations et philanthropes accompagnent des projets structurants à fort impact.", c: "terra" },
-  { t: "Faire un don en nature", d: "Matériel informatique, équipements, fournitures, ressources agricoles, espaces ou compétences.", c: "emerald" },
-  { t: "Financer un projet", d: "Soutenez directement le lancement d'une initiative créatrice de valeur.", c: "gold" },
-];
-
-const gouvernance = [
-  "Une gestion responsable des fonds",
-  "Un suivi des projets financés",
-  "Des indicateurs d'impact mesurables",
-  "Des rapports d'activité réguliers",
-  "Une amélioration continue de nos pratiques",
-];
-
+const impactIcons = ["graduation-cap", "hand-heart", "bulb", "rocket", "sprout", "users"];
+const impactChips = ["bg-terra/12 text-terra", "bg-emerald/12 text-emerald", "bg-gold/15 text-gold"];
+const modeColors = ["terra", "emerald", "gold"];
 const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold" ? "border-t-gold" : "border-t-terra";
 ---
 
-<Layout title="Soutenir notre mission" description="Chaque contribution ouvre une nouvelle opportunité. Soutenez Cœurs Braves : don ponctuel, mensuel, mécénat ou don en nature.">
+<Layout title={s.hero.kicker} description={s.hero.subtitle}>
   <PageHero
     image="/images/cb/agri-produce.jpg"
-    kicker="Soutenir notre mission"
-    title="Chaque contribution ouvre une nouvelle opportunité"
-    subtitle="Investir dans une personne, c'est investir dans l'avenir."
+    kicker={s.hero.kicker}
+    title={s.hero.title}
+    subtitle={s.hero.subtitle}
   />
 
   <!-- Pourquoi + widget don -->
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24 grid lg:grid-cols-2 gap-12 items-start">
       <div class="reveal">
-        <Eyebrow label="Votre soutien" />
-        <h2 class="mt-6 section-title left">Pourquoi votre soutien est <strong>essentiel.</strong></h2>
-        <p class="mt-5 prose-cb">
-          Chez Cœurs Braves, le développement durable commence par l'investissement dans le
-          potentiel humain. Nous mobilisons des ressources pour construire des solutions durables.
-          <strong>Chaque geste compte.</strong>
-        </p>
+        <Eyebrow label={s.why.eyebrow} />
+        <h2 class="mt-6 section-title left">{s.why.title} <strong>{s.why.strong}</strong></h2>
+        <p class="mt-5 prose-cb">{s.why.lead} <strong>{s.why.leadStrong}</strong></p>
         <ul class="mt-6 space-y-2.5">
-          {["Former des jeunes et développer leurs compétences.","Accompagner les entrepreneurs dans la création de leurs projets.","Soutenir les initiatives agricoles et génératrices de revenus.","Développer des programmes d'innovation et de transformation numérique.","Organiser des actions communautaires pour les plus vulnérables."].map((x) => (
+          {s.why.points.map((x) => (
             <li class="flex gap-3 text-ink-soft"><Icon name="check" class="w-5 h-5 text-emerald shrink-0 mt-0.5" /><span>{x}</span></li>
           ))}
         </ul>
@@ -67,24 +48,25 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
 
       <div id="cb-don" class="reveal bg-cream-2 border border-hairline rounded-[1.6rem] p-8 lg:sticky lg:top-24 shadow-sm scroll-mt-28"
         data-onetime={donation.stripe.oneTime} data-monthly={donation.stripe.monthly}
-        data-currency={donation.currency} data-impacts={JSON.stringify(donation.impacts)}
-        data-default-impact={donation.defaultImpact}>
-        <h3 class="font-display font-700 text-xl text-center" style="font-weight:700">Faire un don</h3>
+        data-currency={donation.currency} data-impacts={JSON.stringify(w.impacts)}
+        data-default-impact={w.defaultImpact} data-impact-once={w.impactOnce} data-impact-monthly={w.impactMonthly}
+        data-permonth={w.perMonth} data-soon={w.soonNote} data-lang={lang}>
+        <h3 class="font-display font-700 text-xl text-center" style="font-weight:700">{w.title}</h3>
 
         <!-- Barre de campagne -->
         <div class="mt-5 mb-6">
           <div class="flex items-baseline justify-between text-sm mb-2">
-            <span class="font-display font-700 text-terra" style="font-weight:700">{fmtEur(donation.campaign.raised)} {donation.currency}</span>
-            <span class="text-ink-mute">objectif {fmtEur(donation.campaign.goal)} {donation.currency}</span>
+            <span class="font-display font-700 text-terra" style="font-weight:700">{fmt(donation.campaign.raised)} {donation.currency}</span>
+            <span class="text-ink-mute">{w.goalLabel} {fmt(donation.campaign.goal)} {donation.currency}</span>
           </div>
           <div class="progress-track"><span class="progress-fill" style={`--pct:${pct}%`}></span></div>
-          <p class="mt-2 text-xs text-ink-mute">{donation.campaign.title} · {donation.campaign.donors} donateurs</p>
+          <p class="mt-2 text-xs text-ink-mute">{w.campaignTitle} · {donation.campaign.donors} {w.donorsLabel}</p>
         </div>
 
         <!-- Fréquence -->
         <div class="flex gap-1 bg-cream rounded-full p-1 border border-hairline text-sm">
-          <button type="button" data-freq="oneTime" class="cb-freq is-active">Ponctuel</button>
-          <button type="button" data-freq="monthly" class="cb-freq">Mensuel</button>
+          <button type="button" data-freq="oneTime" class="cb-freq is-active">{w.onetime}</button>
+          <button type="button" data-freq="monthly" class="cb-freq">{w.monthly}</button>
         </div>
 
         <!-- Montants -->
@@ -94,21 +76,21 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
           ))}
         </div>
         <div class="mt-3 relative">
-          <input id="cb-custom" type="number" min="1" inputmode="numeric" placeholder="Autre montant"
+          <input id="cb-custom" type="number" min="1" inputmode="numeric" placeholder={w.otherAmount}
             class="w-full rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
           <span class="absolute right-4 top-1/2 -translate-y-1/2 text-ink-mute">€</span>
         </div>
 
         <!-- Équivalence d'impact -->
         <p id="cb-impact" class="mt-4 flex items-start gap-2 text-sm text-emerald leading-snug">
-          <Icon name="check" class="w-4 h-4 shrink-0 mt-0.5" /><span data-impact-text>Votre don finance une session d'accompagnement entrepreneurial.</span>
+          <Icon name="check" class="w-4 h-4 shrink-0 mt-0.5" /><span data-impact-text></span>
         </p>
 
         <button type="button" id="cb-donate" class="btn btn-terra w-full mt-4">
-          Faire un don de <span id="cb-amt-label">50&nbsp;{donation.currency}</span> <Icon name="heart" class="w-4 h-4" />
+          {w.donatePrefix} <span id="cb-amt-label">50&nbsp;{donation.currency}</span> <Icon name="heart" class="w-4 h-4" />
         </button>
         <p class="mt-4 flex items-center justify-center gap-1.5 text-xs text-ink-mute">
-          <Icon name="check" class="w-3.5 h-3.5 text-emerald" /> Paiement 100&nbsp;% sécurisé via Stripe
+          <Icon name="check" class="w-3.5 h-3.5 text-emerald" /> {w.secure}
         </p>
       </div>
     </div>
@@ -117,12 +99,12 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
   <!-- Ce que votre contribution rend possible -->
   <section class="bg-cream-2">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="Votre impact" align="center" /></div>
-      <h2 class="mt-6 section-title">Ce que votre contribution rend <strong>possible.</strong></h2>
+      <div class="text-center"><Eyebrow label={s.impact.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{s.impact.title} <strong>{s.impact.strong}</strong></h2>
       <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {impacts.map((im) => (
+        {s.impact.items.map((im, i) => (
           <div class="bg-cream border border-hairline rounded-2xl p-7 reveal card-hover">
-            <span class:list={["icon-chip w-14 h-14", im.chip]}><Icon name={im.icon} class="w-7 h-7" /></span>
+            <span class:list={["icon-chip w-14 h-14", impactChips[i % 3]]}><Icon name={impactIcons[i % impactIcons.length]} class="w-7 h-7" /></span>
             <h3 class="mt-5 font-display font-700 text-lg" style="font-weight:700">{im.t}</h3>
             <p class="mt-2 text-sm text-ink-mute leading-relaxed">{im.d}</p>
           </div>
@@ -134,11 +116,11 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
   <!-- Modes de contribution -->
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="Comment donner" align="center" /></div>
-      <h2 class="mt-6 section-title">Les différentes façons de <strong>soutenir.</strong></h2>
+      <div class="text-center"><Eyebrow label={s.modes.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{s.modes.title} <strong>{s.modes.strong}</strong></h2>
       <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-        {modes.map((m) => (
-          <div class:list={["rounded-2xl p-7 border-t-4 bg-cream-2 border border-hairline reveal card-hover", border(m.c)]}>
+        {s.modes.items.map((m, i) => (
+          <div class:list={["rounded-2xl p-7 border-t-4 bg-cream-2 border border-hairline reveal card-hover", border(modeColors[i % 3])]}>
             <h3 class="font-display font-700 text-lg" style="font-weight:700">{m.t}</h3>
             <p class="mt-2 text-sm text-ink-mute leading-relaxed">{m.d}</p>
           </div>
@@ -154,34 +136,31 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
     <MotifTexture class="text-white/[0.05]" />
     <div class="relative container-cb py-20 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
       <div class="reveal">
-        <Eyebrow label="Transparence" light />
+        <Eyebrow label={s.transparency.eyebrow} light />
         <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">
-          La confiance au cœur de notre <span class="text-terra-bright">engagement.</span>
+          {s.transparency.title} <span class="text-terra-bright">{s.transparency.accent}</span>
         </h2>
-        <p class="mt-5 text-white/70 leading-relaxed">
-          Nous nous engageons à gérer les ressources qui nous sont confiées avec rigueur,
-          responsabilité et transparence.
-        </p>
+        <p class="mt-5 text-white/70 leading-relaxed">{s.transparency.lead}</p>
       </div>
       <div class="reveal space-y-5">
         <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
-          <p class="font-display font-700 text-white mb-5" style="font-weight:700">Où va votre argent</p>
-          {allocation.map((a) => {
+          <p class="font-display font-700 text-white mb-5" style="font-weight:700">{s.transparency.allocTitle}</p>
+          {allocation.map((a, i) => {
             const fill = a.color === "emerald" ? "var(--color-emerald)" : a.color === "gold" ? "var(--color-gold)" : "var(--color-terra-bright)";
             return (
               <div class="mb-4 last:mb-0">
                 <div class="flex justify-between text-sm mb-1.5">
-                  <span class="text-white/85">{a.label}</span>
+                  <span class="text-white/85">{s.transparency.allocLabels[i] ?? a.label}</span>
                   <span class="font-display font-700 text-white" style="font-weight:700">{a.pct}%</span>
                 </div>
                 <div class="alloc-track"><span class="alloc-fill" style={`--pct:${a.pct}%;background:${fill}`}></span></div>
               </div>
             );
           })}
-          <p class="text-xs text-white/45 mt-4">Répartition indicative — chiffres à confirmer dans le rapport d'activité.</p>
+          <p class="text-xs text-white/45 mt-4">{s.transparency.allocNote}</p>
         </div>
         <ul class="grid gap-3">
-          {gouvernance.map((g) => (
+          {s.transparency.gouvernance.map((g) => (
             <li class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-5 py-4">
               <span class="icon-chip w-8 h-8 shrink-0 bg-gold/20 text-gold"><Icon name="check" class="w-5 h-5" /></span>
               <span class="text-white/90">{g}</span>
@@ -196,12 +175,11 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
   <section class="bg-cream">
     <div class="container-cb py-20 text-center max-w-2xl">
       <p class="font-display text-2xl md:text-3xl leading-snug text-ink" style="font-weight:600;letter-spacing:-0.02em">
-        Un investissement dans l'humain produit des bénéfices qui se transmettent de
-        <span class="text-terra">génération en génération.</span>
+        {s.cta.text} <span class="text-terra">{s.cta.brand}</span>
       </p>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <a href="#cb-don" class="btn btn-terra">Faire un don <Icon name="heart" class="w-4 h-4" /></a>
-        <a href="/contact/" class="btn btn-outline">Contacter l'équipe</a>
+        <a href="#cb-don" class="btn btn-terra">{s.cta.donate} <Icon name="heart" class="w-4 h-4" /></a>
+        <a href={L("/contact/")} class="btn btn-outline">{s.cta.contact}</a>
       </div>
     </div>
   </section>
@@ -211,9 +189,14 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
       var root = document.getElementById("cb-don");
       if (!root) return;
       var currency = root.dataset.currency || "€";
+      var lang = root.dataset.lang || "fr";
       var impacts = {};
       try { impacts = JSON.parse(root.dataset.impacts || "{}"); } catch (e) {}
       var defaultImpact = root.dataset.defaultImpact || "";
+      var tplOnce = root.dataset.impactOnce || "{}";
+      var tplMonthly = root.dataset.impactMonthly || "{}";
+      var perMonth = root.dataset.permonth || "";
+      var soonNote = root.dataset.soon || "";
       var links = { oneTime: root.dataset.onetime, monthly: root.dataset.monthly };
 
       var freq = "oneTime";
@@ -225,15 +208,13 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
       var impactText = root.querySelector("[data-impact-text]");
       var donate = root.querySelector("#cb-donate");
 
-      function nf(n) { return new Intl.NumberFormat("fr-FR").format(n); }
+      function nf(n) { try { return new Intl.NumberFormat(lang).format(n); } catch (e) { return "" + n; } }
 
       function refresh() {
-        if (label) label.innerHTML = nf(amount) + " " + currency + (freq === "monthly" ? "/mois" : "");
+        if (label) label.innerHTML = nf(amount) + " " + currency + (freq === "monthly" ? perMonth : "");
         if (impactText) {
           var msg = impacts[amount] || defaultImpact;
-          impactText.textContent = freq === "monthly"
-            ? "Chaque mois, vous financez " + msg + "."
-            : "Votre don finance " + msg + ".";
+          impactText.textContent = (freq === "monthly" ? tplMonthly : tplOnce).replace("{}", msg);
         }
       }
       function setAmount(v, fromCustom) {
@@ -256,11 +237,7 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
       if (custom) {
         custom.addEventListener("input", function () {
           var v = parseInt(custom.value, 10);
-          if (v > 0) {
-            amount = v;
-            amtBtns.forEach(function (x) { x.classList.remove("is-active"); });
-            refresh();
-          }
+          if (v > 0) { amount = v; amtBtns.forEach(function (x) { x.classList.remove("is-active"); }); refresh(); }
         });
       }
       function showNote(text) {
@@ -276,10 +253,7 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
       if (donate) {
         donate.addEventListener("click", function () {
           var url = links[freq];
-          if (!url || url.indexOf("COMPL") !== -1) {
-            showNote("Le paiement en ligne arrive très bientôt. En attendant, écrivez-nous pour faire un don — merci de votre soutien.");
-            return;
-          }
+          if (!url || url.indexOf("COMPL") !== -1) { showNote(soonNote); return; }
           window.open(url, "_blank", "noopener");
         });
       }

@@ -4,14 +4,20 @@ import PageHero from "~/components/PageHero.astro";
 import Icon from "~/components/Icon.astro";
 import Eyebrow from "~/components/Eyebrow.astro";
 import { site } from "~/data/site";
+import { useTranslations, getLangFromUrl, countries } from "~/i18n/ui";
+import { getContact } from "~/i18n/contact";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const c = getContact(lang);
 ---
 
-<Layout title="Contact" description="Contactez Cœurs Braves — association internationale africaine présente au Cameroun, en RCA, en Allemagne et dans la diaspora.">
+<Layout title={t("nav.contact")} description={c.hero.subtitle}>
   <PageHero
     image="/images/cb/children-flag.jpg"
-    kicker="Contact"
-    title="Échangeons ensemble"
-    subtitle="Une question, un projet, une envie de vous engager ? Notre équipe vous répond."
+    kicker={c.hero.kicker}
+    title={c.hero.title}
+    subtitle={c.hero.subtitle}
     height="min-h-[42vh]"
   />
 
@@ -19,32 +25,32 @@ import { site } from "~/data/site";
     <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-14">
       <!-- Infos -->
       <div class="lg:col-span-5 reveal">
-        <Eyebrow label="Nous joindre" />
-        <h2 class="mt-6 section-title left">Nos <strong>coordonnées.</strong></h2>
+        <Eyebrow label={c.info.eyebrow} />
+        <h2 class="mt-6 section-title left">{c.info.title} <strong>{c.info.strong}</strong></h2>
         <div class="mt-8 space-y-4">
           <div class="flex gap-4 bg-cream-2 border border-hairline rounded-2xl p-5 card-hover">
             <span class="icon-chip w-12 h-12 shrink-0 bg-terra/12 text-terra"><Icon name="mail" class="w-6 h-6" /></span>
             <div>
-              <p class="font-display font-700" style="font-weight:700">E-mail</p>
+              <p class="font-display font-700" style="font-weight:700">{c.info.emailLabel}</p>
               <a href={`mailto:${site.email}`} class="text-terra hover:underline">{site.email}</a>
             </div>
           </div>
           <div class="flex gap-4 bg-cream-2 border border-hairline rounded-2xl p-5 card-hover">
             <span class="icon-chip w-12 h-12 shrink-0 bg-emerald/12 text-emerald"><Icon name="phone" class="w-6 h-6" /></span>
             <div>
-              <p class="font-display font-700" style="font-weight:700">Téléphone &amp; WhatsApp</p>
+              <p class="font-display font-700" style="font-weight:700">{c.info.phoneLabel}</p>
               <a href={`tel:${site.phoneIntl}`} class="text-terra hover:underline">{site.phone}</a>
               <a href={site.social.whatsapp} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-1 text-sm text-emerald hover:underline">
-                <Icon name="whatsapp" class="w-4 h-4" /> Écrire sur WhatsApp
+                <Icon name="whatsapp" class="w-4 h-4" /> {c.info.whatsappLink}
               </a>
             </div>
           </div>
           <div class="flex gap-4 bg-cream-2 border border-hairline rounded-2xl p-5">
             <span class="icon-chip w-12 h-12 shrink-0 bg-gold/15 text-gold"><Icon name="map-pin" class="w-6 h-6" /></span>
             <div>
-              <p class="font-display font-700" style="font-weight:700">Siège &amp; présence</p>
-              <p class="text-ink-soft text-sm mt-0.5">Siège : {site.hq.city} ({site.hq.postal}), {site.hq.country}</p>
-              <p class="text-ink-mute text-sm mt-1">{site.countries.join(" · ")}</p>
+              <p class="font-display font-700" style="font-weight:700">{c.info.presenceLabel}</p>
+              <p class="text-ink-soft text-sm mt-0.5">{t("footer.headoffice")} : {site.hq.city} ({site.hq.postal}), {site.hq.country}</p>
+              <p class="text-ink-mute text-sm mt-1">{countries[lang].join(" · ")}</p>
             </div>
           </div>
           <div class="flex items-center gap-3 pt-1">
@@ -58,19 +64,15 @@ import { site } from "~/data/site";
       <!-- Formulaire -->
       <div class="lg:col-span-7 reveal">
         <form class="cb-form bg-cream-2 border border-hairline rounded-[1.6rem] p-8 md:p-9 grid sm:grid-cols-2 gap-4" data-subject="Message depuis le site Cœurs Braves">
-          <input required placeholder="Nom et prénom" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
-          <input required type="email" placeholder="Adresse e-mail" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
-          <input placeholder="Pays de résidence" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
-          <select data-label="Objet" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra text-ink-mute bg-cream">
-            <option>Objet de votre message</option>
-            <option>Adhésion / bénévolat</option>
-            <option>Partenariat</option>
-            <option>Don / mécénat</option>
-            <option>Proposer un projet</option>
-            <option>Autre</option>
+          <input required placeholder={t("form.name")} class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
+          <input required type="email" placeholder={t("form.email")} class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
+          <input placeholder={t("form.country")} class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
+          <select data-label={c.form.objectLabel} class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra text-ink-mute bg-cream">
+            <option>{c.form.objectPlaceholder}</option>
+            {c.form.objects.map((o) => <option>{o}</option>)}
           </select>
-          <textarea placeholder="Votre message" rows="5" class="sm:col-span-2 rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream"></textarea>
-          <button type="submit" class="btn btn-terra sm:col-span-2">Envoyer mon message <Icon name="arrow-right" class="w-4 h-4" /></button>
+          <textarea placeholder={c.form.message} rows="5" class="sm:col-span-2 rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream"></textarea>
+          <button type="submit" class="btn btn-terra sm:col-span-2">{c.form.submit} <Icon name="arrow-right" class="w-4 h-4" /></button>
         </form>
       </div>
     </div>

@@ -3,15 +3,21 @@ import Layout from "~/components/Layout.astro";
 import PageHero from "~/components/PageHero.astro";
 import Eyebrow from "~/components/Eyebrow.astro";
 import Icon from "~/components/Icon.astro";
-import { faq } from "~/data/site";
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getFaq } from "~/i18n/faq";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const L = (p: string) => localizePath(p, lang);
+const f = getFaq(lang);
 ---
 
-<Layout title="FAQ" description="Questions fréquentes sur Cœurs Braves : adhésion, formations, partenariats, dons et zones d'intervention.">
+<Layout title={t("nav.faq")} description={f.hero.subtitle}>
   <PageHero
     image="/images/cb/youth-laptop-1.jpg"
-    kicker="Questions fréquentes"
-    title="Vous avez des questions ?"
-    subtitle="Retrouvez l'essentiel sur Cœurs Braves, notre communauté et nos actions."
+    kicker={f.hero.kicker}
+    title={f.hero.title}
+    subtitle={f.hero.subtitle}
     height="min-h-[42vh]"
   />
 
@@ -19,19 +25,19 @@ import { faq } from "~/data/site";
     <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
       <!-- Colonne intro -->
       <div class="lg:col-span-4 lg:sticky lg:top-28">
-        <Eyebrow label="Bon à savoir" />
-        <h2 class="mt-6 section-title left">Tout ce qu'il faut <strong>savoir.</strong></h2>
+        <Eyebrow label={f.intro.eyebrow} />
+        <h2 class="mt-6 section-title left">{f.intro.title} <strong>{f.intro.strong}</strong></h2>
         <div class="mt-8 bg-forest text-white rounded-2xl p-7">
           <span class="icon-chip w-12 h-12 bg-white/10 text-terra-bright"><Icon name="hand-heart" class="w-6 h-6" /></span>
-          <h3 class="mt-4 font-display font-700 text-lg" style="font-weight:700">Une autre question ?</h3>
-          <p class="mt-2 text-sm text-white/70 leading-relaxed">Notre équipe est là pour vous accompagner et répondre à vos demandes.</p>
-          <a href="/contact/" class="btn btn-terra mt-5 text-sm">Nous contacter <Icon name="arrow-right" class="w-4 h-4" /></a>
+          <h3 class="mt-4 font-display font-700 text-lg" style="font-weight:700">{f.intro.boxTitle}</h3>
+          <p class="mt-2 text-sm text-white/70 leading-relaxed">{f.intro.boxText}</p>
+          <a href={L("/contact/")} class="btn btn-terra mt-5 text-sm">{f.intro.boxCta} <Icon name="arrow-right" class="w-4 h-4" /></a>
         </div>
       </div>
 
       <!-- Accordéon -->
       <div class="lg:col-span-8 space-y-3">
-        {faq.map((item, i) => (
+        {f.items.map((item, i) => (
           <details class="group bg-cream-2 border border-hairline rounded-2xl overflow-hidden reveal" open={i === 0}>
             <summary class="flex items-center justify-between gap-4 cursor-pointer list-none px-6 py-5 font-display font-700 text-ink" style="font-weight:700">
               <span>{item.q}</span>

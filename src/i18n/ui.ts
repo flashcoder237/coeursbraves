@@ -102,6 +102,9 @@ export const ui = {
     "team.eng_kicker": "Nos engagements",
     "team.eng_title": "Une gouvernance",
     "team.eng_accent": "responsable.",
+    "form.name": "Nom et prénom",
+    "form.email": "Adresse e-mail",
+    "form.country": "Pays de résidence",
   },
   en: {
     "nav.home": "Home",
@@ -183,6 +186,9 @@ export const ui = {
     "team.eng_kicker": "Our commitments",
     "team.eng_title": "Responsible",
     "team.eng_accent": "governance.",
+    "form.name": "Full name",
+    "form.email": "Email address",
+    "form.country": "Country of residence",
   },
   de: {
     "nav.home": "Startseite",
@@ -264,6 +270,9 @@ export const ui = {
     "team.eng_kicker": "Unsere Grundsätze",
     "team.eng_title": "Verantwortungsvolle",
     "team.eng_accent": "Governance.",
+    "form.name": "Vollständiger Name",
+    "form.email": "E-Mail-Adresse",
+    "form.country": "Wohnsitzland",
   },
 } as const;
 

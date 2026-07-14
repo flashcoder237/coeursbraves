@@ -20,9 +20,10 @@ backend:
 # Permet d'éditer en local via `npm run cms` (decap-server) sans OAuth.
 local_backend: true
 
-# Fichiers téléversés (images) → public/images/cb/uploads
-media_folder: public/images/cb/uploads
-public_folder: /images/cb/uploads
+# Dossier des images du site — le CMS y voit tous les visuels existants
+# (journal/, events/, logos, photos…) et y range aussi les nouveaux téléversements.
+media_folder: public/images/cb
+public_folder: /images/cb
 
 # Multilingue : un sous-dossier par langue (journal/fr/slug.md, journal/en/slug.md…)
 i18n:

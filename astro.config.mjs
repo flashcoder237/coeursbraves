@@ -20,6 +20,21 @@ const SITE_URL =
   process.env.DEPLOY_PRIME_URL ||
   "https://coeursbraves.com";
 
+// Dev-only : `astro dev` ne résout pas /admin/ vers public/admin/index.html
+// (pas d'index de répertoire pour les sous-dossiers de public/). Ce middleware
+// réécrit la requête. En prod (dist/ + hébergeur statique), /admin/ marche déjà.
+/** @type {import('vite').Plugin} */
+const adminDevIndex = {
+  name: "admin-dev-index",
+  apply: "serve",
+  configureServer(server) {
+    server.middlewares.use((req, _res, next) => {
+      if (req.url === "/admin" || req.url === "/admin/") req.url = "/admin/index.html";
+      next();
+    });
+  },
+};
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE_URL,
@@ -39,7 +54,7 @@ export default defineConfig({
   },
   integrations: [sitemap()],
   vite: {
-    plugins: [/** @type {any} */ (tailwindcss())],
+    plugins: [/** @type {any} */ (tailwindcss()), adminDevIndex],
     server: {
       allowedHosts: [
         ".ngrok-free.app",

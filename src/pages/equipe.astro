@@ -4,13 +4,14 @@ import PageHead from "~/components/PageHead.astro";
 import Eyebrow from "~/components/Eyebrow.astro";
 import Icon from "~/components/Icon.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
-import { engagements } from "~/data/site";
 import { useTranslations, getLangFromUrl } from "~/i18n/ui";
 import { getTeam } from "~/i18n/content";
+import { getEngagements } from "~/i18n/values";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const team = await getTeam(lang);
+const engagements = getEngagements(lang);
 
 const ring = ["bg-terra", "bg-emerald", "bg-gold", "bg-terra"];
 const initials = (n: string) =>

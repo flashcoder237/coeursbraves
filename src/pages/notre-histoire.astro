@@ -6,41 +6,39 @@ import Motif from "~/components/Motif.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
 import { site } from "~/data/site";
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getHist } from "~/i18n/histoire";
 
-const timeline = [
-  { t: "La naissance d'une conviction", d: "Les premières réflexions autour d'une organisation dédiée au développement humain et à l'accompagnement des talents." },
-  { t: "Les premières actions", d: "Organisation des premiers ateliers, formations et initiatives communautaires." },
-  { t: "La structuration de l'écosystème", d: "Création progressive des différentes initiatives et pôles d'activité portés par Cœurs Braves." },
-  { t: "L'ouverture à l'international", d: "Développement des activités au Cameroun, en République centrafricaine, en Allemagne et auprès de la diaspora africaine." },
-  { t: "Aujourd'hui", d: "Une communauté internationale engagée qui rassemble des milliers de membres autour d'une même vision." },
-  { t: "Demain", d: "Accélérer la création d'opportunités, renforcer les partenariats stratégiques et contribuer à l'émergence d'une Afrique plus innovante, inclusive et prospère." },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const L = (p: string) => localizePath(p, lang);
+const h = getHist(lang);
 
-const valeurs = [
-  { t: "Courage", d: "Il nous pousse à entreprendre malgré les difficultés.", motif: "star", chip: "bg-terra/15 text-terra", num: "bg-terra" },
-  { t: "Solidarité", d: "Les plus grandes réussites se construisent ensemble.", motif: "cross", chip: "bg-emerald/15 text-emerald", num: "bg-emerald" },
-  { t: "Impact", d: "Agir avec responsabilité pour des résultats concrets et durables.", motif: "zigzag", chip: "bg-gold/15 text-gold", num: "bg-gold" },
+const valMeta = [
+  { motif: "star", chip: "bg-terra/15 text-terra" },
+  { motif: "cross", chip: "bg-emerald/15 text-emerald" },
+  { motif: "zigzag", chip: "bg-gold/15 text-gold" },
 ];
 ---
 
-<Layout title="Notre histoire" description="Une conviction devenue un mouvement : découvrez l'histoire de Cœurs Braves, de sa naissance à son écosystème international.">
+<Layout title={h.hero.kicker} description={h.hero.subtitle}>
   <PageHero
     image="/images/cb/youth-laptop-2.jpg"
-    kicker="Notre histoire"
-    title="Une conviction devenue un mouvement"
-    subtitle="Chaque grande transformation commence par une conviction : croire qu'un avenir meilleur est possible."
+    kicker={h.hero.kicker}
+    title={h.hero.title}
+    subtitle={h.hero.subtitle}
   />
 
   <!-- Intro -->
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
       <div class="lg:col-span-7">
-        <Eyebrow label="L'origine" />
-        <h2 class="mt-6 section-title left">Le potentiel était immense, les opportunités <strong>limitées.</strong></h2>
+        <Eyebrow label={h.intro.eyebrow} />
+        <h2 class="mt-6 section-title left">{h.intro.title} <strong>{h.intro.strong}</strong></h2>
       </div>
       <div class="lg:col-span-5 prose-cb reveal">
-        <p>Pendant des années, nous avons rencontré des jeunes diplômés sans emploi, des entrepreneurs porteurs d'idées prometteuses mais privés de financement, des femmes déterminées à améliorer les conditions de vie de leur famille.</p>
-        <p>Le véritable défi n'était pas le manque de talent, mais <strong>l'absence d'un environnement capable d'accompagner, de former, de connecter et d'encourager.</strong> C'est cette réalité qui a donné naissance à Cœurs Braves.</p>
+        <p>{h.intro.p1}</p>
+        <p>{h.intro.p2}</p>
       </div>
     </div>
   </section>
@@ -58,19 +56,15 @@ const valeurs = [
         </div>
       </div>
       <div class="reveal">
-        <Eyebrow label="Le fondateur" light />
+        <Eyebrow label={h.founder.eyebrow} light />
         <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">
-          Une histoire profondément <span class="text-terra-bright">humaine.</span>
+          {h.founder.title} <span class="text-terra-bright">{h.founder.accent}</span>
         </h2>
         <p class="mt-6 text-white/75 leading-relaxed text-lg">
-          L'histoire de Cœurs Braves est intimement liée au parcours de son fondateur,
-          <strong class="text-white">{site.founder}</strong>. Comme beaucoup de jeunes Africains,
-          il a connu les défis de l'entrepreneuriat, les périodes d'incertitude et les obstacles
-          liés à la mobilité internationale.
+          {h.founder.lead1} <strong class="text-white">{site.founder}</strong>{h.founder.lead2}
         </p>
         <blockquote class="mt-6 border-l-2 border-terra-bright pl-5 text-white/90 italic">
-          La réussite prend tout son sens lorsqu'elle devient un levier pour ouvrir des
-          perspectives à d'autres.
+          {h.founder.quote}
         </blockquote>
       </div>
     </div>
@@ -79,13 +73,13 @@ const valeurs = [
   <!-- Valeurs -->
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="Nos valeurs" align="center" /></div>
-      <h2 class="mt-6 section-title">Une communauté bâtie sur des <strong>valeurs.</strong></h2>
+      <div class="text-center"><Eyebrow label={h.values.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{h.values.title} <strong>{h.values.strong}</strong></h2>
       <div class="mt-14 grid sm:grid-cols-3 gap-6">
-        {valeurs.map((v) => (
+        {h.values.items.map((v, i) => (
           <div class="relative bg-cream rounded-2xl border border-hairline p-8 card-hover reveal overflow-hidden">
-            <Motif name={v.motif} class="absolute -right-6 -top-6 w-28 h-28 text-ink/[0.04]" />
-            <span class:list={["icon-chip w-14 h-14", v.chip]}><Motif name={v.motif} class="w-7 h-7" /></span>
+            <Motif name={valMeta[i].motif} class="absolute -right-6 -top-6 w-28 h-28 text-ink/[0.04]" />
+            <span class:list={["icon-chip w-14 h-14", valMeta[i].chip]}><Motif name={valMeta[i].motif} class="w-7 h-7" /></span>
             <h3 class="mt-6 font-display font-700 text-2xl" style="font-weight:700">{v.t}</h3>
             <p class="mt-3 text-ink-mute leading-relaxed">{v.d}</p>
           </div>
@@ -97,16 +91,16 @@ const valeurs = [
   <!-- Frise chronologique -->
   <section class="bg-cream-2">
     <div class="container-cb py-20 md:py-24">
-      <div class="text-center"><Eyebrow label="Notre parcours" align="center" /></div>
-      <h2 class="mt-6 section-title">Les grandes <strong>étapes.</strong></h2>
+      <div class="text-center"><Eyebrow label={h.timeline.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{h.timeline.title} <strong>{h.timeline.strong}</strong></h2>
       <div class="mt-16 relative max-w-3xl mx-auto">
         <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-hairline md:-translate-x-1/2"></div>
         <div class="space-y-8">
-          {timeline.map((item, i) => (
+          {h.timeline.items.map((item, i) => (
             <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-10 reveal">
               <div class:list={["md:col-start-1", i % 2 === 0 ? "md:text-right md:pr-12" : "md:col-start-2 md:pl-12"]}>
                 <div class="bg-cream border border-hairline rounded-xl p-6 shadow-sm text-left">
-                  <span class="font-display font-700 text-sm text-terra" style="font-weight:700">Étape {String(i + 1).padStart(2, "0")}</span>
+                  <span class="font-display font-700 text-sm text-terra" style="font-weight:700">{h.timeline.label} {String(i + 1).padStart(2, "0")}</span>
                   <h3 class="mt-1 font-display font-700 text-lg text-ink" style="font-weight:700">{item.t}</h3>
                   <p class="mt-2 text-sm text-ink-mute leading-relaxed">{item.d}</p>
                 </div>
@@ -124,12 +118,11 @@ const valeurs = [
     <div class="container-cb py-20 text-center max-w-3xl">
       <Motif name="cross" class="w-10 h-10 mx-auto text-terra/40" />
       <p class="mt-6 font-display text-2xl md:text-3xl leading-snug text-ink" style="font-weight:600;letter-spacing:-0.02em">
-        Si cette vision est aussi la vôtre, alors vous faites déjà partie de
-        l'histoire de <span class="text-terra">Cœurs Braves.</span>
+        {h.closing.text} <span class="text-terra">{h.closing.brand}</span>
       </p>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <a href="/rejoindre/" class="btn btn-terra">Rejoindre la communauté</a>
-        <a href="/ecosysteme/" class="btn btn-outline">Découvrir nos programmes</a>
+        <a href={L("/rejoindre/")} class="btn btn-terra">{t("cta.join")}</a>
+        <a href={L("/ecosysteme/")} class="btn btn-outline">{h.closing.cta2}</a>
       </div>
     </div>
   </section>
