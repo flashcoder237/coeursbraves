@@ -7,13 +7,12 @@ import Motif from "~/components/Motif.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
 import { poles } from "~/data/site";
-import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getLangFromUrl, localizePath } from "~/i18n/ui";
 import { getEco } from "~/i18n/ecosysteme";
 import { getHome } from "~/i18n/home";
 import { getMethode, getEngagements } from "~/i18n/values";
 
 const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 const L = (p: string) => localizePath(p, lang);
 const eco = getEco(lang);
 const poleTxt = getHome(lang).poles;

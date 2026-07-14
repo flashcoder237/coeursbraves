@@ -6,11 +6,10 @@ import Eyebrow from "~/components/Eyebrow.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
 import { donation, allocation } from "~/data/org";
-import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getLangFromUrl, localizePath } from "~/i18n/ui";
 import { getSoutenir } from "~/i18n/soutenir";
 
 const lang = getLangFromUrl(Astro.url);
-const t = useTranslations(lang);
 const L = (p: string) => localizePath(p, lang);
 const s = getSoutenir(lang);
 const w = s.widget;
