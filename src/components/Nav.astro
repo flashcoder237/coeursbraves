@@ -1,40 +1,47 @@
 ---
-import { nav } from "~/data/site";
 import Icon from "./Icon.astro";
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import { navItems, useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const path = Astro.url.pathname;
-const isActive = (href: string) =>
-  href === "/" ? path === "/" : path.startsWith(href);
+const home = localizePath("/", lang);
+const isActive = (href: string) => {
+  const full = localizePath(href, lang);
+  return path === full || path.startsWith(full);
+};
 ---
 
 <header id="cb-header" class="sticky top-0 z-50 bg-cream/85 backdrop-blur-md transition-all">
   <div class="container-cb flex items-center justify-between gap-4 h-[76px]">
     <!-- Logo -->
-    <a href="/" class="flex items-center shrink-0 cb-logo-link" aria-label="Cœurs Braves — accueil">
+    <a href={home} class="flex items-center shrink-0 cb-logo-link" aria-label="Cœurs Braves — accueil">
       <img src="/images/cb/logo.png" alt="Cœurs Braves" width="280" height="120"
            class="h-8 md:h-9 w-auto" />
     </a>
 
     <!-- Navigation desktop -->
-    <nav class="hidden lg:flex items-center gap-8" aria-label="Navigation principale">
-      {nav.filter((n) => n.href !== "/").map((item) => (
+    <nav class="hidden lg:flex items-center gap-7" aria-label="Navigation principale">
+      {navItems.map((item) => (
         <a
-          href={item.href}
+          href={localizePath(item.href, lang)}
           class:list={[
             "nav-link text-[0.95rem] font-medium transition-colors",
             isActive(item.href) ? "is-active" : "text-ink-soft hover:text-terra",
           ]}
         >
-          {item.label}
+          {t(item.key)}
         </a>
       ))}
     </nav>
 
     <div class="flex items-center gap-1.5">
-      <button type="button" id="cb-search-open" class="search-trigger" aria-label="Rechercher sur le site">
+      <LanguageSwitcher />
+      <button type="button" id="cb-search-open" class="search-trigger" aria-label={t("a11y.search")}>
         <Icon name="search" class="w-5 h-5" />
       </button>
-      <a href="/soutenir/" class="btn btn-dark text-sm px-6 py-3 hidden sm:inline-flex">Soutenir nos actions</a>
-      <button id="cb-burger" class="lg:hidden p-2 text-ink" aria-label="Ouvrir le menu" aria-expanded="false">
+      <a href={localizePath("/soutenir/", lang)} class="btn btn-dark text-sm px-6 py-3 hidden sm:inline-flex">{t("cta.support")}</a>
+      <button id="cb-burger" class="lg:hidden p-2 text-ink" aria-label={t("a11y.menu")} aria-expanded="false">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -47,18 +54,18 @@ const isActive = (href: string) =>
   <!-- Menu mobile -->
   <div id="cb-mobile" class="lg:hidden hidden border-t border-hairline bg-cream">
     <nav class="container-cb flex flex-col py-3" aria-label="Navigation mobile">
-      {nav.filter((n) => n.href !== "/").map((item) => (
+      {navItems.map((item) => (
         <a
-          href={item.href}
+          href={localizePath(item.href, lang)}
           class:list={[
             "text-base font-medium py-3 border-b border-hairline/60",
             isActive(item.href) ? "text-terra" : "text-ink",
           ]}
         >
-          {item.label}
+          {t(item.key)}
         </a>
       ))}
-      <a href="/soutenir/" class="btn btn-dark mt-4">Soutenir nos actions</a>
+      <a href={localizePath("/soutenir/", lang)} class="btn btn-dark mt-4">{t("cta.support")}</a>
     </nav>
   </div>
 </header>

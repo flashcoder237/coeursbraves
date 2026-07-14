@@ -1,0 +1,9 @@
+---
+import Page from "~/pages/journal/[slug].astro";
+import { getJournalSlugs } from "~/i18n/content";
+export async function getStaticPaths() {
+  const slugs = await getJournalSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
+}
+---
+<Page />

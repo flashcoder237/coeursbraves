@@ -1,21 +1,23 @@
 // Données centrales du site Cœurs Braves.
-// Source : document « copyright 2026 cb » (contenu et visuels réels).
+// Les coordonnées (email, téléphone, réseaux, siège) sont éditables depuis /admin
+// via src/data/cms/settings.json (collection « Réglages du site »).
+import settings from "./cms/settings.json";
 
 export const site = {
   name: "Cœurs Braves",
   legalName: "Cœurs Braves — Association",
   tagline: "Investir dans l'humain. Construire des opportunités. Transformer des vies.",
   founder: "Assaa Ouemba Billy Loïc, dit « Brave Djamal »",
-  email: "contact@coeursbraves.com",
-  phone: "+49 1521 0418658",
-  phoneIntl: "4915210418658", // format wa.me / tel sans espaces
-  hq: { city: "Mainz", country: "Allemagne", postal: "55131" },
+  email: settings.email,
+  phone: settings.phone,
+  phoneIntl: settings.phone.replace(/\D/g, ""), // format wa.me / tel sans espaces
+  hq: settings.hq,
   countries: ["Cameroun", "République centrafricaine", "Allemagne", "Diaspora africaine"],
   social: {
-    facebook: "https://web.facebook.com/LESCOEURSBRAVES",
-    instagram: "https://www.instagram.com/coeurs_braves",
-    tiktok: "https://www.tiktok.com/@coeurs_braves",
-    whatsapp: "https://wa.me/4915210418658",
+    facebook: settings.facebook,
+    instagram: settings.instagram,
+    tiktok: settings.tiktok,
+    whatsapp: settings.whatsapp,
   },
 };
 

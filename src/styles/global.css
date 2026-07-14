@@ -305,6 +305,25 @@ h1, h2, h3, h4, .font-display {
   .cb-amt:hover { transform: none; }
 }
 
+/* --- Corps d'article (Markdown du Journal) --- */
+.article-body { color: var(--color-ink-soft); }
+.article-body h2 {
+  font-family: var(--font-display); font-weight: 700; color: var(--color-ink);
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem); line-height: 1.2;
+  margin-top: 2.25rem; margin-bottom: 0.75rem; letter-spacing: -0.01em;
+}
+.article-body p { font-size: 1.125rem; line-height: 1.75; margin-bottom: 1.15rem; }
+.article-body ul, .article-body ol { margin: 0 0 1.15rem 1.25rem; font-size: 1.125rem; line-height: 1.75; }
+.article-body li { margin-bottom: 0.4rem; }
+.article-body ul { list-style: disc; }
+.article-body ol { list-style: decimal; }
+.article-body a { color: var(--color-terra); text-decoration: underline; }
+.article-body strong { color: var(--color-ink); font-weight: 700; }
+.article-body blockquote {
+  border-left: 3px solid var(--color-terra); padding-left: 1.1rem; margin: 1.5rem 0;
+  color: var(--color-ink); font-style: italic;
+}
+
 /* --- Documents légaux --- */
 .legal-doc { color: var(--color-ink-soft); line-height: 1.75; }
 .legal-doc h2 {
@@ -362,6 +381,27 @@ h1, h2, h3, h4, .font-display {
   .ev-media { display: none; }
   .ev-cta { grid-column: 1 / -1; justify-self: start; margin-top: 0.25rem; }
 }
+
+/* --- Sélecteur de langue --- */
+.lang-switch { position: relative; }
+.lang-btn {
+  display: inline-flex; align-items: center; gap: 0.35rem; height: 2.6rem; padding: 0 0.7rem;
+  border-radius: 999px; color: var(--color-ink-soft); font-family: var(--font-display);
+  font-weight: 600; font-size: 0.82rem; transition: background-color 0.2s, color 0.2s;
+}
+.lang-btn:hover { background: var(--color-cream-2); color: var(--color-terra); }
+.lang-code { letter-spacing: 0.03em; }
+.lang-menu {
+  position: absolute; right: 0; top: calc(100% + 0.4rem); min-width: 9rem; z-index: 60;
+  background: var(--color-cream); border: 1px solid var(--color-hairline); border-radius: 0.9rem;
+  box-shadow: 0 20px 44px -22px rgba(26,26,24,0.4); padding: 0.35rem; overflow: hidden;
+}
+.lang-item {
+  display: block; padding: 0.55rem 0.75rem; border-radius: 0.6rem; font-size: 0.9rem;
+  color: var(--color-ink-soft); transition: background-color 0.15s, color 0.15s;
+}
+.lang-item:hover { background: var(--color-cream-2); color: var(--color-ink); }
+.lang-item.is-active { color: var(--color-terra); font-weight: 700; }
 
 /* --- Recherche --- */
 .search-trigger {

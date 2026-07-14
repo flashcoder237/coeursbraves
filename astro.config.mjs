@@ -27,6 +27,16 @@ export default defineConfig({
   build: {
     format: "directory",
   },
+  // Multilingue : français (racine), anglais (/en/), allemand (/de/).
+  // Les routes /en/ et /de/ sont de vraies pages (src/pages/en, src/pages/de)
+  // qui re-rendent chaque page dans son contexte de langue (chrome traduit).
+  i18n: {
+    defaultLocale: "fr",
+    locales: ["fr", "en", "de"],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   integrations: [sitemap()],
   vite: {
     plugins: [/** @type {any} */ (tailwindcss())],

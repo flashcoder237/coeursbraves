@@ -1,7 +1,11 @@
 ---
 import Icon from "./Icon.astro";
 import { poles, faq } from "~/data/site";
-import { articles } from "~/data/journal";
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getJournal } from "~/i18n/content";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const journalItems = await getJournal(lang);
 
 // Index de recherche construit au build depuis les données du site.
 type Entry = { t: string; u: string; k: string; c: string };
@@ -23,26 +27,29 @@ const pages: Entry[] = [
 const poleEntries: Entry[] = poles.map((p) => ({
   t: p.name, u: "/ecosysteme/", k: `${p.baseline} ${p.text}`, c: "Pôle",
 }));
-const articleEntries: Entry[] = articles.map((a) => ({
-  t: a.title, u: `/journal/${a.slug}/`, k: `${a.category} ${a.excerpt}`, c: "Article",
+const articleEntries: Entry[] = journalItems.map((a) => ({
+  t: a.data.title, u: `/journal/${a.slug}/`, k: `${a.data.category} ${a.data.excerpt}`, c: "Article",
 }));
 const faqEntries: Entry[] = faq.map((f) => ({
   t: f.q, u: "/faq/", k: f.a, c: "FAQ",
 }));
 
-const index = [...pages, ...poleEntries, ...articleEntries, ...faqEntries];
+const index = [...pages, ...poleEntries, ...articleEntries, ...faqEntries].map((e) => ({
+  ...e,
+  u: localizePath(e.u, lang),
+}));
 ---
 
-<div id="cb-search" class="search-overlay" hidden aria-hidden="true">
+<div id="cb-search" class="search-overlay" hidden aria-hidden="true" data-empty={t("search.empty")}>
   <div class="search-backdrop" data-close></div>
-  <div class="search-panel" role="dialog" aria-modal="true" aria-label="Recherche">
+  <div class="search-panel" role="dialog" aria-modal="true" aria-label={t("a11y.search")}>
     <div class="search-field">
       <Icon name="search" class="w-5 h-5 text-ink-mute shrink-0" />
-      <input id="cb-search-input" type="search" autocomplete="off" placeholder="Rechercher une page, un pôle, un article…" aria-label="Termes de recherche" />
-      <button type="button" data-close class="search-close" aria-label="Fermer la recherche"><Icon name="x" class="w-5 h-5" /></button>
+      <input id="cb-search-input" type="search" autocomplete="off" placeholder={t("search.placeholder")} aria-label={t("a11y.search")} />
+      <button type="button" data-close class="search-close" aria-label={t("search.hint_close")}><Icon name="x" class="w-5 h-5" /></button>
     </div>
     <div id="cb-search-results" class="search-results" role="listbox"></div>
-    <p class="search-hint"><kbd>↑</kbd><kbd>↓</kbd> naviguer · <kbd>↵</kbd> ouvrir · <kbd>Esc</kbd> fermer</p>
+    <p class="search-hint"><kbd>↑</kbd><kbd>↓</kbd> {t("search.hint_nav")} · <kbd>↵</kbd> {t("search.hint_open")} · <kbd>Esc</kbd> {t("search.hint_close")}</p>
   </div>
 </div>
 
@@ -77,7 +84,8 @@ const index = [...pages, ...poleEntries, ...articleEntries, ...faqEntries];
       active = list.length ? 0 : -1;
       if (!input.value.trim()) { results.innerHTML = ""; return; }
       if (!list.length) {
-        results.innerHTML = '<p class="search-empty">Aucun résultat. Essayez un autre terme.</p>';
+        var emptyMsg = overlay.getAttribute("data-empty") || "Aucun résultat.";
+        results.innerHTML = '<p class="search-empty">' + emptyMsg + "</p>";
         return;
       }
       results.innerHTML = list.map(function (r, i) {

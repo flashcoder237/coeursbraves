@@ -1,13 +1,17 @@
 ---
-import { site, nav } from "~/data/site";
+import { site } from "~/data/site";
 import Icon from "./Icon.astro";
 import PatternBand from "./PatternBand.astro";
 import MotifTexture from "./MotifTexture.astro";
+import { navItems, useTranslations, getLangFromUrl, localizePath, countries } from "~/i18n/ui";
 const year = new Date().getFullYear();
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const L = (p: string) => localizePath(p, lang);
 ---
 
 <!-- Bande d'appel — terracotta -->
-<section class="bg-cream">
+<section class="bg-cream mt-20">
   <div class="container-cb pb-20">
     <div class="relative overflow-hidden rounded-[2rem] bg-terra text-white px-8 md:px-16 py-16 md:py-20 text-center">
       <MotifTexture class="text-white/[0.09]" />
@@ -15,15 +19,14 @@ const year = new Date().getFullYear();
       <div class="absolute -bottom-20 -left-10 w-56 h-56 rounded-full bg-white/5"></div>
       <div class="relative">
         <h2 class="display-xl !text-white mx-auto max-w-3xl" style="font-size:clamp(2rem,4.5vw,3.4rem)">
-          Les grandes transformations commencent par une décision.
+          {t("footer.cta_title")}
         </h2>
         <p class="mt-5 text-white/85 max-w-2xl mx-auto text-lg">
-          Que vous souhaitiez apprendre, entreprendre, investir ou soutenir une initiative,
-          votre engagement peut faire la différence.
+          {t("footer.cta_text")}
         </p>
         <div class="mt-9 flex flex-wrap gap-3 justify-center">
-          <a href="/rejoindre/" class="btn btn-cream">Rejoindre la communauté</a>
-          <a href="/soutenir/" class="btn btn-ghost-white">Soutenir nos actions</a>
+          <a href={L("/rejoindre/")} class="btn btn-cream">{t("cta.join")}</a>
+          <a href={L("/soutenir/")} class="btn btn-ghost-white">{t("cta.support")}</a>
         </div>
       </div>
     </div>
@@ -39,8 +42,7 @@ const year = new Date().getFullYear();
              class="h-9 w-auto" style="filter: brightness(0) invert(1);" />
       </div>
       <p class="mt-5 text-sm leading-relaxed max-w-xs">
-        Association internationale africaine qui investit dans l'humain pour créer
-        des opportunités durables.
+        {t("footer.tagline")}
       </p>
       <ul class="mt-6 space-y-2.5 text-sm">
         <li>
@@ -54,35 +56,35 @@ const year = new Date().getFullYear();
           </a>
         </li>
       </ul>
-      <a href="/contact/" class="btn btn-terra mt-6 text-sm">Contactez-nous</a>
+      <a href={L("/contact/")} class="btn btn-terra mt-6 text-sm">{t("cta.contact")}</a>
     </div>
 
     <div class="md:col-span-3">
-      <h3 class="font-display font-semibold text-white text-xs uppercase tracking-[0.18em] mb-4">Navigation</h3>
+      <h3 class="font-display font-semibold text-white text-xs uppercase tracking-[0.18em] mb-4">{t("footer.navigation")}</h3>
       <ul class="space-y-2.5 text-sm">
-        {nav.map((n) => (
-          <li><a href={n.href} class="hover:text-white transition">{n.label}</a></li>
+        {navItems.map((n) => (
+          <li><a href={L(n.href)} class="hover:text-white transition">{t(n.key)}</a></li>
         ))}
-        <li><a href="/equipe/" class="hover:text-white transition">L'équipe</a></li>
-        <li><a href="/faq/" class="hover:text-white transition">FAQ</a></li>
+        <li><a href={L("/equipe/")} class="hover:text-white transition">{t("nav.team")}</a></li>
+        <li><a href={L("/faq/")} class="hover:text-white transition">{t("nav.faq")}</a></li>
       </ul>
     </div>
 
     <div class="md:col-span-3">
-      <h3 class="font-display font-semibold text-white text-xs uppercase tracking-[0.18em] mb-4">S'engager</h3>
+      <h3 class="font-display font-semibold text-white text-xs uppercase tracking-[0.18em] mb-4">{t("footer.engage")}</h3>
       <ul class="space-y-2.5 text-sm">
-        <li><a href="/rejoindre/" class="hover:text-white transition">Devenir membre</a></li>
-        <li><a href="/rejoindre/" class="hover:text-white transition">Devenir bénévole</a></li>
-        <li><a href="/partenaires/" class="hover:text-white transition">Devenir partenaire</a></li>
-        <li><a href="/soutenir/" class="hover:text-white transition">Faire un don</a></li>
+        <li><a href={L("/rejoindre/")} class="hover:text-white transition">{t("footer.become_member")}</a></li>
+        <li><a href={L("/rejoindre/")} class="hover:text-white transition">{t("footer.become_volunteer")}</a></li>
+        <li><a href={L("/partenaires/")} class="hover:text-white transition">{t("footer.become_partner")}</a></li>
+        <li><a href={L("/soutenir/")} class="hover:text-white transition">{t("footer.donate")}</a></li>
       </ul>
     </div>
 
     <div class="md:col-span-2">
-      <h3 class="font-display font-semibold text-white text-xs uppercase tracking-[0.18em] mb-4">Présence</h3>
-      <p class="text-sm text-white/80 mb-2">Siège : {site.hq.city} ({site.hq.postal}), {site.hq.country}</p>
+      <h3 class="font-display font-semibold text-white text-xs uppercase tracking-[0.18em] mb-4">{t("footer.presence")}</h3>
+      <p class="text-sm text-white/80 mb-2">{t("footer.headoffice")} : {site.hq.city} ({site.hq.postal}), {site.hq.country}</p>
       <ul class="space-y-2.5 text-sm">
-        {site.countries.map((c) => <li>{c}</li>)}
+        {countries[lang].map((c) => <li>{c}</li>)}
       </ul>
       <div class="flex items-center gap-2.5 mt-5">
         <a href={site.social.facebook} target="_blank" rel="noopener" aria-label="Facebook" class="icon-chip w-9 h-9 bg-white/8 border border-white/15 text-white/80 hover:text-white hover:bg-white/15 transition-colors"><Icon name="facebook" class="w-4 h-4" /></a>
@@ -95,17 +97,17 @@ const year = new Date().getFullYear();
 
   <div class="border-t border-white/10">
     <div class="container-cb py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/50">
-      <p>© {year} {site.legalName}. Tous droits réservés.</p>
+      <p>© {year} {site.legalName}. {t("footer.rights")}</p>
       <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2" aria-label="Liens légaux">
-        <a href="/mentions-legales/" class="hover:text-white transition">Mentions légales</a>
-        <a href="/confidentialite/" class="hover:text-white transition">Confidentialité</a>
-        <a href="/faq/" class="hover:text-white transition">FAQ</a>
+        <a href={L("/mentions-legales/")} class="hover:text-white transition">{t("footer.legal")}</a>
+        <a href={L("/confidentialite/")} class="hover:text-white transition">{t("footer.privacy")}</a>
+        <a href={L("/faq/")} class="hover:text-white transition">{t("nav.faq")}</a>
       </nav>
     </div>
     <div class="container-cb pb-5 -mt-1 text-center md:text-right">
       <a href="https://overbrand.net" target="_blank" rel="noopener"
          class="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-white transition">
-        Conçu par <span class="font-display font-600 text-white/70" style="font-weight:600">OverBrand</span>
+        {t("footer.designedby")} <span class="font-display font-600 text-white/70" style="font-weight:600">OverBrand</span>
       </a>
     </div>
   </div>

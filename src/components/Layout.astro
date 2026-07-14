@@ -6,6 +6,7 @@ import CookieBanner from "./CookieBanner.astro";
 import FloatingActions from "./FloatingActions.astro";
 import Search from "./Search.astro";
 import { site } from "~/data/site";
+import { languages, getLangFromUrl, switchLangPath, type Lang } from "~/i18n/ui";
 
 interface Props {
   title: string;
@@ -17,10 +18,16 @@ const fullTitle = title === site.name ? `${site.name} — Investir dans l'humain
 const desc = description ?? "Association internationale africaine qui investit dans l'humain pour créer des opportunités durables.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
 const ogImage = new URL(image, Astro.site ?? Astro.url.origin).href;
+const lang = getLangFromUrl(Astro.url);
+const base = Astro.site ?? new URL(Astro.url.origin);
+const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
+  code,
+  href: new URL(switchLangPath(Astro.url, code), base).href,
+}));
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,6 +35,8 @@ const ogImage = new URL(image, Astro.site ?? Astro.url.origin).href;
     <title>{fullTitle}</title>
     <meta name="description" content={desc} />
     <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.code} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Open Graph / réseaux sociaux -->

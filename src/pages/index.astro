@@ -5,39 +5,42 @@ import Eyebrow from "~/components/Eyebrow.astro";
 import PatternBand from "~/components/PatternBand.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import Motif from "~/components/Motif.astro";
-import { stats, poles, domaines, actualites, temoignages, site } from "~/data/site";
+import { stats, poles, actualites, temoignages, site } from "~/data/site";
+import { useTranslations, getLangFromUrl, localizePath, countries } from "~/i18n/ui";
+import { getHome } from "~/i18n/home";
 
-const featured = actualites.find((a) => a.featured)!;
-const rest = actualites.filter((a) => !a.featured).slice(0, 4);
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const L = (p: string) => localizePath(p, lang);
+const h = getHome(lang);
+
+// Fusion contenu traduit (h) + éléments structurels (images, drapeaux…) de site.ts
+const actionItems = h.actions.items.map((it, i) => ({ ...it, image: actualites[i]?.image, featured: actualites[i]?.featured }));
+const featured = actionItems.find((a) => a.featured) ?? actionItems[0];
+const rest = actionItems.filter((a) => !a.featured).slice(0, 4);
+const countryList = countries[lang];
 
 const partenaires = ["Seed Fund", "Diaspora Connect", "Institut de Formation de Yaoundé", "Tech4Africa", "Brave Djamal Foundation", "Clean Hope Center"];
 
-// carte pleine largeur mise en avant (Immigration)
 const poleAccent: Record<string, string> = {
   academy: "terra", fermiers: "emerald", "assaa-technologies": "terra",
   "technology-center": "gold", "immigration-services": "feature", "la-marmite": "emerald",
 };
 ---
 
-<Layout
-  title={site.name}
-  description="Association africaine qui investit dans l'humain : formation, entrepreneuriat et coopération, du Cameroun à la diaspora."
->
+<Layout title={site.name} description={t("footer.tagline")}>
   <!-- ============ HERO ============ -->
   <section class="bg-cream overflow-hidden">
     <div class="container-cb pt-16 pb-20 md:pt-24 md:pb-28 grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
       <div class="lg:col-span-6">
-        <span class="badge">Une communauté en action</span>
+        <span class="badge">{h.hero.badge}</span>
         <h1 class="display-xl mt-7">
-          Investir dans <span class="accent">l'humain.</span>
+          {h.hero.title} <span class="accent">{h.hero.accent}</span>
         </h1>
-        <p class="mt-7 text-ink-mute text-lg md:text-xl leading-relaxed max-w-xl">
-          Chez Cœurs Braves, nous croyons qu'un changement durable naît de la transmission
-          des compétences, de l'entrepreneuriat et de la coopération.
-        </p>
+        <p class="mt-7 text-ink-mute text-lg md:text-xl leading-relaxed max-w-xl">{h.hero.lead}</p>
         <div class="mt-9 flex flex-wrap gap-3">
-          <a href="/rejoindre/" class="btn btn-terra">Rejoindre la communauté</a>
-          <a href="/ecosysteme/" class="btn btn-outline">Découvrir notre mission</a>
+          <a href={L("/rejoindre/")} class="btn btn-terra">{t("cta.join")}</a>
+          <a href={L("/ecosysteme/")} class="btn btn-outline">{h.hero.cta2}</a>
         </div>
       </div>
       <div class="lg:col-span-6 relative">
@@ -49,7 +52,7 @@ const poleAccent: Record<string, string> = {
           <span class="icon-chip bg-terra/15 text-terra w-11 h-11"><Icon name="users" class="w-6 h-6" /></span>
           <div>
             <div class="font-display font-700 text-2xl leading-none" style="font-weight:700">3 500+</div>
-            <div class="text-ink-mute text-xs mt-1">membres engagés</div>
+            <div class="text-ink-mute text-xs mt-1">{h.hero.statLabel}</div>
           </div>
         </div>
       </div>
@@ -65,22 +68,20 @@ const poleAccent: Record<string, string> = {
     </div>
   </section>
 
-  <!-- Bande kente -->
   <PatternBand height={26} />
 
   <!-- ============ MANIFESTE (vert forêt) ============ -->
   <section class="relative bg-forest text-white overflow-hidden">
     <MotifTexture class="text-white/[0.06]" />
     <div class="relative container-cb py-24 md:py-32">
-      <Eyebrow label="Le manifeste" light />
+      <Eyebrow label={h.manifeste.eyebrow} light />
       <div class="mt-8 grid lg:grid-cols-12 gap-10 items-end">
         <h2 class="lg:col-span-8 display-xl !text-white" style="font-size:clamp(2.2rem,5vw,4.2rem)">
-          Nous croyons en la force de celles et ceux qui <span class="text-terra-bright">osent agir.</span>
+          {h.manifeste.title} <span class="text-terra-bright">{h.manifeste.accent}</span>
         </h2>
         <div class="lg:col-span-4 text-white/70 leading-relaxed">
-          <p>Un talent peut changer une famille. Une idée peut transformer une communauté.
-          Une personne accompagnée aujourd'hui peut devenir le mentor de demain.</p>
-          <p class="mt-4 text-white font-medium">Bienvenue au sein de Cœurs Braves.</p>
+          <p>{h.manifeste.side}</p>
+          <p class="mt-4 text-white font-medium">{h.manifeste.welcome}</p>
         </div>
       </div>
     </div>
@@ -90,10 +91,10 @@ const poleAccent: Record<string, string> = {
   <section class="bg-cream">
     <div class="container-cb py-20 md:py-24">
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
-        {stats.map((s) => (
+        {stats.map((s, i) => (
           <div class="reveal">
             <div class="stat-num text-terra">{s.num}</div>
-            <p class="mt-4 text-ink-soft leading-snug max-w-[15rem]">{s.label}</p>
+            <p class="mt-4 text-ink-soft leading-snug max-w-[15rem]">{h.statsLabels[i]}</p>
           </div>
         ))}
       </div>
@@ -105,22 +106,20 @@ const poleAccent: Record<string, string> = {
     <MotifTexture class="text-white/[0.04]" />
     <div class="relative container-cb py-24 md:py-28">
       <div class="max-w-2xl">
-        <Eyebrow label="Notre écosystème" light />
+        <Eyebrow label={h.ecosystem.eyebrow} light />
         <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(2rem,4.5vw,3.6rem)">
-          Un écosystème au service du <span class="text-terra-bright">développement.</span>
+          {h.ecosystem.title} <span class="text-terra-bright">{h.ecosystem.accent}</span>
         </h2>
-        <p class="mt-5 text-white/60 text-lg leading-relaxed">
-          Cœurs Braves réunit plusieurs pôles complémentaires qui collaborent pour accompagner
-          les personnes et soutenir les projets.
-        </p>
+        <p class="mt-5 text-white/60 text-lg leading-relaxed">{h.ecosystem.lead}</p>
       </div>
 
       <div class="mt-14 grid md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-fr">
         {poles.map((p) => {
           const accent = poleAccent[p.slug] ?? "terra";
           const feature = accent === "feature";
+          const txt = h.poles[p.slug] ?? { baseline: p.baseline, text: p.text };
           return (
-            <a href="/ecosysteme/"
+            <a href={L("/ecosysteme/")}
               class:list={[
                 "pole-card group relative overflow-hidden rounded-2xl p-7 flex flex-col reveal border border-white/10",
                 p.slug === "academy" && "lg:row-span-2",
@@ -137,9 +136,9 @@ const poleAccent: Record<string, string> = {
               </span>
               <div class:list={["relative z-10", p.slug === "academy" ? "mt-24" : "mt-10"]}>
                 <h3 class="font-display font-700 text-xl leading-snug text-white" style="font-weight:700;text-shadow:0 2px 14px rgba(0,0,0,0.4)">{p.name}</h3>
-                <p class="mt-2 text-sm leading-relaxed text-white/80" style="text-shadow:0 1px 10px rgba(0,0,0,0.5)">{p.baseline}</p>
+                <p class="mt-2 text-sm leading-relaxed text-white/80" style="text-shadow:0 1px 10px rgba(0,0,0,0.5)">{txt.baseline}</p>
                 {(p.slug === "academy" || feature) && (
-                  <p class:list={["mt-3 text-sm leading-relaxed", feature ? "text-white/80" : "text-white/65"]}>{p.text}</p>
+                  <p class:list={["mt-3 text-sm leading-relaxed", feature ? "text-white/80" : "text-white/65"]}>{txt.text}</p>
                 )}
               </div>
             </a>
@@ -153,14 +152,11 @@ const poleAccent: Record<string, string> = {
   <section class="bg-cream">
     <div class="container-cb py-24 grid lg:grid-cols-12 gap-12 items-center">
       <div class="lg:col-span-6">
-        <Eyebrow label="Nos domaines d'action" />
-        <h2 class="mt-6 section-title left">Des secteurs essentiels au <strong>développement humain.</strong></h2>
-        <p class="mt-5 prose-cb max-w-lg">
-          Chaque programme est conçu pour favoriser l'autonomie, la création de valeur
-          et l'impact durable.
-        </p>
+        <Eyebrow label={h.domaines.eyebrow} />
+        <h2 class="mt-6 section-title left">{h.domaines.title} <strong>{h.domaines.strong}</strong></h2>
+        <p class="mt-5 prose-cb max-w-lg">{h.domaines.lead}</p>
         <div class="mt-7 flex flex-wrap gap-2.5">
-          {domaines.map((d, i) => {
+          {h.domaines.list.map((d, i) => {
             const accent = ["var(--color-terra)", "var(--color-emerald)", "var(--color-gold)"][i % 3];
             return (
               <span class="domaine-chip" style={`--a:${accent}`}>
@@ -184,24 +180,24 @@ const poleAccent: Record<string, string> = {
     <div class="container-cb py-24">
       <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
         <div>
-          <Eyebrow label="Nos actions" />
-          <h2 class="mt-6 section-title left">En direct du <strong>terrain.</strong></h2>
+          <Eyebrow label={h.actions.eyebrow} />
+          <h2 class="mt-6 section-title left">{h.actions.title} <strong>{h.actions.strong}</strong></h2>
         </div>
-        <a href="/ecosysteme/" class="arrow-link">Voir toutes nos actions</a>
+        <a href={L("/journal/")} class="arrow-link">{h.actions.link}</a>
       </div>
       <div class="mt-12 grid lg:grid-cols-3 gap-5">
-        <a href="/ecosysteme/" class="action-card group relative lg:row-span-2 rounded-2xl overflow-hidden min-h-[360px] reveal">
+        <a href={L("/journal/")} class="action-card group relative lg:row-span-2 rounded-2xl overflow-hidden min-h-[360px] reveal">
           <img src={featured.image} alt={featured.title} class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
           <span class="action-scrim"></span>
           <div class="relative h-full flex flex-col justify-end p-7 text-white">
             <span class="action-tag mb-4">{featured.tag}</span>
             <h3 class="font-display font-700 text-2xl md:text-[1.75rem] leading-tight" style="font-weight:700;text-shadow:0 2px 18px rgba(0,0,0,0.35)">{featured.title}</h3>
             <p class="mt-2.5 text-white/90 text-[0.95rem] leading-relaxed max-w-md" style="text-shadow:0 1px 12px rgba(0,0,0,0.4)">{featured.excerpt}</p>
-            <span class="action-more mt-4">Lire l'article <span class="action-arrow">→</span></span>
+            <span class="action-more mt-4">{t("journal.read")} <span class="action-arrow">→</span></span>
           </div>
         </a>
         {rest.map((a) => (
-          <a href="/ecosysteme/" class="action-card group relative rounded-2xl overflow-hidden min-h-[200px] reveal">
+          <a href={L("/journal/")} class="action-card group relative rounded-2xl overflow-hidden min-h-[200px] reveal">
             <img src={a.image} alt={a.title} class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             <span class="action-scrim"></span>
             <div class="relative h-full flex flex-col justify-end p-5 text-white">
@@ -223,16 +219,11 @@ const poleAccent: Record<string, string> = {
       <div class="relative overflow-hidden bg-forest text-white rounded-[2rem] p-10 md:p-12 flex flex-col justify-center">
         <MotifTexture class="text-white/[0.06]" />
         <div class="relative">
-        <Eyebrow label="Une présence internationale" light />
-        <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,3.8vw,2.8rem)">
-          Du Cameroun à la diaspora.
-        </h2>
-        <p class="mt-4 text-white/70 leading-relaxed">
-          Notre communauté rassemble des membres au Cameroun, en République centrafricaine,
-          en Allemagne et au sein de la diaspora africaine.
-        </p>
+        <Eyebrow label={h.presence.eyebrow} light />
+        <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,3.8vw,2.8rem)">{h.presence.title}</h2>
+        <p class="mt-4 text-white/70 leading-relaxed">{h.presence.lead}</p>
         <div class="mt-8 grid grid-cols-2 gap-3">
-          {site.countries.map((c) => (
+          {countryList.map((c) => (
             <div class="presence-tile flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
               <Icon name="map-pin" class="w-5 h-5 text-terra-bright shrink-0" />
               <span class="text-sm font-medium">{c}</span>
@@ -251,14 +242,11 @@ const poleAccent: Record<string, string> = {
     <Motif name="star" class="absolute -left-16 bottom-8 w-64 h-64 text-white/[0.04] hidden md:block" />
     <div class="relative container-cb py-24 md:py-28">
       <div class="max-w-2xl mx-auto text-center">
-        <div class="flex justify-center"><Eyebrow label="Notre identité" light align="center" /></div>
+        <div class="flex justify-center"><Eyebrow label={h.identity.eyebrow} light align="center" /></div>
         <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(2rem,4.5vw,3.6rem)">
-          Fiers de nos racines, tournés vers <span class="text-terra-bright">l'avenir.</span>
+          {h.identity.title} <span class="text-terra-bright">{h.identity.accent}</span>
         </h2>
-        <p class="mt-5 text-white/60 text-lg leading-relaxed">
-          Du Cameroun à l'Allemagne, notre communauté tisse un pont entre les nations.
-          Une même fierté, une même ambition : investir dans l'humain.
-        </p>
+        <p class="mt-5 text-white/60 text-lg leading-relaxed">{h.identity.lead}</p>
       </div>
       <div class="mt-14 grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
         <figure class="group reveal">
@@ -266,7 +254,7 @@ const poleAccent: Record<string, string> = {
             <img src="/images/cb/poster-cameroun.png" alt="Cœurs Braves — Cameroun" width="1080" height="1080" class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
           </div>
           <figcaption class="mt-3 flex items-center gap-2 text-sm text-white/70">
-            <span class="w-2 h-2 rounded-full bg-terra"></span>Cameroun · nos racines
+            <span class="w-2 h-2 rounded-full bg-terra"></span>{h.identity.cap1}
           </figcaption>
         </figure>
         <figure class="group reveal">
@@ -274,7 +262,7 @@ const poleAccent: Record<string, string> = {
             <img src="/images/cb/poster-allemagne.png" alt="Cœurs Braves — Allemagne, diaspora" width="1080" height="1080" class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
           </div>
           <figcaption class="mt-3 flex items-center gap-2 text-sm text-white/70">
-            <span class="w-2 h-2 rounded-full bg-emerald"></span>Allemagne · notre diaspora
+            <span class="w-2 h-2 rounded-full bg-emerald"></span>{h.identity.cap2}
           </figcaption>
         </figure>
       </div>
@@ -284,12 +272,13 @@ const poleAccent: Record<string, string> = {
   <!-- ============ TÉMOIGNAGES ============ -->
   <section class="bg-cream-2">
     <div class="container-cb py-24">
-      <div class="text-center"><Eyebrow label="Témoignages" align="center" /></div>
-      <h2 class="mt-6 section-title">Ils racontent leur <strong>parcours.</strong></h2>
+      <div class="text-center"><Eyebrow label={h.temoignages.eyebrow} align="center" /></div>
+      <h2 class="mt-6 section-title">{h.temoignages.title} <strong>{h.temoignages.strong}</strong></h2>
       <div class="mt-14 grid md:grid-cols-2 gap-6">
-        {temoignages.map((t, i) => {
+        {temoignages.map((tm, i) => {
           const ring = ["ring-terra/70", "ring-emerald/70", "ring-gold/70", "ring-terra/70"][i % 4];
           const dot = ["bg-terra", "bg-emerald", "bg-gold", "bg-terra"][i % 4];
+          const tr = h.temoignages.items[i] ?? { quote: tm.quote, role: tm.role, place: tm.place };
           return (
           <figure
             class="testimonial reveal group relative bg-cream rounded-[1.4rem] p-8 border border-hairline flex flex-col"
@@ -298,16 +287,16 @@ const poleAccent: Record<string, string> = {
             <svg class="testimonial-quote" viewBox="0 0 40 40" aria-hidden="true">
               <path d="M17 8c-5 2-9 7-9 14v10h11V21h-6c0-4 2-7 5-8Zm17 0c-5 2-9 7-9 14v10h11V21h-6c0-4 2-7 5-8Z" fill="currentColor"/>
             </svg>
-            <blockquote class="relative text-ink-soft text-[1.12rem] leading-relaxed flex-1">{t.quote}</blockquote>
+            <blockquote class="relative text-ink-soft text-[1.12rem] leading-relaxed flex-1">{tr.quote}</blockquote>
             <figcaption class="mt-7 flex items-center gap-4 pt-6 border-t border-hairline/70">
               <span class:list={["shrink-0 rounded-full ring-2 ring-offset-2 ring-offset-cream overflow-hidden", ring]}>
-                <img src={t.photo} alt={t.name} class="object-cover" style="width:3.4rem;height:3.4rem" loading="lazy" />
+                <img src={tm.photo} alt={tm.name} class="object-cover" style="width:3.4rem;height:3.4rem" loading="lazy" />
               </span>
               <div class="min-w-0">
-                <div class="font-display font-700 text-ink leading-tight" style="font-weight:700">{t.name}</div>
+                <div class="font-display font-700 text-ink leading-tight" style="font-weight:700">{tm.name}</div>
                 <div class="mt-0.5 flex items-center gap-2 text-sm text-ink-mute">
                   <span class:list={["w-1.5 h-1.5 rounded-full shrink-0", dot]}></span>
-                  <span class="truncate">{t.role} · {t.place}</span>
+                  <span class="truncate">{tr.role} · {tr.place}</span>
                 </div>
               </div>
             </figcaption>
@@ -319,17 +308,17 @@ const poleAccent: Record<string, string> = {
   </section>
 
   <!-- ============ NEWSLETTER ============ -->
-  <section class="bg-cream">
+  <section class="bg-cream" id="newsletter">
     <div class="container-cb pb-4">
       <div class="border-t border-hairline pt-16 grid md:grid-cols-2 gap-8 items-center">
         <div>
-          <h2 class="section-title left" style="font-size:clamp(1.6rem,3vw,2.2rem)">Restons en contact.</h2>
-          <p class="mt-3 text-ink-mute">Actualités, appels à projets et opportunités, directement dans votre boîte de réception.</p>
+          <h2 class="section-title left" style="font-size:clamp(1.6rem,3vw,2.2rem)">{t("newsletter.title")}</h2>
+          <p class="mt-3 text-ink-mute">{t("newsletter.text")}</p>
         </div>
         <form class="cb-form flex flex-col sm:flex-row gap-3" data-subject="Inscription à la newsletter Cœurs Braves">
-          <input type="email" required placeholder="Votre adresse électronique"
+          <input type="email" required placeholder={t("newsletter.placeholder")}
             class="flex-1 rounded-full px-6 py-3.5 bg-white border border-hairline text-ink placeholder:text-ink-mute outline-none focus:border-terra" />
-          <button type="submit" class="btn btn-terra">S'abonner</button>
+          <button type="submit" class="btn btn-terra">{t("newsletter.subscribe")}</button>
         </form>
       </div>
     </div>

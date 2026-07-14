@@ -2,17 +2,19 @@
 // Bandeau de consentement RGPD. Le site n'utilise aujourd'hui aucun traceur
 // (fonts self-hébergées, pas d'analytics) : le choix est mémorisé pour le jour
 // où un outil de mesure d'audience sera ajouté.
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 <div id="cb-cookie" class="cookie-banner" hidden>
   <div class="container-cb cookie-inner">
     <p class="cookie-text">
-      Nous utilisons uniquement des cookies nécessaires au bon fonctionnement du site.
-      Aucun traceur publicitaire. En savoir plus dans notre
-      <a href="/confidentialite/" class="cookie-link">politique de confidentialité</a>.
+      {t("cookie.text")}
+      <a href={localizePath("/confidentialite/", lang)} class="cookie-link">{t("cookie.more")}</a>
     </p>
     <div class="cookie-actions">
-      <button type="button" id="cb-cookie-refuse" class="btn btn-outline cookie-btn">Refuser</button>
-      <button type="button" id="cb-cookie-accept" class="btn btn-terra cookie-btn">Accepter</button>
+      <button type="button" id="cb-cookie-refuse" class="btn btn-outline cookie-btn">{t("cookie.refuse")}</button>
+      <button type="button" id="cb-cookie-accept" class="btn btn-terra cookie-btn">{t("cookie.accept")}</button>
     </div>
   </div>
 </div>

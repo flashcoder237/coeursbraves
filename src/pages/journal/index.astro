@@ -3,61 +3,68 @@ import Layout from "~/components/Layout.astro";
 import PageHero from "~/components/PageHero.astro";
 import Eyebrow from "~/components/Eyebrow.astro";
 import Icon from "~/components/Icon.astro";
-import { articles } from "~/data/journal";
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getJournal } from "~/i18n/content";
 
-const sorted = [...articles].sort((a, b) => b.iso.localeCompare(a.iso));
-const [featured, ...rest] = sorted;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const L = (p: string) => localizePath(p, lang);
+
+const items = await getJournal(lang);
+const [featured, ...rest] = items;
 ---
 
-<Layout title="Journal" description="Actualités, initiatives et regards de Cœurs Braves : nos actions sur le terrain au Cameroun, en Allemagne et dans la diaspora.">
+<Layout title={t("nav.journal")} description={t("journal.subtitle")}>
   <PageHero
     image="/images/cb/journal/fb-brave-hearts.jpg"
-    kicker="Journal"
-    title="Nos actualités et nos regards"
-    subtitle="Chaque projet raconte une histoire. Découvrez les initiatives, les réussites et les réflexions de notre communauté."
+    kicker={t("journal.kicker")}
+    title={t("journal.title")}
+    subtitle={t("journal.subtitle")}
     height="min-h-[46vh]"
   />
 
   <!-- Article à la une -->
-  <section class="bg-cream">
-    <div class="container-cb py-20 md:py-24">
-      <Eyebrow label="À la une" />
-      <a href={`/journal/${featured.slug}/`} class="group mt-8 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center reveal">
-        <div class="relative rounded-[2rem] overflow-hidden shadow-xl order-1 lg:order-none">
-          <img src={featured.image} alt={featured.title} class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
-          <span class="absolute top-5 left-5 badge badge-light">{featured.category}</span>
-        </div>
-        <div>
-          <time datetime={featured.iso} class="text-sm text-ink-mute font-medium">{featured.date}</time>
-          <h2 class="mt-3 display-xl !text-ink" style="font-size:clamp(1.9rem,3.6vw,2.8rem)">{featured.title}</h2>
-          <p class="mt-4 prose-cb">{featured.excerpt}</p>
-          <span class="arrow-link mt-6">Lire l'article</span>
-        </div>
-      </a>
-    </div>
-  </section>
+  {featured && (
+    <section class="bg-cream">
+      <div class="container-cb py-20 md:py-24">
+        <Eyebrow label={t("journal.featured")} />
+        <a href={L(`/journal/${featured.slug}/`)} class="group mt-8 grid lg:grid-cols-2 gap-8 lg:gap-12 items-center reveal">
+          <div class="relative rounded-[2rem] overflow-hidden shadow-xl order-1 lg:order-none">
+            <img src={featured.data.image} alt={featured.data.title} class="w-full aspect-[16/10] object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+            <span class="absolute top-5 left-5 badge badge-light">{featured.data.category}</span>
+          </div>
+          <div>
+            <time datetime={featured.data.iso} class="text-sm text-ink-mute font-medium">{featured.data.date}</time>
+            <h2 class="mt-3 display-xl !text-ink" style="font-size:clamp(1.9rem,3.6vw,2.8rem)">{featured.data.title}</h2>
+            <p class="mt-4 prose-cb">{featured.data.excerpt}</p>
+            <span class="arrow-link mt-6">{t("journal.read")}</span>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
 
   <!-- Grille des articles -->
   <section class="bg-cream-2">
     <div class="container-cb py-20 md:py-24">
       <div class="flex items-end justify-between gap-4">
         <div>
-          <Eyebrow label="Toutes les publications" />
-          <h2 class="mt-6 section-title left">Le fil de nos <strong>actions.</strong></h2>
+          <Eyebrow label={t("journal.all")} />
+          <h2 class="mt-6 section-title left">{t("journal.feed_title")}</h2>
         </div>
       </div>
       <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {rest.map((a) => (
-          <a href={`/journal/${a.slug}/`} class="group bg-cream rounded-2xl overflow-hidden border border-hairline flex flex-col card-hover reveal">
+          <a href={L(`/journal/${a.slug}/`)} class="group bg-cream rounded-2xl overflow-hidden border border-hairline flex flex-col card-hover reveal">
             <div class="relative h-52 overflow-hidden">
-              <img src={a.image} alt={a.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
-              <span class="absolute top-4 left-4 text-[0.68rem] uppercase tracking-[0.16em] font-display font-700 px-3 py-1.5 rounded-full bg-cream/90 text-terra" style="font-weight:700">{a.category}</span>
+              <img src={a.data.image} alt={a.data.title} class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+              <span class="absolute top-4 left-4 text-[0.68rem] uppercase tracking-[0.16em] font-display font-700 px-3 py-1.5 rounded-full bg-cream/90 text-terra" style="font-weight:700">{a.data.category}</span>
             </div>
             <div class="p-6 flex flex-col flex-1">
-              <time datetime={a.iso} class="text-xs text-ink-mute font-medium">{a.date}</time>
-              <h3 class="mt-2 font-display font-700 text-lg leading-snug" style="font-weight:700">{a.title}</h3>
-              <p class="mt-2 text-sm text-ink-mute leading-relaxed flex-1">{a.excerpt}</p>
-              <span class="arrow-link mt-4 text-sm">Lire</span>
+              <time datetime={a.data.iso} class="text-xs text-ink-mute font-medium">{a.data.date}</time>
+              <h3 class="mt-2 font-display font-700 text-lg leading-snug" style="font-weight:700">{a.data.title}</h3>
+              <p class="mt-2 text-sm text-ink-mute leading-relaxed flex-1">{a.data.excerpt}</p>
+              <span class="arrow-link mt-4 text-sm">{t("journal.read_short")}</span>
             </div>
           </a>
         ))}
@@ -66,17 +73,17 @@ const [featured, ...rest] = sorted;
   </section>
 
   <!-- Newsletter -->
-  <section class="bg-cream">
+  <section class="bg-cream" id="newsletter">
     <div class="container-cb pb-4">
       <div class="border-t border-hairline pt-16 grid md:grid-cols-2 gap-8 items-center">
         <div>
-          <h2 class="section-title left" style="font-size:clamp(1.6rem,3vw,2.2rem)">Ne manquez rien.</h2>
-          <p class="mt-3 text-ink-mute">Recevez nos actualités, appels à projets et opportunités directement dans votre boîte de réception.</p>
+          <h2 class="section-title left" style="font-size:clamp(1.6rem,3vw,2.2rem)">{t("newsletter.title")}</h2>
+          <p class="mt-3 text-ink-mute">{t("newsletter.text")}</p>
         </div>
-        <form class="flex flex-col sm:flex-row gap-3" onsubmit="return false">
-          <input type="email" required placeholder="Votre adresse électronique"
+        <form class="cb-form flex flex-col sm:flex-row gap-3" data-subject="Inscription à la newsletter Cœurs Braves">
+          <input type="email" required placeholder={t("newsletter.placeholder")}
             class="flex-1 rounded-full px-6 py-3.5 bg-white border border-hairline text-ink placeholder:text-ink-mute outline-none focus:border-terra" />
-          <button type="submit" class="btn btn-terra">S'abonner <Icon name="arrow-right" class="w-4 h-4" /></button>
+          <button type="submit" class="btn btn-terra">{t("newsletter.subscribe")} <Icon name="arrow-right" class="w-4 h-4" /></button>
         </form>
       </div>
     </div>

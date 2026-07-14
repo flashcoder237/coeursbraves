@@ -1,0 +1,124 @@
+# ============================================================================
+# Configuration du tableau de bord d'administration (Sveltia CMS / compatible Decap)
+# ----------------------------------------------------------------------------
+# À COMPLÉTER avant mise en production :
+#  1) backend.repo : remplacez "OWNER/REPO" par votre dépôt GitHub réel.
+#  2) Authentification GitHub sur Vercel : créez une "GitHub OAuth App"
+#     (Settings > Developer settings > OAuth Apps) et déployez un petit relais
+#     OAuth (worker Cloudflare fourni par Sveltia, ou équivalent), puis indiquez
+#     son URL ci-dessous via base_url/auth_endpoint. Détails : CONTENU-A-FOURNIR.md.
+#  3) Édition en LOCAL sans authentification : `npm run cms` puis ouvrez
+#     http://localhost:4321/admin/ (grâce à local_backend ci-dessous).
+# ============================================================================
+
+backend:
+  name: github
+  repo: OWNER/REPO # ⚠️ à remplacer (ex. coeurs-braves/site)
+  branch: main
+  # base_url: https://votre-relais-oauth.example.workers.dev  # relais OAuth (prod)
+
+# Permet d'éditer en local via `npm run cms` (decap-server) sans OAuth.
+local_backend: true
+
+# Fichiers téléversés (images) → public/images/cb/uploads
+media_folder: public/images/cb/uploads
+public_folder: /images/cb/uploads
+
+# Multilingue : un sous-dossier par langue (journal/fr/slug.md, journal/en/slug.md…)
+i18n:
+  structure: multiple_folders
+  locales: [fr, en, de]
+  default_locale: fr
+
+collections:
+  # -------------------------------------------------------------------------
+  # Réglages généraux du site (coordonnées, réseaux)
+  # -------------------------------------------------------------------------
+  - name: reglages
+    label: Réglages du site
+    files:
+      - name: general
+        label: Coordonnées & réseaux
+        file: src/data/cms/settings.json
+        fields:
+          - { name: email, label: E-mail, widget: string }
+          - { name: phone, label: Téléphone, widget: string }
+          - { name: whatsapp, label: Lien WhatsApp, widget: string }
+          - { name: facebook, label: Facebook, widget: string, required: false }
+          - { name: instagram, label: Instagram, widget: string, required: false }
+          - { name: tiktok, label: TikTok, widget: string, required: false }
+          - name: hq
+            label: Siège
+            widget: object
+            fields:
+              - { name: city, label: Ville, widget: string }
+              - { name: postal, label: Code postal, widget: string }
+              - { name: country, label: Pays, widget: string }
+
+  # -------------------------------------------------------------------------
+  # Journal (articles) — multilingue
+  # -------------------------------------------------------------------------
+  - name: journal
+    label: Journal
+    label_singular: Article
+    folder: src/content/journal
+    create: true
+    slug: "{{fields.slug}}"
+    i18n: true
+    fields:
+      - { name: title, label: Titre, widget: string, i18n: true }
+      - { name: category, label: Catégorie, widget: string, i18n: true }
+      - { name: date, label: Date (affichée), widget: string, i18n: true, hint: "Ex. 12 janvier 2025" }
+      - { name: iso, label: Date (tri), widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, i18n: duplicate }
+      - { name: image, label: Image principale, widget: image, i18n: duplicate }
+      - { name: excerpt, label: Accroche, widget: text, i18n: true }
+      - { name: source, label: Source (facultatif), widget: string, required: false, i18n: true }
+      - name: gallery
+        label: Galerie (facultatif)
+        widget: list
+        required: false
+        i18n: true
+        fields:
+          - { name: src, label: Image, widget: image }
+          - { name: alt, label: Texte alternatif, widget: string }
+      - { name: body, label: Contenu, widget: markdown, i18n: true }
+
+  # -------------------------------------------------------------------------
+  # Événements — multilingue
+  # -------------------------------------------------------------------------
+  - name: evenements
+    label: Événements
+    label_singular: Événement
+    folder: src/content/events
+    create: true
+    slug: "{{slug}}"
+    i18n: true
+    fields:
+      - { name: title, label: Titre, widget: string, i18n: true }
+      - { name: type, label: Type, widget: string, i18n: true }
+      - { name: iso, label: Date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, i18n: duplicate }
+      - { name: time, label: Horaire, widget: string, i18n: true }
+      - { name: place, label: Lieu, widget: string, i18n: true }
+      - { name: city, label: Ville, widget: string, i18n: true }
+      - { name: online, label: En ligne ?, widget: boolean, default: false, i18n: duplicate }
+      - { name: image, label: Image, widget: image, i18n: duplicate }
+      - { name: excerpt, label: Description, widget: text, i18n: true }
+      - { name: registerUrl, label: Lien d'inscription, widget: string, required: false, i18n: duplicate }
+
+  # -------------------------------------------------------------------------
+  # Équipe — multilingue (bios)
+  # -------------------------------------------------------------------------
+  - name: equipe
+    label: Équipe
+    label_singular: Membre
+    folder: src/content/team
+    create: true
+    slug: "{{slug}}"
+    i18n: true
+    fields:
+      - { name: name, label: Nom, widget: string, i18n: duplicate }
+      - { name: alias, label: Surnom (facultatif), widget: string, required: false, i18n: true }
+      - { name: role, label: Rôle, widget: string, i18n: true }
+      - { name: photo, label: Portrait, widget: image, required: false, i18n: duplicate }
+      - { name: bio, label: Biographie, widget: text, i18n: true }
+      - { name: order, label: Ordre d'affichage, widget: number, default: 0, i18n: duplicate }

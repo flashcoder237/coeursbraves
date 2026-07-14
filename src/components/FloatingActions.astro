@@ -1,17 +1,20 @@
 ---
 import Icon from "./Icon.astro";
 import { site } from "~/data/site";
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
-<div class="fab-stack" aria-label="Actions rapides">
+<div class="fab-stack" aria-label="Actions">
   <a href={site.social.whatsapp} target="_blank" rel="noopener"
-     class="fab fab-wa" aria-label="Nous écrire sur WhatsApp" title="WhatsApp">
+     class="fab fab-wa" aria-label="WhatsApp" title="WhatsApp">
     <Icon name="whatsapp" class="w-6 h-6" />
   </a>
-  <a href="/soutenir/" class="fab fab-don" aria-label="Faire un don">
+  <a href={localizePath("/soutenir/", lang)} class="fab fab-don" aria-label={t("cta.donate")}>
     <Icon name="hand-heart" class="w-5 h-5" />
-    <span class="fab-don-label">Faire un don</span>
+    <span class="fab-don-label">{t("cta.donate")}</span>
   </a>
-  <button type="button" id="cb-top" class="fab fab-top" aria-label="Revenir en haut de la page">
+  <button type="button" id="cb-top" class="fab fab-top" aria-label={t("a11y.top")}>
     <Icon name="arrow-up-right" class="w-5 h-5" style="transform:rotate(-45deg)" />
   </button>
 </div>

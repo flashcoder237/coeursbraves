@@ -4,59 +4,59 @@ import Eyebrow from "~/components/Eyebrow.astro";
 import Icon from "~/components/Icon.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
-import { events } from "~/data/events";
+import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { getEvents } from "~/i18n/content";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const L = (p: string) => localizePath(p, lang);
 
 const todayIso = new Date().toISOString().slice(0, 10);
-const sorted = [...events].sort((a, b) => a.iso.localeCompare(b.iso));
-const upcoming = sorted.filter((e) => e.iso >= todayIso);
-const past = [...sorted.filter((e) => e.iso < todayIso)].reverse();
+const all = await getEvents(lang);
+const upcoming = all.filter((e) => e.data.iso >= todayIso);
+const past = [...all.filter((e) => e.data.iso < todayIso)].reverse();
 
-const dayNum = (iso: string) => iso.slice(8, 10);
-const monthAbbr = (iso: string) => {
-  const m = ["JAN", "FÉV", "MAR", "AVR", "MAI", "JUIN", "JUIL", "AOÛT", "SEP", "OCT", "NOV", "DÉC"];
-  return m[parseInt(iso.slice(5, 7), 10) - 1];
-};
-const year = (iso: string) => iso.slice(0, 4);
+const d = (iso: string) => new Date(iso + "T00:00:00Z");
+const dayNum = (iso: string) => String(d(iso).getUTCDate()).padStart(2, "0");
+const monthAbbr = (iso: string) =>
+  new Intl.DateTimeFormat(lang, { month: "short", timeZone: "UTC" }).format(d(iso)).replace(".", "").toUpperCase();
+const yearNum = (iso: string) => iso.slice(0, 4);
+const dateLabel = (iso: string) =>
+  new Intl.DateTimeFormat(lang, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(d(iso));
 
-// Galerie « en images » — vraies photos de la communauté (page Facebook Cœurs Braves)
+// Galerie « en images » — photos réelles de la communauté (page Facebook)
 const gallery = [
-  { src: "/images/cb/events/diner.jpg", alt: "Repas partagé à La Marmite des Cœurs Braves, Sangmélima" },
+  { src: "/images/cb/events/diner.jpg", alt: "La Marmite des Cœurs Braves, Sangmélima" },
   { src: "/images/cb/events/rassemblement.jpg", alt: "Rassemblement de la communauté Cœurs Braves" },
-  { src: "/images/cb/events/celebration.jpg", alt: "Moment de célébration au sein de la communauté" },
+  { src: "/images/cb/events/celebration.jpg", alt: "Célébration au sein de la communauté" },
   { src: "/images/cb/events/supporters.jpg", alt: "Soirée communautaire à La Marmite" },
   { src: "/images/cb/events/soiree.jpg", alt: "Soirée lounge à La Marmite des Cœurs Braves" },
   { src: "/images/cb/events/ambiance.jpg", alt: "Ambiance d'une rencontre Cœurs Braves" },
   { src: "/images/cb/events/supporters-2.jpg", alt: "Supporters réunis à La Marmite" },
 ];
 ---
-<Layout
-  title="Événements"
-  description="L'agenda de Cœurs Braves : ateliers, webinaires, rencontres et forums au Cameroun, en Allemagne et en ligne."
->
+<Layout title={t("nav.events")} description={t("events.subtitle")}>
   <!-- Hero « agenda » — signature or/ink -->
   <section class="relative bg-ink text-white overflow-hidden">
     <MotifTexture class="text-white/[0.05]" />
     <div class="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-gold/10 blur-2xl"></div>
     <div class="relative container-cb pt-32 pb-20">
       <nav class="text-xs text-white/50 mb-6 flex items-center gap-2" aria-label="Fil d'ariane">
-        <a href="/" class="hover:text-white transition-colors">Accueil</a><span>/</span><span class="text-white/80">Événements</span>
+        <a href={L("/")} class="hover:text-white transition-colors">{t("nav.home")}</a><span>/</span><span class="text-white/80">{t("nav.events")}</span>
       </nav>
       <div class="grid lg:grid-cols-12 gap-8 items-end">
         <div class="lg:col-span-8">
           <span class="inline-flex items-center gap-2 text-gold font-bold text-xs uppercase tracking-[0.2em]">
-            <Icon name="calendar" class="w-4 h-4" /> Agenda
+            <Icon name="calendar" class="w-4 h-4" /> {t("events.kicker")}
           </span>
           <h1 class="mt-5 display-xl !text-white" style="font-size:clamp(2.4rem,5.5vw,4.4rem)">
-            Nos prochains <span class="text-gold">rendez-vous.</span>
+            {t("events.title")} <span class="text-gold">{t("events.title_accent")}</span>
           </h1>
-          <p class="mt-5 text-white/70 text-lg max-w-2xl leading-relaxed">
-            Ateliers, webinaires, rencontres et forums : retrouvez la communauté Cœurs Braves,
-            sur le terrain comme en ligne.
-          </p>
+          <p class="mt-5 text-white/70 text-lg max-w-2xl leading-relaxed">{t("events.subtitle")}</p>
         </div>
         <div class="lg:col-span-4 lg:text-right">
           <p class="font-display font-700 text-gold leading-none" style="font-weight:700;font-size:clamp(3rem,7vw,5rem)">{upcoming.length}</p>
-          <p class="text-white/60 mt-2">événement{upcoming.length > 1 ? "s" : ""} à venir</p>
+          <p class="text-white/60 mt-2">{t("events.upcoming_count")}</p>
         </div>
       </div>
     </div>
@@ -67,8 +67,8 @@ const gallery = [
   <section class="bg-cream">
     <div class="container-cb pt-14">
       <div class="flex gap-2 border-b border-hairline" role="tablist">
-        <button type="button" class="ev-tab is-active" data-tab="upcoming" role="tab">À venir ({upcoming.length})</button>
-        <button type="button" class="ev-tab" data-tab="past" role="tab">Passés ({past.length})</button>
+        <button type="button" class="ev-tab is-active" data-tab="upcoming" role="tab">{t("events.tab_upcoming")} ({upcoming.length})</button>
+        <button type="button" class="ev-tab" data-tab="past" role="tab">{t("events.tab_past")} ({past.length})</button>
       </div>
     </div>
   </section>
@@ -76,37 +76,35 @@ const gallery = [
   <!-- Liste À venir -->
   <section class="bg-cream" id="ev-upcoming">
     <div class="container-cb py-12 md:py-16">
-      {upcoming.length === 0 && (
-        <p class="text-ink-mute py-8">Aucun événement programmé pour l'instant — revenez bientôt&nbsp;!</p>
-      )}
+      {upcoming.length === 0 && (<p class="text-ink-mute py-8">{t("events.none")}</p>)}
       <div class="space-y-5">
         {upcoming.map((e) => (
           <article class="ev-row reveal group">
             <div class="ev-date">
-              <span class="ev-day">{dayNum(e.iso)}</span>
-              <span class="ev-month">{monthAbbr(e.iso)}</span>
-              <span class="ev-year">{year(e.iso)}</span>
+              <span class="ev-day">{dayNum(e.data.iso)}</span>
+              <span class="ev-month">{monthAbbr(e.data.iso)}</span>
+              <span class="ev-year">{yearNum(e.data.iso)}</span>
             </div>
             <div class="ev-media">
-              <img src={e.image} alt={e.title} width="400" height="300" loading="lazy"
+              <img src={e.data.image} alt={e.data.title} width="400" height="300" loading="lazy"
                 class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
             </div>
             <div class="ev-body">
               <div class="flex flex-wrap items-center gap-2.5 mb-2">
-                <span class="ev-type">{e.type}</span>
-                <span class:list={["ev-mode", e.online ? "ev-mode-online" : "ev-mode-place"]}>
-                  <Icon name={e.online ? "globe" : "map-pin"} class="w-3.5 h-3.5" /> {e.online ? "En ligne" : e.city}
+                <span class="ev-type">{e.data.type}</span>
+                <span class:list={["ev-mode", e.data.online ? "ev-mode-online" : "ev-mode-place"]}>
+                  <Icon name={e.data.online ? "globe" : "map-pin"} class="w-3.5 h-3.5" /> {e.data.online ? t("events.online") : e.data.city}
                 </span>
               </div>
-              <h2 class="font-display font-700 text-xl leading-snug" style="font-weight:700">{e.title}</h2>
-              <p class="mt-2 text-ink-soft text-sm leading-relaxed">{e.excerpt}</p>
+              <h2 class="font-display font-700 text-xl leading-snug" style="font-weight:700">{e.data.title}</h2>
+              <p class="mt-2 text-ink-soft text-sm leading-relaxed">{e.data.excerpt}</p>
               <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-ink-mute">
-                <span class="inline-flex items-center gap-1.5"><Icon name="clock" class="w-4 h-4 text-gold" /> {e.time}</span>
-                <span class="inline-flex items-center gap-1.5"><Icon name="map-pin" class="w-4 h-4 text-gold" /> {e.place}</span>
+                <span class="inline-flex items-center gap-1.5"><Icon name="clock" class="w-4 h-4 text-gold" /> {e.data.time}</span>
+                <span class="inline-flex items-center gap-1.5"><Icon name="map-pin" class="w-4 h-4 text-gold" /> {e.data.place}</span>
               </div>
             </div>
             <div class="ev-cta">
-              <a href={e.registerUrl} class="btn btn-gold text-sm"><Icon name="ticket" class="w-4 h-4" /> S'inscrire</a>
+              <a href={e.data.registerUrl ?? "#"} class="btn btn-gold text-sm"><Icon name="ticket" class="w-4 h-4" /> {t("events.register")}</a>
             </div>
           </article>
         ))}
@@ -121,12 +119,12 @@ const gallery = [
         {past.map((e) => (
           <article class="reveal bg-cream-2 border border-hairline rounded-2xl overflow-hidden opacity-90">
             <div class="relative aspect-[16/10] overflow-hidden">
-              <img src={e.image} alt={e.title} width="400" height="250" loading="lazy" class="w-full h-full object-cover grayscale-[35%]" />
-              <span class="ev-type absolute top-3 left-3">{e.type}</span>
+              <img src={e.data.image} alt={e.data.title} width="400" height="250" loading="lazy" class="w-full h-full object-cover grayscale-[35%]" />
+              <span class="ev-type absolute top-3 left-3">{e.data.type}</span>
             </div>
             <div class="p-5">
-              <p class="text-xs text-ink-mute">{e.dateLabel} · {e.city}</p>
-              <h2 class="font-display font-700 text-base leading-snug mt-1" style="font-weight:700">{e.title}</h2>
+              <p class="text-xs text-ink-mute">{dateLabel(e.data.iso)} · {e.data.city}</p>
+              <h2 class="font-display font-700 text-base leading-snug mt-1" style="font-weight:700">{e.data.title}</h2>
             </div>
           </article>
         ))}
@@ -134,19 +132,16 @@ const gallery = [
     </div>
   </section>
 
-  <!-- Cœurs Braves en images (photos réelles) -->
+  <!-- Cœurs Braves en images -->
   <section class="relative bg-ink text-white overflow-hidden">
     <MotifTexture class="text-white/[0.05]" />
     <div class="relative container-cb py-20 md:py-24">
       <div class="max-w-2xl">
-        <Eyebrow label="En images" light />
+        <Eyebrow label={t("events.gallery_kicker")} light />
         <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">
-          La communauté <span class="text-gold">en action.</span>
+          {t("events.gallery_title")} <span class="text-gold">{t("events.gallery_accent")}</span>
         </h2>
-        <p class="mt-5 text-white/60 text-lg leading-relaxed">
-          Retour en images sur les rencontres et les temps forts de la communauté Cœurs Braves,
-          à Sangmélima et au-delà.
-        </p>
+        <p class="mt-5 text-white/60 text-lg leading-relaxed">{t("events.gallery_text")}</p>
       </div>
       <div class="mt-12 columns-2 sm:columns-3 lg:columns-4 gap-4">
         {gallery.map((g) => (
@@ -163,9 +158,9 @@ const gallery = [
   <!-- CTA -->
   <section class="bg-cream-2">
     <div class="container-cb py-16 text-center max-w-xl">
-      <Eyebrow label="Ne rien manquer" align="center" />
-      <h2 class="mt-5 section-title" style="font-size:clamp(1.6rem,3vw,2.3rem)">Recevez nos prochains <strong>rendez-vous.</strong></h2>
-      <a href="/#newsletter" class="btn btn-terra mt-6">S'abonner à la newsletter</a>
+      <Eyebrow label={t("events.nl_kicker")} align="center" />
+      <h2 class="mt-5 section-title" style="font-size:clamp(1.6rem,3vw,2.3rem)">{t("events.nl_title")}</h2>
+      <a href={L("/journal/") + "#newsletter"} class="btn btn-terra mt-6">{t("newsletter.subscribe")}</a>
     </div>
   </section>
 

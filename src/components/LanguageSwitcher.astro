@@ -1,0 +1,39 @@
+---
+import { languages, getLangFromUrl, switchLangPath, useTranslations, type Lang } from "~/i18n/ui";
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const url = Astro.url;
+---
+<div class="lang-switch">
+  <button type="button" class="lang-btn" aria-haspopup="true" aria-expanded="false" aria-label={t("a11y.lang")}>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/>
+    </svg>
+    <span class="lang-code">{lang.toUpperCase()}</span>
+  </button>
+  <div class="lang-menu" hidden>
+    {(Object.keys(languages) as Lang[]).map((code) => (
+      <a href={switchLangPath(url, code)} hreflang={code}
+         class:list={["lang-item", code === lang && "is-active"]}>{languages[code]}</a>
+    ))}
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    document.querySelectorAll(".lang-switch").forEach(function (root) {
+      var btn = root.querySelector(".lang-btn");
+      var menu = root.querySelector(".lang-menu");
+      if (!btn || !menu) return;
+      btn.addEventListener("click", function (e) {
+        e.stopPropagation();
+        var open = menu.hasAttribute("hidden");
+        if (open) { menu.removeAttribute("hidden"); btn.setAttribute("aria-expanded", "true"); }
+        else { menu.setAttribute("hidden", ""); btn.setAttribute("aria-expanded", "false"); }
+      });
+      document.addEventListener("click", function () {
+        menu.setAttribute("hidden", ""); btn.setAttribute("aria-expanded", "false");
+      });
+    });
+  })();
+</script>

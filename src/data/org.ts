@@ -62,35 +62,5 @@ export const allocation = [
   { label: "Collecte & communication", pct: 8, color: "emerald" },
 ];
 
-// ---------------------------------------------------------------------------
-// Équipe / gouvernance (photos + bios à fournir)
-// ---------------------------------------------------------------------------
-export const team = [
-  {
-    name: "Assaa Ouemba Billy Loïc",
-    alias: "Brave Djamal",
-    role: "Fondateur & Président",
-    photo: "", // [À compléter : portrait]
-    bio: "Fondateur de Cœurs Braves, il porte la vision « investir dans l'humain » du Cameroun à la diaspora.",
-  },
-  {
-    name: "[À compléter]",
-    role: "Vice-président·e",
-    photo: "",
-    bio: "[À compléter : rôle et parcours]",
-  },
-  {
-    name: "[À compléter]",
-    role: "Trésorier·ère",
-    photo: "",
-    bio: "[À compléter : rôle et parcours]",
-  },
-  {
-    name: "[À compléter]",
-    role: "Responsable des programmes",
-    photo: "",
-    bio: "[À compléter : rôle et parcours]",
-  },
-];
-
-// (Le Journal a sa propre source de contenu : src/data/journal.ts)
+// Équipe : migrée vers la collection de contenu `src/content/team/` (éditable via /admin).
+// Journal & Événements : idem, collections `src/content/journal` et `src/content/events`.
