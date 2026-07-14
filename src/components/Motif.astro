@@ -1,0 +1,24 @@
+---
+// Symboles décoratifs d'inspiration africaine (bogolan / adinkra
+// stylisés, abstraits). Trait en currentColor.
+interface Props { name: string; class?: string; stroke?: number; }
+const { name, class: cls = "w-8 h-8", stroke = 1.6 } = Astro.props;
+
+const glyphs: Record<string, string> = {
+  // losange concentrique (œil / abondance)
+  eye: `<polygon points="24,3 45,24 24,45 3,24"/><polygon points="24,13 35,24 24,35 13,24"/><circle cx="24" cy="24" r="2.4" fill="currentColor" stroke="none"/>`,
+  // peigne (mudcloth)
+  comb: `<path d="M8 8v32"/><path d="M8 8h32"/><path d="M16 8v10M24 8v10M32 8v10M40 8v32"/><path d="M8 24h20M8 32h12"/>`,
+  // étoile à 8 branches
+  star: `<path d="M24 3v42M3 24h42M9 9l30 30M39 9L9 39"/><circle cx="24" cy="24" r="4"/>`,
+  // chevrons imbriqués (mouvement)
+  chevron: `<path d="M6 14 24 30 42 14M6 26 24 42 42 26"/>`,
+  // croix à points (carrefour / union)
+  cross: `<path d="M24 6v36M6 24h36"/><circle cx="24" cy="12" r="2" fill="currentColor" stroke="none"/><circle cx="24" cy="36" r="2" fill="currentColor" stroke="none"/><circle cx="12" cy="24" r="2" fill="currentColor" stroke="none"/><circle cx="36" cy="24" r="2" fill="currentColor" stroke="none"/>`,
+  // zigzag encadré (résilience)
+  zigzag: `<rect x="5" y="5" width="38" height="38" rx="3"/><path d="M12 30l6-12 6 12 6-12 6 12"/>`,
+};
+const body = glyphs[name] ?? glyphs.eye;
+---
+<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width={stroke}
+     stroke-linecap="round" stroke-linejoin="round" class={cls} aria-hidden="true" set:html={body} />

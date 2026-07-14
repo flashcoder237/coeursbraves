@@ -1,0 +1,22 @@
+---
+// Texture de fond façon mudcloth (bogolan) : losanges concentriques
+// et croix. Pleine couverture, discrète. Réglez la couleur/opacité
+// via une classe utilitaire Tailwind sur le parent ou ici (ex. text-white/5).
+interface Props { class?: string; }
+const { class: cls = "text-white/[0.05]" } = Astro.props;
+const id = "mud-" + Math.random().toString(36).slice(2, 8);
+---
+<svg class={`pointer-events-none absolute inset-0 h-full w-full ${cls}`} aria-hidden="true"
+     xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id={id} width="64" height="64" patternUnits="userSpaceOnUse" patternTransform="rotate(0)">
+      <g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round">
+        <polygon points="32,6 58,32 32,58 6,32" />
+        <polygon points="32,20 44,32 32,44 20,32" />
+        <path d="M32 0v6M32 58v6M0 32h6M58 32h64" />
+        <circle cx="32" cy="32" r="2" fill="currentColor" stroke="none" />
+      </g>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill={`url(#${id})`} />
+</svg>

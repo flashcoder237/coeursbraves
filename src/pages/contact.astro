@@ -1,123 +1,67 @@
 ---
 import Layout from "~/components/Layout.astro";
-import Nav from "~/components/Nav.astro";
-import Footer from "~/components/Footer.astro";
-import { loadPoles } from "~/lib/poles";
-import { loadPage } from "~/lib/pages";
-import { getStrings, type Locale } from "~/i18n/strings";
-
-const locale = (Astro.currentLocale as Locale) ?? "fr";
-const t = getStrings(locale);
-const poles = await loadPoles(locale);
-const poleLinks = poles.map((p) => ({ nom: p.nom, slug: p.slug }));
-
-const page = await loadPage("contact", locale);
-if (!page || !page.data.contact) {
-  throw new Error("contact page content missing (src/content/pages/contact.<locale>.md)");
-}
-const c = page.data.contact;
-
-const title = page.data.title;
-const description = page.data.description ?? page.data.intro ?? "";
-const eyebrow = page.data.eyebrow ?? t.contact.eyebrow;
-const intro = page.data.intro ?? "";
-const officeLabel = c.officeLabel ?? t.contact.officeLabelFallback;
+import PageHero from "~/components/PageHero.astro";
+import Icon from "~/components/Icon.astro";
+import { site } from "~/data/site";
 ---
 
-<Layout title={title} description={description} locale={locale}>
-  <Nav locale={locale} />
+<Layout title="Contact" description="Contactez Cœurs Braves — association internationale africaine présente au Cameroun, en RCA, en Allemagne et dans la diaspora.">
+  <PageHero
+    image="/images/cb/children-flag.jpg"
+    kicker="Contact"
+    title="Échangeons ensemble"
+    subtitle="Une question, un projet, une envie de vous engager ? Notre équipe vous répond."
+    height="min-h-[40vh]"
+  />
 
-  <main class="pt-32 pb-24 px-4 md:px-8 max-w-[1400px] mx-auto">
-    <header class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 mb-20 reveal">
-      <div class="lg:col-span-7">
-        <p class="font-mono text-[11px] uppercase tracking-widest text-ink-soft mb-6">{eyebrow}</p>
-        <h1 class="text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tightest leading-[0.95] text-balance">
-          {t.contact.title}
-        </h1>
-      </div>
-      <div class="lg:col-span-5 lg:pt-10">
-        <p class="text-lg md:text-xl text-ink-soft font-light leading-relaxed">{intro}</p>
-      </div>
-    </header>
-
-    <section class="mb-24 reveal">
-      <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-6">{c.audiencesTitle}</p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-        {c.audiences.map((a) => (
-          <a
-            href={a.href}
-            class="group rounded-[1rem] border-hairline bg-white p-6 md:p-8 shadow-soft hover:shadow-nav transition-all flex flex-col h-full"
-          >
-            <h2 class="text-xl md:text-2xl font-medium tracking-tight mb-3">{a.title}</h2>
-            <p class="text-sm text-ink-soft leading-relaxed flex-grow">{a.body}</p>
-            <span class="mt-6 inline-flex items-center gap-2 text-sm font-medium text-ink">
-              <span class="hover-underline-anim">{a.cta}</span>
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-transform">
-                <line x1="7" y1="17" x2="17" y2="7"></line>
-                <polyline points="9 7 17 7 17 15"></polyline>
-              </svg>
-            </span>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <section class="mb-24 reveal">
-      <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-6">{c.coordsTitle}</p>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-6">
-        <div class="rounded-[1rem] border border-ink bg-ink text-paper p-6 md:p-8 flex flex-col">
-          <span class="font-mono text-[10px] uppercase tracking-widest text-white/50 mb-3">{c.headquarters.label}</span>
-          <p class="text-base leading-relaxed">
-            {c.headquarters.lines.map((line, i) => (
-              <>
-                {i > 0 && <br />}
-                <span>{line}</span>
-              </>
-            ))}
-          </p>
-          <span class="mt-auto pt-6 font-mono text-[10px] uppercase text-white/40">HQ · Operations</span>
-        </div>
-        {c.offices.map((o) => (
-          <div class="rounded-[1rem] border-hairline bg-white p-6 md:p-8 flex flex-col">
-            <span class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-3">{officeLabel}</span>
-            <p class="text-xl font-medium tracking-tight">{o.city}</p>
-            <p class="text-sm text-ink-soft mt-2 leading-relaxed">{o.address}</p>
-            {o.phone && <p class="mt-auto pt-6 font-mono text-[11px] text-ink">{o.phone}</p>}
+  <section class="bg-white">
+    <div class="container-cb py-16 md:py-20 grid md:grid-cols-12 gap-10">
+      <!-- Infos -->
+      <div class="md:col-span-5 reveal">
+        <p class="section-title left">Nos <strong>coordonnées</strong></p>
+        <div class="mt-6 space-y-4">
+          <div class="flex gap-4 bg-paper-warm border border-hairline rounded-xl p-5">
+            <span class="inline-flex w-11 h-11 rounded-lg bg-red/10 text-red items-center justify-center shrink-0"><Icon name="mail" class="w-5 h-5" /></span>
+            <div>
+              <p class="font-display font-semibold">E-mail</p>
+              <a href={`mailto:${site.email}`} class="text-red hover:underline">{site.email}</a>
+            </div>
           </div>
-        ))}
-      </div>
-    </section>
-
-    <section class="mb-12 reveal">
-      <div class="rounded-[1.5rem] bg-paper-dark p-8 md:p-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-        <div class="md:col-span-7">
-          <p class="font-mono text-[10px] uppercase tracking-widest text-ink-soft mb-3">{c.pressTitle}</p>
-          <h2 class="text-2xl md:text-3xl font-semibold tracking-tight mb-3 text-balance">{c.pressBody}</h2>
-        </div>
-        <div class="md:col-span-5 flex flex-col md:items-end gap-4">
-          <a href={`mailto:${c.pressEmail}`} class="inline-flex items-center gap-2 bg-ink text-white px-6 py-3 rounded-full text-sm font-medium hover:brightness-110 hover:-translate-y-0.5 transition-all">
-            <span>{c.pressEmail}</span>
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="9 7 17 7 17 15"></polyline>
-            </svg>
-          </a>
-          <div class="flex items-center gap-3 font-mono text-[10px] uppercase tracking-widest text-ink-soft">
-            <span>{t.contact.socialTitle}</span>
-            <a href="#" aria-label="LinkedIn" class="w-8 h-8 rounded-full border-hairline flex items-center justify-center hover:bg-ink hover:text-white transition-colors">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><line x1="8" y1="11" x2="8" y2="17"/><circle cx="8" cy="7.5" r="0.5" fill="currentColor"/><path d="M12 17v-3a2 2 0 1 1 4 0v3"/><line x1="12" y1="11" x2="12" y2="17"/></svg>
-            </a>
-            <a href="#" aria-label="X" class="w-8 h-8 rounded-full border-hairline flex items-center justify-center hover:bg-ink hover:text-white transition-colors">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
-            </a>
-            <a href="#" aria-label="Instagram" class="w-8 h-8 rounded-full border-hairline flex items-center justify-center hover:bg-ink hover:text-white transition-colors">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
-            </a>
+          <div class="flex gap-4 bg-paper-warm border border-hairline rounded-xl p-5">
+            <span class="inline-flex w-11 h-11 rounded-lg bg-green/10 text-green items-center justify-center shrink-0"><Icon name="facebook" class="w-5 h-5" /></span>
+            <div>
+              <p class="font-display font-semibold">Facebook</p>
+              <a href={site.social.facebook} target="_blank" rel="noopener" class="text-red hover:underline">Les Cœurs Braves</a>
+            </div>
+          </div>
+          <div class="flex gap-4 bg-paper-warm border border-hairline rounded-xl p-5">
+            <span class="inline-flex w-11 h-11 rounded-lg bg-gold/15 text-gold-dark items-center justify-center shrink-0"><Icon name="map-pin" class="w-5 h-5" /></span>
+            <div>
+              <p class="font-display font-semibold">Présence</p>
+              <p class="text-ink-mute text-sm">{site.countries.join(" · ")}</p>
+            </div>
           </div>
         </div>
       </div>
-    </section>
-  </main>
 
-  <Footer locale={locale} poleLinks={poleLinks} />
+      <!-- Formulaire -->
+      <div class="md:col-span-7 reveal">
+        <form class="bg-paper-cool border border-hairline rounded-3xl p-8 grid sm:grid-cols-2 gap-4" onsubmit="return false">
+          <input required placeholder="Nom et prénom" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
+          <input required type="email" placeholder="Adresse e-mail" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
+          <input placeholder="Pays de résidence" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
+          <select class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red text-ink-mute">
+            <option>Objet de votre message</option>
+            <option>Adhésion / bénévolat</option>
+            <option>Partenariat</option>
+            <option>Don / mécénat</option>
+            <option>Proposer un projet</option>
+            <option>Autre</option>
+          </select>
+          <textarea placeholder="Votre message" rows="5" class="sm:col-span-2 rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red"></textarea>
+          <button type="submit" class="btn btn-red sm:col-span-2 justify-center">Envoyer mon message</button>
+        </form>
+      </div>
+    </div>
+  </section>
 </Layout>

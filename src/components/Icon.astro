@@ -1,0 +1,49 @@
+---
+// Jeu d'icônes maison (trait cohérent, currentColor).
+// Usage : <Icon name="heart" class="w-5 h-5" />
+interface Props {
+  name: string;
+  class?: string;
+  stroke?: number;
+}
+const { name, class: cls = "w-6 h-6", stroke = 1.75 } = Astro.props;
+
+// Icônes au trait (fill none)
+const line: Record<string, string> = {
+  heart: `<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>`,
+  "graduation-cap": `<path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1 2.5 3 6 3s6-2 6-3v-5"/><path d="M22 10v6"/>`,
+  sprout: `<path d="M7 20h10"/><path d="M12 20c0-6 2-9 6-10"/><path d="M12 14C9 14 6 12 6 8c4 0 6 2 6 6Z"/><path d="M12 12c0-4 2.5-7 6-7 0 4-2.5 7-6 7Z"/>`,
+  code: `<path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/>`,
+  cpu: `<rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/>`,
+  globe: `<circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20Z"/>`,
+  bowl: `<path d="M4 11h16a8 8 0 0 1-16 0Z"/><path d="M7 18h10"/><path d="M9 7c0-1 1-1.5 1-2.5S9 3 9 2M13 7c0-1 1-1.5 1-2.5S13 3 13 2"/>`,
+  "hand-heart": `<path d="m2 15 6 6"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4-3.8a1.9 1.9 0 0 0-2.7-2.7l-3.6 3.2"/><path d="M11 14h2a2 2 0 0 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="M18.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.6 2.6 0 0 0 15.5 4a2.6 2.6 0 0 0-4.5 1.8c0 1.1.8 2 1.5 2.7l2.5 2.5Z"/>`,
+  bulb: `<path d="M9 18h6"/><path d="M10 22h4"/><path d="M15.1 14c.2-1 .7-1.7 1.5-2.5A6 6 0 1 0 6 8c0 1.3.5 2.5 1.4 3.4.8.8 1.3 1.5 1.5 2.6"/>`,
+  rocket: `<path d="M5 16c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2.1-.1-2.9a2.1 2.1 0 0 0-2.9-.1Z"/><path d="m12 15-3-3a20 20 0 0 1 2-3.9A12 12 0 0 1 21 3c0 2.7-.8 7.5-6 11a20 20 0 0 1-3 1Z"/><path d="M9 12H5s.5-2.8 2-3.7c1.5-1 4 0 4 0"/><path d="M12 15v4s2.8-.5 3.7-2c1-1.5 0-4 0-4"/>`,
+  users: `<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/>`,
+  mail: `<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 5L22 7"/>`,
+  "map-pin": `<path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/>`,
+  check: `<path d="M20 6 9 17l-5-5"/>`,
+  "arrow-right": `<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>`,
+  "arrow-up-right": `<path d="M7 17 17 7"/><path d="M8 7h9v9"/>`,
+  compass: `<circle cx="12" cy="12" r="10"/><path d="m16 8-2 6-6 2 2-6 6-2Z"/>`,
+  eye: `<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>`,
+  link: `<path d="M9 15 15 9"/><path d="M11 6.5 12.5 5a4 4 0 0 1 6 6l-1.5 1.5"/><path d="M13 17.5 11.5 19a4 4 0 0 1-6-6L7 11.5"/>`,
+  scale: `<path d="M12 3v18"/><path d="M7 21h10"/><path d="M5 7h14"/><path d="M5 7 2 13a4 4 0 0 0 6 0L5 7Z"/><path d="M19 7l-3 6a4 4 0 0 0 6 0l-3-6Z"/>`,
+  briefcase: `<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M2 13h20"/>`,
+};
+
+// Icônes pleines (marques)
+const solid: Record<string, string> = {
+  facebook: `<path d="M17 2h-3a5 5 0 0 0-5 5v3H6v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3Z"/>`,
+};
+
+const isSolid = name in solid;
+const body = isSolid ? solid[name] : (line[name] ?? "");
+---
+{isSolid ? (
+  <svg viewBox="0 0 24 24" fill="currentColor" class={cls} aria-hidden="true" set:html={body} />
+) : (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={stroke}
+    stroke-linecap="round" stroke-linejoin="round" class={cls} aria-hidden="true" set:html={body} />
+)}

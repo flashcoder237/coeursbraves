@@ -1,0 +1,154 @@
+---
+import Layout from "~/components/Layout.astro";
+import PageHero from "~/components/PageHero.astro";
+import Icon from "~/components/Icon.astro";
+import MotifTexture from "~/components/MotifTexture.astro";
+
+const impacts = [
+  { icon: "graduation-cap", t: "Former", d: "Développer les compétences professionnelles et entrepreneuriales." },
+  { icon: "hand-heart", t: "Accompagner", d: "Offrir un mentorat, des conseils et un suivi personnalisé." },
+  { icon: "bulb", t: "Innover", d: "Créer des solutions technologiques au service des communautés." },
+  { icon: "rocket", t: "Entreprendre", d: "Soutenir les porteurs de projets et favoriser la création d'emplois." },
+  { icon: "sprout", t: "Nourrir", d: "Développer des initiatives agricoles innovantes." },
+  { icon: "users", t: "Mobiliser", d: "Créer des actions collectives qui renforcent les communautés." },
+];
+
+const modes = [
+  { t: "Faire un don ponctuel", d: "Une contribution unique pour soutenir les actions prioritaires de l'association.", c: "red" },
+  { t: "Devenir donateur régulier", d: "Un soutien mensuel pour accompagner durablement le développement de nos programmes.", c: "green" },
+  { t: "Soutenir un programme", d: "Affectez votre contribution à un domaine qui vous tient à cœur : éducation, agriculture, innovation, santé…", c: "gold" },
+  { t: "Devenir mécène", d: "Entreprises, fondations et philanthropes accompagnent des projets structurants à fort impact.", c: "red" },
+  { t: "Faire un don en nature", d: "Matériel informatique, équipements, fournitures, ressources agricoles, espaces ou compétences.", c: "green" },
+  { t: "Financer un projet", d: "Soutenez directement le lancement d'une initiative créatrice de valeur.", c: "gold" },
+];
+
+const gouvernance = [
+  "Une gestion responsable des fonds",
+  "Un suivi des projets financés",
+  "Des indicateurs d'impact mesurables",
+  "Des rapports d'activité réguliers",
+  "Une amélioration continue de nos pratiques",
+];
+
+const montants = ["25 €", "50 €", "100 €", "250 €"];
+---
+
+<Layout title="Soutenir notre mission" description="Chaque contribution ouvre une nouvelle opportunité. Soutenez Cœurs Braves : don ponctuel, mensuel, mécénat ou don en nature.">
+  <PageHero
+    image="/images/cb/agri-produce.jpg"
+    kicker="Soutenir notre mission"
+    title="Chaque contribution ouvre une nouvelle opportunité"
+    subtitle="Investir dans une personne, c'est investir dans l'avenir."
+  />
+
+  <!-- Bloc don rapide -->
+  <section class="bg-white">
+    <div class="container-cb py-16 md:py-20 grid md:grid-cols-2 gap-10 items-start">
+      <div class="reveal">
+        <p class="section-title left">Pourquoi votre soutien est <strong>essentiel</strong></p>
+        <p class="mt-5 prose-cb">
+          Chez Cœurs Braves, le développement durable commence par l'investissement dans le
+          potentiel humain. Nous ne collectons pas des dons pour répondre à des besoins immédiats :
+          nous mobilisons des ressources pour construire des solutions durables.
+        </p>
+        <p class="prose-cb"><strong>Chaque geste compte. Chaque contribution construit un avenir.</strong></p>
+        <ul class="mt-6 space-y-2">
+          {["Former des jeunes et développer leurs compétences.","Accompagner les entrepreneurs dans la création de leurs projets.","Soutenir les initiatives agricoles et génératrices de revenus.","Développer des programmes d'innovation et de transformation numérique.","Organiser des actions communautaires pour les plus vulnérables."].map((x) => (
+            <li class="flex gap-3 text-ink-soft"><Icon name="check" class="w-5 h-5 text-green shrink-0 mt-0.5" /><span>{x}</span></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="reveal bg-paper-cool border border-hairline rounded-3xl p-8 md:sticky md:top-24">
+        <h3 class="font-display font-bold text-xl text-center">Faire un don</h3>
+        <div class="mt-5 flex gap-2 bg-white rounded-full p-1 border border-hairline text-sm font-display font-semibold">
+          <button class="flex-1 rounded-full py-2 bg-red text-white">Ponctuel</button>
+          <button class="flex-1 rounded-full py-2 text-ink-mute">Mensuel</button>
+        </div>
+        <div class="mt-5 grid grid-cols-4 gap-2">
+          {montants.map((m, i) => (
+            <button class:list={["rounded-xl py-3 font-display font-bold border transition", i === 1 ? "bg-red text-white border-red" : "bg-white border-hairline hover:border-red"]}>{m}</button>
+          ))}
+        </div>
+        <div class="mt-3 relative">
+          <input placeholder="Autre montant" class="w-full rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
+          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-ink-mute">€</span>
+        </div>
+        <button class="btn btn-red w-full justify-center mt-4">Faire un don maintenant</button>
+        <p class="mt-4 text-xs text-ink-mute text-center">
+          Des solutions de paiement adaptées aux contributions nationales et internationales
+          sont mises en place progressivement.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ce que votre contribution rend possible -->
+  <section class="bg-paper-warm">
+    <div class="container-cb py-16 md:py-20">
+      <p class="section-title">Ce que votre contribution rend <strong>possible</strong></p>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {impacts.map((im) => (
+          <div class="bg-white border border-hairline rounded-2xl p-7 reveal card-hover">
+            <span class="inline-flex w-12 h-12 rounded-lg bg-red/10 text-red items-center justify-center"><Icon name={im.icon} class="w-6 h-6" /></span>
+            <h3 class="mt-3 font-display font-bold text-lg">{im.t}</h3>
+            <p class="mt-2 text-sm text-ink-mute leading-relaxed">{im.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Modes de contribution -->
+  <section class="bg-white">
+    <div class="container-cb py-16 md:py-20">
+      <p class="section-title">Les différentes façons de <strong>soutenir</strong></p>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {modes.map((m) => (
+          <div class:list={[
+            "rounded-2xl p-7 border-t-4 bg-paper-warm reveal",
+            m.c === "green" ? "border-green" : m.c === "gold" ? "border-gold" : "border-red",
+          ]}>
+            <h3 class="font-display font-bold text-lg">{m.t}</h3>
+            <p class="mt-2 text-sm text-ink-mute leading-relaxed">{m.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Transparence -->
+  <section class="relative bg-ink text-white overflow-hidden">
+    <MotifTexture class="text-white/[0.05]" />
+    <div class="relative container-cb py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+      <div class="reveal">
+        <p class="section-title left !text-white">La transparence au cœur de notre <strong>engagement</strong></p>
+        <p class="mt-5 text-white/80 leading-relaxed">
+          La confiance est la base de toute collaboration durable. Nous nous engageons à gérer
+          les ressources qui nous sont confiées avec rigueur, responsabilité et transparence.
+        </p>
+      </div>
+      <ul class="grid gap-3 reveal">
+        {gouvernance.map((g) => (
+          <li class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-5 py-4">
+            <Icon name="check" class="w-5 h-5 text-gold shrink-0 mt-0.5" /><span class="text-white/90">{g}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="bg-white">
+    <div class="container-cb py-16 text-center max-w-2xl">
+      <p class="prose-cb text-lg">
+        Parce qu'un investissement dans l'humain produit des bénéfices qui se transmettent
+        de génération en génération.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3 justify-center">
+        <a href="#" class="btn btn-red">Faire un don</a>
+        <a href="/contact/" class="btn btn-outline">Contacter l'équipe Partenariats</a>
+      </div>
+    </div>
+  </section>
+</Layout>

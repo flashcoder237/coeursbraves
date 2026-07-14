@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "Cœurs Braves — écosystème international africain (Immigration, Studios & TV, Fermiers, Technology, Academy, Business)",
+  "description": "Cœurs Braves — association internationale africaine qui investit dans l'humain (Cameroun, RCA, Allemagne, diaspora).",
   "scripts": {
     "dev": "astro dev",
     "dev:cms": "concurrently -n astro,cms -c blue,magenta \"astro dev\" \"decap-server\"",

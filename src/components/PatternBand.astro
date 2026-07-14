@@ -1,0 +1,29 @@
+---
+// Bande décorative d'inspiration kente / bogolan :
+// losanges or cerclés de rouge, points émeraude aux jonctions,
+// filets rouges. Les couleurs suivent le thème Tailwind (@theme).
+interface Props {
+  class?: string;
+  height?: number;
+}
+const { class: cls = "", height: h = 30 } = Astro.props;
+const mid = h / 2;
+const id = "kente-" + Math.random().toString(36).slice(2, 8);
+---
+<div class={`w-full overflow-hidden leading-none ${cls}`} style={`height:${h}px`} aria-hidden="true">
+  <svg width="100%" height={h} viewBox={`0 0 44 ${h}`} preserveAspectRatio="xMidYMid slice"
+       xmlns="http://www.w3.org/2000/svg" style="display:block">
+    <defs>
+      <pattern id={id} width="44" height={h} patternUnits="userSpaceOnUse">
+        <rect x="0" y="0" width="44" height="1.5" fill="var(--color-terra)" />
+        <rect x="0" y={h - 1.5} width="44" height="1.5" fill="var(--color-terra)" />
+        <polygon points={`22,3 41,${mid} 22,${h - 3} 3,${mid}`}
+                 fill="var(--color-gold)" stroke="var(--color-terra)" stroke-width="1.4" />
+        <circle cx="22" cy={mid} r="2.4" fill="var(--color-terra)" />
+        <circle cx="0" cy={mid} r="3" fill="var(--color-emerald)" />
+        <circle cx="44" cy={mid} r="3" fill="var(--color-emerald)" />
+      </pattern>
+    </defs>
+    <rect width="100%" height={h} fill={`url(#${id})`} />
+  </svg>
+</div>

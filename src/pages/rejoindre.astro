@@ -1,0 +1,121 @@
+---
+import Layout from "~/components/Layout.astro";
+import PageHero from "~/components/PageHero.astro";
+import { engagementTypes } from "~/data/site";
+
+const profils = [
+  { t: "Les étudiants", d: "Pour développer leurs compétences et préparer leur avenir." },
+  { t: "Les jeunes diplômés", d: "Pour renforcer leur employabilité et construire leur carrière." },
+  { t: "Les entrepreneurs", d: "Pour structurer leurs projets, développer leur réseau et accélérer leur croissance." },
+  { t: "Les femmes", d: "Pour favoriser leur autonomie économique, leur leadership et leur participation." },
+  { t: "Les professionnels", d: "Pour partager leur expertise et accompagner de nouveaux talents." },
+  { t: "La diaspora", d: "Pour contribuer au développement de leurs communautés d'origine." },
+  { t: "Les associations", d: "Pour renforcer leurs capacités et développer leurs projets." },
+  { t: "Entreprises & institutions", d: "Pour créer des partenariats stratégiques et développer leur impact." },
+];
+
+const parcours = [
+  "Vous découvrez la communauté, sa vision, ses programmes et ses opportunités.",
+  "Vous rejoignez le mouvement en remplissant votre demande d'adhésion.",
+  "Nous apprenons à vous connaître pour vous orienter vers les initiatives adaptées.",
+  "Vous participez aux formations, événements, projets et activités.",
+  "Vous grandissez : vous développez vos compétences, votre réseau et vos projets.",
+  "Vous inspirez les autres en devenant à votre tour acteur du changement.",
+];
+---
+
+<Layout title="Rejoindre" description="Rejoignez Cœurs Braves : membre, bénévole, mentor, expert, partenaire ou mécène. Ensemble, transformons les ambitions en actions.">
+  <PageHero
+    image="/images/cb/team-clean-hope.jpg"
+    kicker="Rejoindre Cœurs Braves"
+    title="Ensemble, transformons les ambitions en actions"
+    subtitle="Un mouvement est plus fort lorsqu'il grandit avec celles et ceux qui partagent sa vision."
+  />
+
+  <!-- Pourquoi -->
+  <section class="bg-white">
+    <div class="container-cb py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+      <div class="reveal">
+        <p class="section-title left">Pourquoi rejoindre <strong>Cœurs Braves ?</strong></p>
+        <p class="mt-5 prose-cb">
+          En devenant membre, vous intégrez un réseau qui place l'humain au cœur du développement.
+          Vous rejoignez une communauté qui partage les mêmes ambitions : apprendre, entreprendre,
+          créer de la valeur et contribuer positivement au développement de la société.
+        </p>
+        <p class="prose-cb"><strong>Être membre, c'est avoir l'opportunité de grandir tout en aidant les autres à grandir.</strong></p>
+      </div>
+      <div class="reveal">
+        <img src="/images/cb/youth-celebrating.jpg" alt="Communauté Cœurs Braves" class="rounded-2xl w-full object-cover aspect-[4/3]" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Une communauté ouverte à tous -->
+  <section class="bg-paper-cool">
+    <div class="container-cb py-16 md:py-20">
+      <p class="section-title">Une communauté <strong>ouverte à tous</strong></p>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {profils.map((p) => (
+          <div class="bg-white border border-hairline rounded-2xl p-6 card-hover reveal">
+            <h3 class="font-display font-bold text-base">{p.t}</h3>
+            <p class="mt-2 text-sm text-ink-mute leading-relaxed">{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Formes d'engagement -->
+  <section class="bg-white">
+    <div class="container-cb py-16 md:py-20">
+      <p class="section-title">Les différentes façons de <strong>s'engager</strong></p>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        {engagementTypes.map((e) => (
+          <div class="border-l-4 border-green bg-paper-warm rounded-r-xl p-6 reveal">
+            <h3 class="font-display font-bold text-lg">{e.title}</h3>
+            <p class="mt-2 text-sm text-ink-mute leading-relaxed">{e.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Parcours -->
+  <section class="bg-paper-warm">
+    <div class="container-cb py-16 md:py-20">
+      <p class="section-title">Le parcours d'un <strong>membre</strong></p>
+      <div class="mt-12 grid md:grid-cols-3 gap-5">
+        {parcours.map((p, i) => (
+          <div class="bg-white border border-hairline rounded-2xl p-6 flex gap-4 reveal">
+            <span class="shrink-0 w-10 h-10 rounded-full bg-red text-white font-display font-bold grid place-items-center">{i + 1}</span>
+            <p class="text-ink-soft text-sm leading-relaxed">{p}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Formulaire d'adhésion -->
+  <section id="adhesion" class="bg-white">
+    <div class="container-cb py-16 md:py-20">
+      <div class="max-w-2xl mx-auto bg-paper-cool border border-hairline rounded-3xl p-8 md:p-10">
+        <p class="section-title">Faites le premier <strong>pas</strong></p>
+        <p class="mt-4 text-center text-ink-mute">
+          Remplissez votre demande d'adhésion : notre équipe vous accompagnera pour vous orienter
+          vers les opportunités correspondant à votre profil.
+        </p>
+        <form class="mt-8 grid sm:grid-cols-2 gap-4" onsubmit="return false">
+          <input required placeholder="Nom et prénom" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
+          <input required type="email" placeholder="Adresse e-mail" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
+          <input placeholder="Pays de résidence" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
+          <select class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red text-ink-mute">
+            <option>Je souhaite devenir…</option>
+            {engagementTypes.map((e) => <option>{e.title}</option>)}
+          </select>
+          <textarea placeholder="Présentez votre parcours et vos centres d'intérêt" rows="4" class="sm:col-span-2 rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red"></textarea>
+          <button type="submit" class="btn btn-red sm:col-span-2 justify-center">Envoyer ma demande d'adhésion</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</Layout>

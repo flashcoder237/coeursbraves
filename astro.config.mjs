@@ -10,22 +10,6 @@ export default defineConfig({
   build: {
     format: "directory",
   },
-  /* i18n trilingue (FR/DE/EN). FR sans préfixe, DE et EN avec préfixe.
-     fallbackType: "rewrite" → /de/foo/ rend src/pages/foo.astro avec
-     Astro.currentLocale === "de" (au lieu d'un redirect HTML). */
-  i18n: {
-    defaultLocale: "fr",
-    locales: ["fr", "de", "en"],
-    routing: {
-      prefixDefaultLocale: false,
-      redirectToDefaultLocale: false,
-      fallbackType: "rewrite",
-    },
-    fallback: {
-      de: "fr",
-      en: "fr",
-    },
-  },
   integrations: [sitemap()],
   vite: {
     plugins: [/** @type {any} */ (tailwindcss())],
@@ -38,8 +22,5 @@ export default defineConfig({
         ".loca.lt",
       ],
     },
-  },
-  experimental: {
-    clientPrerender: true,
   },
 });

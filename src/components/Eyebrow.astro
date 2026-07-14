@@ -1,0 +1,12 @@
+---
+interface Props {
+  label: string;
+  align?: "left" | "center";
+  light?: boolean;
+}
+const { label, align = "left", light = false } = Astro.props;
+---
+<span class:list={["eyebrow", align === "center" && "center", light && "eyebrow-light"]}>
+  {label}
+  <span class="eyebrow-rule" aria-hidden="true"></span>
+</span>
