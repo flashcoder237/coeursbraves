@@ -1,17 +1,22 @@
 ---
 import Layout from "~/components/Layout.astro";
 import PageHero from "~/components/PageHero.astro";
+import Icon from "~/components/Icon.astro";
+import Eyebrow from "~/components/Eyebrow.astro";
+import Motif from "~/components/Motif.astro";
+import MotifTexture from "~/components/MotifTexture.astro";
+import PatternBand from "~/components/PatternBand.astro";
 import { partnershipTypes } from "~/data/site";
 
 const domaines = [
-  { t: "Développement des compétences", d: "Co-construction de programmes de formation, ateliers, conférences et mentorat." },
-  { t: "Entrepreneuriat", d: "Accompagnement des porteurs de projets, incubation, accélération et développement." },
-  { t: "Technologies et innovation", d: "Conception de solutions numériques, projets technologiques et recherche appliquée." },
-  { t: "Agriculture", d: "Développement de projets agricoles, sécurité alimentaire et innovation rurale." },
-  { t: "Santé communautaire", d: "Campagnes de sensibilisation, prévention et actions communautaires." },
-  { t: "Éducation", d: "Promotion de l'apprentissage, de l'orientation et de l'accès aux compétences." },
-  { t: "Investissement", d: "Mobilisation de ressources et soutien aux projets à fort impact." },
-  { t: "Recherche & développement", d: "Production de connaissances, études, expérimentations et innovation sociale." },
+  { t: "Développement des compétences", d: "Programmes de formation, ateliers, conférences et mentorat.", icon: "graduation-cap" },
+  { t: "Entrepreneuriat", d: "Accompagnement des porteurs de projets, incubation et accélération.", icon: "rocket" },
+  { t: "Technologies et innovation", d: "Solutions numériques, projets technologiques et recherche appliquée.", icon: "code" },
+  { t: "Agriculture", d: "Projets agricoles, sécurité alimentaire et innovation rurale.", icon: "sprout" },
+  { t: "Santé communautaire", d: "Campagnes de sensibilisation, prévention et actions communautaires.", icon: "hand-heart" },
+  { t: "Éducation", d: "Apprentissage, orientation et accès aux compétences.", icon: "bulb" },
+  { t: "Investissement", d: "Mobilisation de ressources et soutien aux projets à fort impact.", icon: "scale" },
+  { t: "Recherche & développement", d: "Études, expérimentations et innovation sociale.", icon: "compass" },
 ];
 
 const contributions = [
@@ -24,6 +29,9 @@ const contributions = [
   "Créer des emplois",
   "Générer un impact durable",
 ];
+
+const cardBg = ["bg-terra", "bg-emerald", "bg-forest"];
+const cardMotif = ["star", "cross", "chevron"];
 ---
 
 <Layout title="Devenir partenaire" description="Entreprises, fondations, universités, institutions et investisseurs : construisons ensemble des solutions à fort impact avec Cœurs Braves.">
@@ -35,21 +43,22 @@ const contributions = [
   />
 
   <!-- Pourquoi -->
-  <section class="bg-white">
-    <div class="container-cb py-16 md:py-20 grid md:grid-cols-12 gap-10 items-center">
-      <div class="md:col-span-6 reveal">
-        <p class="section-title left">Pourquoi devenir <strong>partenaire ?</strong></p>
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+      <div class="lg:col-span-5 reveal">
+        <Eyebrow label="Pourquoi un partenariat" />
+        <h2 class="mt-6 section-title left">Un écosystème engagé pour les personnes et les <strong>territoires.</strong></h2>
         <p class="mt-5 prose-cb">
-          Un partenariat avec Cœurs Braves, c'est rejoindre un écosystème engagé dans le
-          développement des personnes et des territoires. Nos partenariats sont fondés sur une
-          vision commune, la confiance et la recherche de résultats concrets.
+          Nos partenariats sont fondés sur une vision commune, la confiance et la recherche
+          de résultats concrets. En collaborant avec nous, vous contribuez directement à un
+          impact durable.
         </p>
       </div>
-      <ul class="md:col-span-6 grid sm:grid-cols-2 gap-3 reveal">
-        {contributions.map((c) => (
-          <li class="flex items-center gap-3 bg-paper-warm border border-hairline rounded-xl px-4 py-3">
-            <span class="w-2.5 h-2.5 rounded-full bg-gold shrink-0"></span>
-            <span class="text-sm text-ink-soft">{c}</span>
+      <ul class="lg:col-span-7 grid sm:grid-cols-2 gap-3 reveal">
+        {contributions.map((c, i) => (
+          <li class="flex items-center gap-3 bg-cream border border-hairline rounded-xl px-5 py-4">
+            <span class:list={["w-2.5 h-2.5 rounded-full shrink-0", ["bg-terra", "bg-emerald", "bg-gold"][i % 3]]}></span>
+            <span class="text-sm text-ink-soft font-medium">{c}</span>
           </li>
         ))}
       </ul>
@@ -57,13 +66,15 @@ const contributions = [
   </section>
 
   <!-- Domaines de collaboration -->
-  <section class="bg-paper-cool">
-    <div class="container-cb py-16 md:py-20">
-      <p class="section-title">Nos domaines de <strong>collaboration</strong></p>
-      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {domaines.map((d) => (
-          <div class="bg-white border border-hairline rounded-2xl p-6 card-hover reveal">
-            <h3 class="font-display font-bold text-base">{d.t}</h3>
+  <section class="bg-cream-2">
+    <div class="container-cb py-20 md:py-24">
+      <div class="text-center"><Eyebrow label="Collaborations" align="center" /></div>
+      <h2 class="mt-6 section-title">Nos domaines de <strong>collaboration.</strong></h2>
+      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {domaines.map((d, i) => (
+          <div class="bg-cream border border-hairline rounded-2xl p-6 card-hover reveal">
+            <span class:list={["icon-chip w-14 h-14", ["bg-terra/12 text-terra", "bg-emerald/12 text-emerald", "bg-gold/15 text-gold"][i % 3]]}><Icon name={d.icon} class="w-7 h-7" /></span>
+            <h3 class="mt-5 font-display font-700 text-base leading-snug" style="font-weight:700">{d.t}</h3>
             <p class="mt-2 text-sm text-ink-mute leading-relaxed">{d.d}</p>
           </div>
         ))}
@@ -71,36 +82,40 @@ const contributions = [
     </div>
   </section>
 
+  <PatternBand height={24} />
+
   <!-- Formes de partenariat -->
-  <section class="bg-white">
-    <div class="container-cb py-16 md:py-20">
-      <p class="section-title">Les formes de <strong>partenariat</strong></p>
-      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24">
+      <div class="text-center"><Eyebrow label="Formats" align="center" /></div>
+      <h2 class="mt-6 section-title">Les formes de <strong>partenariat.</strong></h2>
+      <div class="mt-14 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {partnershipTypes.map((p, i) => (
-          <div class:list={[
-            "rounded-2xl p-7 text-white reveal",
-            i % 3 === 0 ? "bg-green" : i % 3 === 1 ? "bg-red" : "bg-ink",
-          ]}>
-            <h3 class="font-display font-bold text-lg">{p.title}</h3>
-            <p class="mt-2 text-white/85 text-sm leading-relaxed">{p.text}</p>
+          <div class:list={["relative overflow-hidden rounded-2xl p-8 text-white reveal card-hover", cardBg[i % 3]]}>
+            <Motif name={cardMotif[i % 3]} class="absolute -right-6 -top-6 w-28 h-28 text-white/10" />
+            <h3 class="relative font-display font-700 text-xl" style="font-weight:700">{p.title}</h3>
+            <p class="relative mt-3 text-white/85 text-sm leading-relaxed">{p.text}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section class="bg-paper-warm">
-    <div class="container-cb py-16 text-center max-w-2xl">
-      <p class="section-title">Ensemble, développons des solutions à <strong>fort impact</strong></p>
-      <p class="mt-5 prose-cb">
-        Entreprise, fondation, université, institution publique, organisation internationale,
-        investisseur, incubateur, média ou expert : construisons ensemble des projets créateurs
-        d'opportunités.
+  <!-- CTA (forêt) -->
+  <section class="relative bg-forest overflow-hidden">
+    <MotifTexture class="text-white/[0.05]" />
+    <div class="relative container-cb py-20 md:py-24 text-center max-w-2xl">
+      <div class="flex justify-center"><Eyebrow label="Construisons ensemble" align="center" light /></div>
+      <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">
+        Des solutions à <span class="text-terra-bright">fort impact.</span>
+      </h2>
+      <p class="mt-5 text-white/70 leading-relaxed">
+        Entreprise, fondation, université, institution, investisseur, incubateur, média ou
+        expert : construisons ensemble des projets créateurs d'opportunités.
       </p>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <a href="/contact/" class="btn btn-red">Contacter l'équipe Partenariats</a>
-        <a href="/soutenir/" class="btn btn-outline">Découvrir le mécénat</a>
+        <a href="/contact/" class="btn btn-terra">Contacter l'équipe Partenariats <Icon name="arrow-right" class="w-4 h-4" /></a>
+        <a href="/soutenir/" class="btn btn-ghost-white">Découvrir le mécénat</a>
       </div>
     </div>
   </section>

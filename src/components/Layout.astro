@@ -7,9 +7,13 @@ import { site } from "~/data/site";
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
-const { title, description } = Astro.props;
+const { title, description, image = "/images/cb/hero-community.jpg" } = Astro.props;
 const fullTitle = title === site.name ? `${site.name} — Investir dans l'humain` : `${title} — ${site.name}`;
+const desc = description ?? "Association internationale africaine qui investit dans l'humain pour créer des opportunités durables.";
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+const ogImage = new URL(image, Astro.site ?? Astro.url.origin).href;
 ---
 
 <!doctype html>
@@ -19,17 +23,24 @@ const fullTitle = title === site.name ? `${site.name} — Investir dans l'humain
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
     <title>{fullTitle}</title>
-    {description && <meta name="description" content={description} />}
+    <meta name="description" content={desc} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Open Graph / réseaux sociaux -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={desc} />
+    <meta name="twitter:image" content={ogImage} />
   </head>
-  <body class="min-h-screen bg-paper text-ink antialiased">
+  <body class="min-h-screen bg-paper text-ink antialiased" data-contact-email={site.email}>
     <Nav />
     <main>
       <slot />
@@ -52,6 +63,94 @@ const fullTitle = title === site.name ? `${site.name} — Investir dans l'humain
           { rootMargin: "0px 0px -8% 0px", threshold: 0.1 }
         );
         els.forEach((el) => io.observe(el));
+      });
+    </script>
+
+    <script is:inline>
+      // Compteur animé des chiffres d'impact (au scroll, une seule fois).
+      document.addEventListener("DOMContentLoaded", () => {
+        const nums = document.querySelectorAll(".stat-num");
+        if (!nums.length) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        const fmt = new Intl.NumberFormat("fr-FR");
+        const animate = (el) => {
+          const original = el.textContent.trim();
+          const target = parseInt(original.replace(/[^\d]/g, ""), 10);
+          if (!target) return;
+          const suffix = original.replace(/[\d\s  ]/g, "");
+          const dur = 1500, start = performance.now();
+          el.textContent = fmt.format(0) + suffix;
+          const step = (now) => {
+            const p = Math.min((now - start) / dur, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            if (p < 1) {
+              el.textContent = fmt.format(Math.round(target * eased)) + suffix;
+              requestAnimationFrame(step);
+            } else {
+              el.textContent = original; // restaure le formatage exact
+            }
+          };
+          requestAnimationFrame(step);
+        };
+        const io = new IntersectionObserver(
+          (entries, obs) => {
+            for (const e of entries) {
+              if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); }
+            }
+          },
+          { threshold: 0.5 }
+        );
+        nums.forEach((n) => io.observe(n));
+      });
+    </script>
+
+    <script is:inline>
+      // Formulaires fonctionnels sans backend : construction d'un e-mail pré-rempli.
+      document.addEventListener("DOMContentLoaded", () => {
+        const forms = document.querySelectorAll("form.cb-form");
+        if (!forms.length) return;
+        const email = document.body.dataset.contactEmail || "contact@coeursbraves.com";
+        forms.forEach((form) => {
+          form.addEventListener("submit", (ev) => {
+            ev.preventDefault();
+            if (typeof form.reportValidity === "function" && !form.reportValidity()) return;
+            const lines = [];
+            form.querySelectorAll("input, select, textarea").forEach((el) => {
+              if (el.type === "submit" || el.type === "button") return;
+              const val = (el.value || "").trim();
+              if (!val) return;
+              let label = el.getAttribute("placeholder") || el.getAttribute("name") || "";
+              if (el.tagName === "SELECT") {
+                const first = el.options[0] ? el.options[0].text.trim() : "";
+                if (val === first) return; // aucun choix
+                label = el.dataset.label || first || "Choix";
+              }
+              lines.push(label + " : " + val);
+            });
+            const subject = form.dataset.subject || "Message depuis le site";
+            const href =
+              "mailto:" + email +
+              "?subject=" + encodeURIComponent(subject) +
+              "&body=" + encodeURIComponent(lines.join("\n"));
+            // Confirmation affichée d'abord (garantie même si le client mail s'ouvre).
+            let note = form.nextElementSibling;
+            if (!note || !note.classList.contains("cb-form-note")) {
+              note = document.createElement("p");
+              note.className = "cb-form-note";
+              form.insertAdjacentElement("afterend", note);
+            }
+            note.textContent =
+              "Votre logiciel de messagerie va s'ouvrir pour finaliser l'envoi. " +
+              "Si rien ne se passe, écrivez-nous directement à " + email + ".";
+            // Ouverture du client mail via une ancre temporaire (ne recharge pas la page).
+            const a = document.createElement("a");
+            a.href = href;
+            a.style.display = "none";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+          });
+        });
       });
     </script>
   </body>

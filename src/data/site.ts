@@ -6,20 +6,26 @@ export const site = {
   legalName: "Cœurs Braves — Association",
   tagline: "Investir dans l'humain. Construire des opportunités. Transformer des vies.",
   founder: "Assaa Ouemba Billy Loïc, dit « Brave Djamal »",
-  email: "contact@coeurs-braves.com",
+  email: "contact@coeursbraves.com",
+  phone: "+49 1521 0418658",
+  phoneIntl: "4915210418658", // format wa.me / tel sans espaces
+  hq: { city: "Mainz", country: "Allemagne", postal: "55131" },
   countries: ["Cameroun", "République centrafricaine", "Allemagne", "Diaspora africaine"],
   social: {
     facebook: "https://web.facebook.com/LESCOEURSBRAVES",
+    instagram: "https://www.instagram.com/coeurs_braves",
+    tiktok: "https://www.tiktok.com/@coeurs_braves",
+    whatsapp: "https://wa.me/4915210418658",
   },
 };
 
 export const nav = [
   { label: "Accueil", href: "/" },
   { label: "Notre histoire", href: "/notre-histoire/" },
-  { label: "Notre écosystème", href: "/ecosysteme/" },
+  { label: "Écosystème", href: "/ecosysteme/" },
   { label: "Rejoindre", href: "/rejoindre/" },
   { label: "Partenaires", href: "/partenaires/" },
-  { label: "FAQ", href: "/faq/" },
+  { label: "Journal", href: "/journal/" },
   { label: "Contact", href: "/contact/" },
 ];
 

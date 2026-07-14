@@ -2,6 +2,7 @@
 import Layout from "~/components/Layout.astro";
 import PageHero from "~/components/PageHero.astro";
 import Icon from "~/components/Icon.astro";
+import Eyebrow from "~/components/Eyebrow.astro";
 import { site } from "~/data/site";
 ---
 
@@ -11,46 +12,56 @@ import { site } from "~/data/site";
     kicker="Contact"
     title="Échangeons ensemble"
     subtitle="Une question, un projet, une envie de vous engager ? Notre équipe vous répond."
-    height="min-h-[40vh]"
+    height="min-h-[42vh]"
   />
 
-  <section class="bg-white">
-    <div class="container-cb py-16 md:py-20 grid md:grid-cols-12 gap-10">
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-14">
       <!-- Infos -->
-      <div class="md:col-span-5 reveal">
-        <p class="section-title left">Nos <strong>coordonnées</strong></p>
-        <div class="mt-6 space-y-4">
-          <div class="flex gap-4 bg-paper-warm border border-hairline rounded-xl p-5">
-            <span class="inline-flex w-11 h-11 rounded-lg bg-red/10 text-red items-center justify-center shrink-0"><Icon name="mail" class="w-5 h-5" /></span>
+      <div class="lg:col-span-5 reveal">
+        <Eyebrow label="Nous joindre" />
+        <h2 class="mt-6 section-title left">Nos <strong>coordonnées.</strong></h2>
+        <div class="mt-8 space-y-4">
+          <div class="flex gap-4 bg-cream-2 border border-hairline rounded-2xl p-5 card-hover">
+            <span class="icon-chip w-12 h-12 shrink-0 bg-terra/12 text-terra"><Icon name="mail" class="w-6 h-6" /></span>
             <div>
-              <p class="font-display font-semibold">E-mail</p>
-              <a href={`mailto:${site.email}`} class="text-red hover:underline">{site.email}</a>
+              <p class="font-display font-700" style="font-weight:700">E-mail</p>
+              <a href={`mailto:${site.email}`} class="text-terra hover:underline">{site.email}</a>
             </div>
           </div>
-          <div class="flex gap-4 bg-paper-warm border border-hairline rounded-xl p-5">
-            <span class="inline-flex w-11 h-11 rounded-lg bg-green/10 text-green items-center justify-center shrink-0"><Icon name="facebook" class="w-5 h-5" /></span>
+          <div class="flex gap-4 bg-cream-2 border border-hairline rounded-2xl p-5 card-hover">
+            <span class="icon-chip w-12 h-12 shrink-0 bg-emerald/12 text-emerald"><Icon name="phone" class="w-6 h-6" /></span>
             <div>
-              <p class="font-display font-semibold">Facebook</p>
-              <a href={site.social.facebook} target="_blank" rel="noopener" class="text-red hover:underline">Les Cœurs Braves</a>
+              <p class="font-display font-700" style="font-weight:700">Téléphone &amp; WhatsApp</p>
+              <a href={`tel:${site.phoneIntl}`} class="text-terra hover:underline">{site.phone}</a>
+              <a href={site.social.whatsapp} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-1 text-sm text-emerald hover:underline">
+                <Icon name="whatsapp" class="w-4 h-4" /> Écrire sur WhatsApp
+              </a>
             </div>
           </div>
-          <div class="flex gap-4 bg-paper-warm border border-hairline rounded-xl p-5">
-            <span class="inline-flex w-11 h-11 rounded-lg bg-gold/15 text-gold-dark items-center justify-center shrink-0"><Icon name="map-pin" class="w-5 h-5" /></span>
+          <div class="flex gap-4 bg-cream-2 border border-hairline rounded-2xl p-5">
+            <span class="icon-chip w-12 h-12 shrink-0 bg-gold/15 text-gold"><Icon name="map-pin" class="w-6 h-6" /></span>
             <div>
-              <p class="font-display font-semibold">Présence</p>
-              <p class="text-ink-mute text-sm">{site.countries.join(" · ")}</p>
+              <p class="font-display font-700" style="font-weight:700">Siège &amp; présence</p>
+              <p class="text-ink-soft text-sm mt-0.5">Siège : {site.hq.city} ({site.hq.postal}), {site.hq.country}</p>
+              <p class="text-ink-mute text-sm mt-1">{site.countries.join(" · ")}</p>
             </div>
+          </div>
+          <div class="flex items-center gap-3 pt-1">
+            <a href={site.social.facebook} target="_blank" rel="noopener" aria-label="Facebook" class="icon-chip w-11 h-11 bg-cream-2 border border-hairline text-ink hover:text-terra hover:border-terra transition-colors"><Icon name="facebook" class="w-5 h-5" /></a>
+            <a href={site.social.instagram} target="_blank" rel="noopener" aria-label="Instagram" class="icon-chip w-11 h-11 bg-cream-2 border border-hairline text-ink hover:text-terra hover:border-terra transition-colors"><Icon name="instagram" class="w-5 h-5" /></a>
+            <a href={site.social.tiktok} target="_blank" rel="noopener" aria-label="TikTok" class="icon-chip w-11 h-11 bg-cream-2 border border-hairline text-ink hover:text-terra hover:border-terra transition-colors"><Icon name="tiktok" class="w-5 h-5" /></a>
           </div>
         </div>
       </div>
 
       <!-- Formulaire -->
-      <div class="md:col-span-7 reveal">
-        <form class="bg-paper-cool border border-hairline rounded-3xl p-8 grid sm:grid-cols-2 gap-4" onsubmit="return false">
-          <input required placeholder="Nom et prénom" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
-          <input required type="email" placeholder="Adresse e-mail" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
-          <input placeholder="Pays de résidence" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red" />
-          <select class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red text-ink-mute">
+      <div class="lg:col-span-7 reveal">
+        <form class="cb-form bg-cream-2 border border-hairline rounded-[1.6rem] p-8 md:p-9 grid sm:grid-cols-2 gap-4" data-subject="Message depuis le site Cœurs Braves">
+          <input required placeholder="Nom et prénom" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
+          <input required type="email" placeholder="Adresse e-mail" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
+          <input placeholder="Pays de résidence" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
+          <select data-label="Objet" class="rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra text-ink-mute bg-cream">
             <option>Objet de votre message</option>
             <option>Adhésion / bénévolat</option>
             <option>Partenariat</option>
@@ -58,8 +69,8 @@ import { site } from "~/data/site";
             <option>Proposer un projet</option>
             <option>Autre</option>
           </select>
-          <textarea placeholder="Votre message" rows="5" class="sm:col-span-2 rounded-xl border border-hairline px-4 py-3 outline-none focus:border-red"></textarea>
-          <button type="submit" class="btn btn-red sm:col-span-2 justify-center">Envoyer mon message</button>
+          <textarea placeholder="Votre message" rows="5" class="sm:col-span-2 rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream"></textarea>
+          <button type="submit" class="btn btn-terra sm:col-span-2">Envoyer mon message <Icon name="arrow-right" class="w-4 h-4" /></button>
         </form>
       </div>
     </div>

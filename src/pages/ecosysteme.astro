@@ -3,8 +3,13 @@ import Layout from "~/components/Layout.astro";
 import PageHero from "~/components/PageHero.astro";
 import Icon from "~/components/Icon.astro";
 import Eyebrow from "~/components/Eyebrow.astro";
+import Motif from "~/components/Motif.astro";
+import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
 import { poles, methode, engagements } from "~/data/site";
+
+const chip = (c: string) =>
+  c === "green" ? "bg-emerald text-white" : c === "gold" ? "bg-gold text-ink" : "bg-terra text-white";
 ---
 
 <Layout title="Notre écosystème" description="Découvrez les six pôles complémentaires de Cœurs Braves : Academy, Fermiers, ASSAA Technologies, Technology Center, Immigration Services et La Marmite.">
@@ -16,63 +21,78 @@ import { poles, methode, engagements } from "~/data/site";
   />
 
   <!-- Pôles -->
-  <section class="bg-white">
-    <div class="container-cb py-16 md:py-20 space-y-16">
-      {poles.map((p, i) => (
-        <div class:list={["grid md:grid-cols-2 gap-8 md:gap-12 items-center reveal", i % 2 === 1 && "md:[&>*:first-child]:order-2"]}>
-          <div class="relative rounded-2xl overflow-hidden">
-            <img src={p.image} alt={p.name} class="w-full aspect-[4/3] object-cover" loading="lazy" />
-            <span class:list={["absolute top-4 left-4 w-14 h-14 rounded-xl grid place-items-center text-white shadow-lg", p.color === "green" ? "bg-green" : p.color === "gold" ? "bg-gold !text-ink" : "bg-red"]}><Icon name={p.icon} class="w-7 h-7" /></span>
-          </div>
-          <div>
-            <span class:list={[
-              "inline-block text-xs font-display font-semibold uppercase tracking-widest px-3 py-1.5 rounded-full text-white mb-4",
-              p.color === "green" ? "bg-green" : p.color === "gold" ? "bg-gold !text-ink" : "bg-red",
-            ]}>Pôle {i + 1}</span>
-            <h2 class="font-display font-bold text-2xl md:text-3xl leading-tight">{p.name}</h2>
-            <p class="mt-3 text-lg font-medium text-red">{p.baseline}</p>
-            <p class="mt-4 prose-cb">{p.text}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <PatternBand height={24} />
-
-  <!-- Méthode d'impact -->
-  <section class="bg-paper-cool">
-    <div class="container-cb py-16 md:py-20">
-      <div class="text-center mb-4"><Eyebrow label="Notre méthode" /></div>
-      <p class="section-title">Une méthode fondée sur <strong>l'action</strong></p>
-      <p class="mt-5 text-center text-ink-mute max-w-2xl mx-auto">
-        Chaque projet suit une démarche structurée, cohérente et centrée sur les besoins réels.
-      </p>
-      <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4">
-        {methode.map((m, i) => (
-          <div class="bg-white border border-hairline rounded-xl p-6 reveal">
-            <span class="font-display font-extrabold text-2xl text-green">{String(i + 1).padStart(2, "0")}</span>
-            <p class="mt-2 font-display font-semibold text-lg">{m}</p>
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24">
+      <div class="max-w-2xl">
+        <Eyebrow label="Nos pôles" />
+        <h2 class="mt-6 section-title left">Six initiatives, une même <strong>ambition.</strong></h2>
+      </div>
+      <div class="mt-16 space-y-16 md:space-y-24">
+        {poles.map((p, i) => (
+          <div class:list={["grid md:grid-cols-2 gap-8 md:gap-14 items-center reveal", i % 2 === 1 && "md:[&>*:first-child]:order-2"]}>
+            <div class="relative rounded-[2rem] overflow-hidden shadow-xl">
+              <img src={p.image} alt={p.name} class="w-full aspect-[4/3] object-cover" loading="lazy" />
+              <span class:list={["absolute top-5 left-5 icon-chip w-14 h-14 shadow-lg", chip(p.color)]}><Icon name={p.icon} class="w-7 h-7" /></span>
+              {p.logo && (
+                <span class="absolute bottom-5 right-5 bg-cream rounded-2xl p-2.5 shadow-lg">
+                  <img src={p.logo} alt={`Logo ${p.name}`} class="w-12 h-12 object-contain" loading="lazy" />
+                </span>
+              )}
+              <div class="absolute bottom-0 left-0 right-0"><PatternBand height={16} /></div>
+            </div>
+            <div>
+              <span class="font-display font-700 text-sm text-terra" style="font-weight:700">Pôle {String(i + 1).padStart(2, "0")}</span>
+              <h3 class="mt-2 display-xl !text-ink" style="font-size:clamp(1.7rem,3.2vw,2.4rem)">{p.name}</h3>
+              <p class="mt-3 text-lg font-display font-600 text-terra" style="font-weight:600">{p.baseline}</p>
+              <p class="mt-4 prose-cb">{p.text}</p>
+            </div>
           </div>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- Méthode d'impact (forêt) -->
+  <section class="relative bg-forest text-white overflow-hidden">
+    <MotifTexture class="text-white/[0.05]" />
+    <Motif name="chevron" class="absolute -left-10 -bottom-10 w-72 h-72 text-white/[0.05] hidden md:block" />
+    <div class="relative container-cb py-20 md:py-24">
+      <div class="max-w-2xl">
+        <Eyebrow label="Notre méthode" light />
+        <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(2rem,4vw,3.2rem)">
+          Une méthode fondée sur <span class="text-terra-bright">l'action.</span>
+        </h2>
+        <p class="mt-5 text-white/60 text-lg">Chaque projet suit une démarche structurée, cohérente et centrée sur les besoins réels.</p>
+      </div>
+      <div class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {methode.map((m, i) => (
+          <div class="bg-white/5 border border-white/10 rounded-2xl p-6 reveal">
+            <span class="font-display font-700 text-3xl text-terra-bright" style="font-weight:700">{String(i + 1).padStart(2, "0")}</span>
+            <p class="mt-2 font-display font-600 text-lg text-white" style="font-weight:600">{m}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <PatternBand height={24} />
+
   <!-- Engagements -->
-  <section class="bg-white">
-    <div class="container-cb py-16 md:py-20 grid md:grid-cols-12 gap-10">
-      <div class="md:col-span-5 reveal">
-        <p class="section-title left">Ce à quoi nous nous <strong>engageons</strong></p>
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-16">
+      <div class="lg:col-span-5 reveal">
+        <Eyebrow label="Nos engagements" />
+        <h2 class="mt-6 section-title left">Ce à quoi nous nous <strong>engageons.</strong></h2>
         <p class="mt-5 prose-cb">
           Nos engagements ne sont pas de simples principes : ils constituent le fondement de
           notre identité et orientent chacune de nos décisions.
         </p>
+        <a href="/partenaires/" class="btn btn-terra mt-6">Construire avec nous <Icon name="arrow-right" class="w-4 h-4" /></a>
       </div>
-      <ul class="md:col-span-7 space-y-3 reveal">
+      <ul class="lg:col-span-7 grid sm:grid-cols-2 gap-3 reveal">
         {engagements.map((e) => (
-          <li class="flex gap-3 bg-paper-warm border border-hairline rounded-xl p-4">
-            <Icon name="check" class="w-5 h-5 text-green shrink-0 mt-0.5" />
+          <li class="flex gap-3 bg-cream border border-hairline rounded-xl p-5">
+            <span class="icon-chip w-8 h-8 shrink-0 bg-terra/12 text-terra"><Icon name="check" class="w-5 h-5" /></span>
             <span class="text-ink-soft">{e}</span>
           </li>
         ))}

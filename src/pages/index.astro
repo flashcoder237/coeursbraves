@@ -46,7 +46,7 @@ const chipClass = (c: string) =>
       </div>
       <div class="lg:col-span-6 relative">
         <div class="relative rounded-[2rem] overflow-hidden aspect-[4/3.4] shadow-2xl">
-          <img src="/images/cb/hero-community.jpg" alt="La communauté Cœurs Braves réunie" class="w-full h-full object-cover" />
+          <img src="/images/cb/hero-community.jpg" alt="La communauté Cœurs Braves réunie" width="1672" height="941" fetchpriority="high" class="w-full h-full object-cover" />
           <div class="absolute bottom-0 left-0 right-0"><PatternBand height={20} /></div>
         </div>
         <div class="absolute -bottom-6 -left-4 sm:left-6 bg-cream rounded-2xl shadow-xl px-6 py-4 flex items-center gap-4 border border-hairline">
@@ -126,15 +126,23 @@ const chipClass = (c: string) =>
           return (
             <a href="/ecosysteme/"
               class:list={[
-                "group rounded-2xl p-7 flex flex-col reveal transition-colors",
+                "pole-card group relative overflow-hidden rounded-2xl p-7 flex flex-col reveal transition-colors",
                 p.slug === "academy" && "lg:row-span-2",
                 feature ? "bg-terra hover:bg-terra-dark lg:col-span-2" : "bg-white/[0.04] hover:bg-white/[0.07] border border-white/10",
               ]}
             >
-              <span class:list={["icon-chip w-14 h-14 mb-auto", feature ? "bg-white/20 text-white" : chipClass(accent)]}>
+              {p.slug === "academy" && (
+                <Fragment>
+                  <img src={p.image} alt="" width="1080" height="810"
+                    class="absolute inset-0 w-full h-full object-cover opacity-30 transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+                  <span class="absolute inset-0 bg-gradient-to-t from-ink via-ink/90 to-ink/35"></span>
+                </Fragment>
+              )}
+              <span class="pole-arrow" aria-hidden="true">↗</span>
+              <span class:list={["relative z-10 icon-chip w-14 h-14 mb-auto", feature ? "bg-white/20 text-white" : chipClass(accent)]}>
                 <Icon name={p.icon} class="w-7 h-7" />
               </span>
-              <div class:list={[p.slug === "academy" ? "mt-24" : "mt-10"]}>
+              <div class:list={["relative z-10", p.slug === "academy" ? "mt-24" : "mt-10"]}>
                 <h3 class="font-display font-700 text-xl leading-snug" style="font-weight:700">{p.name}</h3>
                 <p class:list={["mt-2 text-sm leading-relaxed", feature ? "text-white/85" : "text-white/55"]}>{p.baseline}</p>
                 {(p.slug === "academy" || feature) && (
@@ -170,10 +178,10 @@ const chipClass = (c: string) =>
         </div>
       </div>
       <div class="lg:col-span-6 grid grid-cols-2 gap-4">
-        <img src="/images/cb/training-sewing.jpg" alt="Atelier de couture" class="rounded-2xl h-56 w-full object-cover" loading="lazy" />
-        <img src="/images/cb/agri-cacao.jpg" alt="Agriculture" class="rounded-2xl h-56 w-full object-cover mt-8" loading="lazy" />
-        <img src="/images/cb/health-care.jpg" alt="Santé communautaire" class="rounded-2xl h-56 w-full object-cover" loading="lazy" />
-        <img src="/images/cb/youth-laptop-1.jpg" alt="Formation numérique" class="rounded-2xl h-56 w-full object-cover mt-8" loading="lazy" />
+        <img src="/images/cb/training-sewing.jpg" alt="Atelier de couture" width="1672" height="941" class="rounded-2xl h-56 w-full object-cover" loading="lazy" />
+        <img src="/images/cb/agri-cacao.jpg" alt="Agriculture" width="2048" height="1365" class="rounded-2xl h-56 w-full object-cover mt-8" loading="lazy" />
+        <img src="/images/cb/health-care.jpg" alt="Santé communautaire" width="2048" height="1365" class="rounded-2xl h-56 w-full object-cover" loading="lazy" />
+        <img src="/images/cb/youth-laptop-1.jpg" alt="Formation numérique" width="1265" height="844" class="rounded-2xl h-56 w-full object-cover mt-8" loading="lazy" />
       </div>
     </div>
   </section>
@@ -217,7 +225,7 @@ const chipClass = (c: string) =>
   <section class="bg-cream">
     <div class="container-cb py-24 grid lg:grid-cols-2 gap-12 items-stretch">
       <div class="rounded-[2rem] overflow-hidden min-h-[340px]">
-        <img src="/images/cb/children-flag.jpg" alt="Communauté au Cameroun" class="w-full h-full object-cover" loading="lazy" />
+        <img src="/images/cb/children-flag.jpg" alt="Communauté au Cameroun" width="1080" height="810" class="w-full h-full object-cover" loading="lazy" />
       </div>
       <div class="relative overflow-hidden bg-forest text-white rounded-[2rem] p-10 md:p-12 flex flex-col justify-center">
         <MotifTexture class="text-white/[0.06]" />
@@ -232,7 +240,7 @@ const chipClass = (c: string) =>
         </p>
         <div class="mt-8 grid grid-cols-2 gap-3">
           {site.countries.map((c) => (
-            <div class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
+            <div class="presence-tile flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-4 py-3">
               <Icon name="map-pin" class="w-5 h-5 text-terra-bright shrink-0" />
               <span class="text-sm font-medium">{c}</span>
             </div>
@@ -262,7 +270,7 @@ const chipClass = (c: string) =>
       <div class="mt-14 grid sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
         <figure class="group reveal">
           <div class="rounded-2xl overflow-hidden ring-1 ring-white/10">
-            <img src="/images/cb/poster-cameroun.png" alt="Cœurs Braves — Cameroun" class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+            <img src="/images/cb/poster-cameroun.png" alt="Cœurs Braves — Cameroun" width="1080" height="1080" class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
           </div>
           <figcaption class="mt-3 flex items-center gap-2 text-sm text-white/70">
             <span class="w-2 h-2 rounded-full bg-terra"></span>Cameroun · nos racines
@@ -270,7 +278,7 @@ const chipClass = (c: string) =>
         </figure>
         <figure class="group reveal">
           <div class="rounded-2xl overflow-hidden ring-1 ring-white/10">
-            <img src="/images/cb/poster-allemagne.png" alt="Cœurs Braves — Allemagne, diaspora" class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+            <img src="/images/cb/poster-allemagne.png" alt="Cœurs Braves — Allemagne, diaspora" width="1080" height="1080" class="w-full aspect-square object-cover transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
           </div>
           <figcaption class="mt-3 flex items-center gap-2 text-sm text-white/70">
             <span class="w-2 h-2 rounded-full bg-emerald"></span>Allemagne · notre diaspora
@@ -325,7 +333,7 @@ const chipClass = (c: string) =>
           <h2 class="section-title left" style="font-size:clamp(1.6rem,3vw,2.2rem)">Restons en contact.</h2>
           <p class="mt-3 text-ink-mute">Actualités, appels à projets et opportunités, directement dans votre boîte de réception.</p>
         </div>
-        <form class="flex flex-col sm:flex-row gap-3" onsubmit="return false">
+        <form class="cb-form flex flex-col sm:flex-row gap-3" data-subject="Inscription à la newsletter Cœurs Braves">
           <input type="email" required placeholder="Votre adresse électronique"
             class="flex-1 rounded-full px-6 py-3.5 bg-white border border-hairline text-ink placeholder:text-ink-mute outline-none focus:border-terra" />
           <button type="submit" class="btn btn-terra">S'abonner</button>

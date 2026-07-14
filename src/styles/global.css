@@ -1,3 +1,6 @@
+/* Fonts self-hébergées (RGPD — aucun appel à Google Fonts) */
+@import "@fontsource-variable/outfit";
+@import "@fontsource-variable/plus-jakarta-sans";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
@@ -37,9 +40,9 @@
   --color-green: #047857;
   --color-green-dark: #0a311f;
 
-  /* Typo */
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
-  --font-display: "Outfit", "Plus Jakarta Sans", system-ui, sans-serif;
+  /* Typo — familles variables self-hébergées */
+  --font-sans: "Plus Jakarta Sans Variable", system-ui, -apple-system, sans-serif;
+  --font-display: "Outfit Variable", "Plus Jakarta Sans Variable", system-ui, sans-serif;
 
   --ease-smooth: cubic-bezier(0.19, 1, 0.22, 1);
 }
@@ -115,6 +118,7 @@ h1, h2, h3, h4, .font-display {
   transition: transform 0.25s var(--ease-smooth), background-color 0.25s, color 0.25s, box-shadow 0.25s;
 }
 .btn:hover { transform: translateY(-2px); }
+.btn:active { transform: translateY(0) scale(0.97); }
 .btn svg { width: 1.1em; height: 1.1em; }
 .btn-terra { background: var(--color-terra); color: #fff; box-shadow: 0 10px 24px -12px rgba(193,39,45,0.6); }
 .btn-terra:hover { background: var(--color-terra-dark); }
@@ -238,6 +242,54 @@ h1, h2, h3, h4, .font-display {
 @media (prefers-reduced-motion: reduce) {
   .cb-logo-link:hover img, .domaine-chip:hover, .action-card:hover,
   .testimonial:hover, .testimonial:hover .testimonial-quote { transform: none; }
+}
+
+/* --- Liens de navigation (soulignement animé) --- */
+.nav-link { position: relative; }
+.nav-link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -5px; height: 2px;
+  background: var(--color-terra); border-radius: 2px;
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.3s var(--ease-smooth);
+}
+.nav-link:hover::after, .nav-link.is-active::after { transform: scaleX(1); }
+.nav-link.is-active { color: var(--color-terra); }
+
+/* --- Cartes écosystème (bento) — affordance de clic --- */
+.pole-card .icon-chip { transition: transform 0.4s var(--ease-smooth); }
+.pole-card:hover .icon-chip { transform: translateY(-4px) rotate(-4deg); }
+.pole-arrow {
+  position: absolute; top: 1.4rem; right: 1.4rem; z-index: 10;
+  width: 1.9rem; height: 1.9rem; display: inline-flex;
+  align-items: center; justify-content: center; border-radius: 999px;
+  font-size: 1rem; line-height: 1; color: #fff; background: rgba(255,255,255,0.12);
+  opacity: 0; transform: translate(-5px, 5px);
+  transition: opacity 0.32s var(--ease-smooth), transform 0.32s var(--ease-smooth), background-color 0.32s;
+}
+.pole-card:hover .pole-arrow { opacity: 1; transform: translate(0, 0); background: rgba(255,255,255,0.22); }
+
+/* --- Tuiles « Présence » --- */
+.presence-tile {
+  transition: background-color 0.25s, border-color 0.25s, transform 0.25s var(--ease-smooth);
+}
+.presence-tile:hover {
+  background: rgba(255,255,255,0.12);
+  border-color: rgba(255,255,255,0.28);
+  transform: translateY(-2px);
+}
+
+/* --- Note de confirmation des formulaires --- */
+.cb-form-note {
+  margin-top: 0.85rem; font-size: 0.88rem; font-weight: 600;
+  color: var(--color-emerald); line-height: 1.5;
+}
+
+/* --- Focus clavier visible --- */
+:focus-visible { outline: 2px solid var(--color-terra); outline-offset: 3px; border-radius: 4px; }
+.bg-forest :focus-visible, .bg-ink :focus-visible, .bg-terra :focus-visible { outline-color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pole-card:hover .icon-chip, .pole-card:hover .pole-arrow, .presence-tile:hover { transform: none; }
 }
 
 /* --- Reveal --- */

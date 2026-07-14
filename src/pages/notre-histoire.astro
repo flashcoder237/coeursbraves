@@ -1,6 +1,10 @@
 ---
 import Layout from "~/components/Layout.astro";
 import PageHero from "~/components/PageHero.astro";
+import Eyebrow from "~/components/Eyebrow.astro";
+import Motif from "~/components/Motif.astro";
+import MotifTexture from "~/components/MotifTexture.astro";
+import PatternBand from "~/components/PatternBand.astro";
 import { site } from "~/data/site";
 
 const timeline = [
@@ -13,9 +17,9 @@ const timeline = [
 ];
 
 const valeurs = [
-  { t: "Courage", d: "Il nous pousse à entreprendre malgré les difficultés.", c: "text-red" },
-  { t: "Solidarité", d: "Les plus grandes réussites se construisent ensemble.", c: "text-green" },
-  { t: "Impact", d: "Agir avec responsabilité pour des résultats concrets et durables.", c: "text-gold" },
+  { t: "Courage", d: "Il nous pousse à entreprendre malgré les difficultés.", motif: "star", chip: "bg-terra/15 text-terra", num: "bg-terra" },
+  { t: "Solidarité", d: "Les plus grandes réussites se construisent ensemble.", motif: "cross", chip: "bg-emerald/15 text-emerald", num: "bg-emerald" },
+  { t: "Impact", d: "Agir avec responsabilité pour des résultats concrets et durables.", motif: "zigzag", chip: "bg-gold/15 text-gold", num: "bg-gold" },
 ];
 ---
 
@@ -28,56 +32,61 @@ const valeurs = [
   />
 
   <!-- Intro -->
-  <section class="bg-white">
-    <div class="container-cb py-16 md:py-20 grid md:grid-cols-12 gap-10">
-      <div class="md:col-span-7 prose-cb text-lg reveal">
-        <p>Pendant des années, nous avons rencontré des jeunes diplômés sans emploi, des entrepreneurs porteurs d'idées prometteuses mais privés de financement, des femmes déterminées à améliorer les conditions de vie de leur famille.</p>
-        <p>Le constat était toujours le même : <strong>le potentiel était immense, mais les opportunités restaient limitées.</strong> Le véritable défi n'était pas le manque de talent, mais l'absence d'un environnement capable d'accompagner, de former, de connecter et d'encourager.</p>
-        <p>C'est cette réalité qui a donné naissance à Cœurs Braves.</p>
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
+      <div class="lg:col-span-7">
+        <Eyebrow label="L'origine" />
+        <h2 class="mt-6 section-title left">Le potentiel était immense, les opportunités <strong>limitées.</strong></h2>
       </div>
-      <div class="md:col-span-5 reveal">
-        <div class="bg-paper-warm border border-hairline rounded-2xl p-7">
-          <h3 class="font-display font-bold text-xl">Plus qu'une association, un mouvement</h3>
-          <p class="mt-3 text-ink-mute leading-relaxed">
-            Notre volonté était de créer un mouvement capable de rassembler toutes les personnes
-            convaincues qu'investir dans l'humain est la meilleure façon de construire une société
-            plus prospère.
-          </p>
-        </div>
+      <div class="lg:col-span-5 prose-cb reveal">
+        <p>Pendant des années, nous avons rencontré des jeunes diplômés sans emploi, des entrepreneurs porteurs d'idées prometteuses mais privés de financement, des femmes déterminées à améliorer les conditions de vie de leur famille.</p>
+        <p>Le véritable défi n'était pas le manque de talent, mais <strong>l'absence d'un environnement capable d'accompagner, de former, de connecter et d'encourager.</strong> C'est cette réalité qui a donné naissance à Cœurs Braves.</p>
       </div>
     </div>
   </section>
 
-  <!-- Fondateur -->
-  <section class="bg-paper-cool">
-    <div class="container-cb py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+  <PatternBand height={24} />
+
+  <!-- Fondateur (vert forêt) -->
+  <section class="relative bg-forest text-white overflow-hidden">
+    <MotifTexture class="text-white/[0.06]" />
+    <Motif name="eye" class="absolute -right-16 top-1/2 -translate-y-1/2 w-80 h-80 text-white/[0.05] hidden lg:block" />
+    <div class="relative container-cb py-20 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
       <div class="reveal">
-        <img src="/images/cb/entrepreneurs-meeting.jpg" alt="Transmission et accompagnement" class="rounded-2xl w-full object-cover aspect-[4/3]" loading="lazy" />
+        <div class="rounded-[2rem] overflow-hidden ring-1 ring-white/10">
+          <img src="/images/cb/entrepreneurs-meeting.jpg" alt="Transmission et accompagnement" class="w-full object-cover aspect-[4/3]" loading="lazy" />
+        </div>
       </div>
       <div class="reveal">
-        <p class="section-title left">Une histoire profondément <strong>humaine</strong></p>
-        <p class="mt-5 prose-cb">
+        <Eyebrow label="Le fondateur" light />
+        <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">
+          Une histoire profondément <span class="text-terra-bright">humaine.</span>
+        </h2>
+        <p class="mt-6 text-white/75 leading-relaxed text-lg">
           L'histoire de Cœurs Braves est intimement liée au parcours de son fondateur,
-          <strong>{site.founder}</strong>. Comme beaucoup de jeunes Africains, il a connu
-          les défis de l'entrepreneuriat, les périodes d'incertitude et les obstacles liés
-          à la mobilité internationale.
+          <strong class="text-white">{site.founder}</strong>. Comme beaucoup de jeunes Africains,
+          il a connu les défis de l'entrepreneuriat, les périodes d'incertitude et les obstacles
+          liés à la mobilité internationale.
         </p>
-        <p class="prose-cb">
-          Ces expériences lui ont permis de comprendre une réalité essentielle : la réussite
-          prend tout son sens lorsqu'elle devient un levier pour ouvrir des perspectives à d'autres.
-        </p>
+        <blockquote class="mt-6 border-l-2 border-terra-bright pl-5 text-white/90 italic">
+          La réussite prend tout son sens lorsqu'elle devient un levier pour ouvrir des
+          perspectives à d'autres.
+        </blockquote>
       </div>
     </div>
   </section>
 
   <!-- Valeurs -->
-  <section class="bg-white">
-    <div class="container-cb py-16 md:py-20">
-      <p class="section-title">Une communauté bâtie sur des <strong>valeurs</strong></p>
-      <div class="mt-12 grid sm:grid-cols-3 gap-6">
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24">
+      <div class="text-center"><Eyebrow label="Nos valeurs" align="center" /></div>
+      <h2 class="mt-6 section-title">Une communauté bâtie sur des <strong>valeurs.</strong></h2>
+      <div class="mt-14 grid sm:grid-cols-3 gap-6">
         {valeurs.map((v) => (
-          <div class="bg-paper-warm border border-hairline rounded-2xl p-8 text-center reveal">
-            <div class={`font-display font-extrabold text-3xl ${v.c}`}>{v.t}</div>
+          <div class="relative bg-cream rounded-2xl border border-hairline p-8 card-hover reveal overflow-hidden">
+            <Motif name={v.motif} class="absolute -right-6 -top-6 w-28 h-28 text-ink/[0.04]" />
+            <span class:list={["icon-chip w-14 h-14", v.chip]}><Motif name={v.motif} class="w-7 h-7" /></span>
+            <h3 class="mt-6 font-display font-700 text-2xl" style="font-weight:700">{v.t}</h3>
             <p class="mt-3 text-ink-mute leading-relaxed">{v.d}</p>
           </div>
         ))}
@@ -86,21 +95,23 @@ const valeurs = [
   </section>
 
   <!-- Frise chronologique -->
-  <section class="bg-paper-warm">
-    <div class="container-cb py-16 md:py-24">
-      <p class="section-title">Les grandes étapes de notre <strong>parcours</strong></p>
-      <div class="mt-14 relative max-w-3xl mx-auto">
+  <section class="bg-cream-2">
+    <div class="container-cb py-20 md:py-24">
+      <div class="text-center"><Eyebrow label="Notre parcours" align="center" /></div>
+      <h2 class="mt-6 section-title">Les grandes <strong>étapes.</strong></h2>
+      <div class="mt-16 relative max-w-3xl mx-auto">
         <div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-hairline md:-translate-x-1/2"></div>
-        <div class="space-y-10">
+        <div class="space-y-8">
           {timeline.map((item, i) => (
-            <div class:list={["relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-10 reveal", i % 2 === 1 && "md:text-left"]}>
+            <div class="relative pl-12 md:pl-0 md:grid md:grid-cols-2 md:gap-10 reveal">
               <div class:list={["md:col-start-1", i % 2 === 0 ? "md:text-right md:pr-12" : "md:col-start-2 md:pl-12"]}>
-                <div class="bg-white border border-hairline rounded-xl p-5 shadow-sm inline-block text-left">
-                  <h3 class="font-display font-bold text-lg text-ink">{item.t}</h3>
+                <div class="bg-cream border border-hairline rounded-xl p-6 shadow-sm text-left">
+                  <span class="font-display font-700 text-sm text-terra" style="font-weight:700">Étape {String(i + 1).padStart(2, "0")}</span>
+                  <h3 class="mt-1 font-display font-700 text-lg text-ink" style="font-weight:700">{item.t}</h3>
                   <p class="mt-2 text-sm text-ink-mute leading-relaxed">{item.d}</p>
                 </div>
               </div>
-              <span class="absolute left-4 md:left-1/2 top-1.5 w-4 h-4 rounded-full bg-red ring-4 ring-paper-warm md:-translate-x-1/2"></span>
+              <span class="absolute left-4 md:left-1/2 top-2 w-4 h-4 rounded-full bg-terra ring-4 ring-cream-2 md:-translate-x-1/2"></span>
             </div>
           ))}
         </div>
@@ -109,16 +120,15 @@ const valeurs = [
   </section>
 
   <!-- Clôture -->
-  <section class="bg-white">
-    <div class="container-cb py-16 text-center max-w-3xl">
-      <p class="prose-cb text-lg italic">
-        Notre histoire ne s'écrit pas seulement à travers nos réalisations. Elle s'écrit aussi
-        à travers les femmes et les hommes qui choisissent chaque jour de croire qu'un avenir
-        meilleur se construit par l'engagement, la solidarité et l'action.
-        <strong> Si cette vision est aussi la vôtre, alors vous faites déjà partie de l'histoire de Cœurs Braves.</strong>
+  <section class="bg-cream">
+    <div class="container-cb py-20 text-center max-w-3xl">
+      <Motif name="cross" class="w-10 h-10 mx-auto text-terra/40" />
+      <p class="mt-6 font-display text-2xl md:text-3xl leading-snug text-ink" style="font-weight:600;letter-spacing:-0.02em">
+        Si cette vision est aussi la vôtre, alors vous faites déjà partie de
+        l'histoire de <span class="text-terra">Cœurs Braves.</span>
       </p>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <a href="/rejoindre/" class="btn btn-red">Rejoindre la communauté</a>
+        <a href="/rejoindre/" class="btn btn-terra">Rejoindre la communauté</a>
         <a href="/ecosysteme/" class="btn btn-outline">Découvrir nos programmes</a>
       </div>
     </div>

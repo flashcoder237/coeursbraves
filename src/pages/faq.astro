@@ -1,6 +1,8 @@
 ---
 import Layout from "~/components/Layout.astro";
 import PageHero from "~/components/PageHero.astro";
+import Eyebrow from "~/components/Eyebrow.astro";
+import Icon from "~/components/Icon.astro";
 import { faq } from "~/data/site";
 ---
 
@@ -10,27 +12,34 @@ import { faq } from "~/data/site";
     kicker="Questions fréquentes"
     title="Vous avez des questions ?"
     subtitle="Retrouvez l'essentiel sur Cœurs Braves, notre communauté et nos actions."
-    height="min-h-[40vh]"
+    height="min-h-[42vh]"
   />
 
-  <section class="bg-white">
-    <div class="container-cb py-16 md:py-20 max-w-3xl">
-      <div class="space-y-3">
-        {faq.map((item, i) => (
-          <details class="group bg-paper-warm border border-hairline rounded-xl overflow-hidden reveal" open={i === 0}>
-            <summary class="flex items-center justify-between gap-4 cursor-pointer list-none px-6 py-5 font-display font-semibold text-ink">
-              <span>{item.q}</span>
-              <span class="shrink-0 text-red text-2xl leading-none transition-transform group-open:rotate-45">+</span>
-            </summary>
-            <div class="px-6 pb-6 -mt-1 text-ink-soft leading-relaxed">{item.a}</div>
-          </details>
-        ))}
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24 grid lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+      <!-- Colonne intro -->
+      <div class="lg:col-span-4 lg:sticky lg:top-28">
+        <Eyebrow label="Bon à savoir" />
+        <h2 class="mt-6 section-title left">Tout ce qu'il faut <strong>savoir.</strong></h2>
+        <div class="mt-8 bg-forest text-white rounded-2xl p-7">
+          <span class="icon-chip w-12 h-12 bg-white/10 text-terra-bright"><Icon name="hand-heart" class="w-6 h-6" /></span>
+          <h3 class="mt-4 font-display font-700 text-lg" style="font-weight:700">Une autre question ?</h3>
+          <p class="mt-2 text-sm text-white/70 leading-relaxed">Notre équipe est là pour vous accompagner et répondre à vos demandes.</p>
+          <a href="/contact/" class="btn btn-terra mt-5 text-sm">Nous contacter <Icon name="arrow-right" class="w-4 h-4" /></a>
+        </div>
       </div>
 
-      <div class="mt-12 text-center bg-paper-cool border border-hairline rounded-2xl p-8">
-        <h2 class="font-display font-bold text-xl">Vous n'avez pas trouvé votre réponse ?</h2>
-        <p class="mt-2 text-ink-mute">Notre équipe est là pour vous accompagner.</p>
-        <a href="/contact/" class="btn btn-red mt-5">Nous contacter</a>
+      <!-- Accordéon -->
+      <div class="lg:col-span-8 space-y-3">
+        {faq.map((item, i) => (
+          <details class="group bg-cream-2 border border-hairline rounded-2xl overflow-hidden reveal" open={i === 0}>
+            <summary class="flex items-center justify-between gap-4 cursor-pointer list-none px-6 py-5 font-display font-700 text-ink" style="font-weight:700">
+              <span>{item.q}</span>
+              <span class="shrink-0 grid place-items-center w-8 h-8 rounded-full bg-terra/12 text-terra text-2xl leading-none transition-transform duration-300 group-open:rotate-45">+</span>
+            </summary>
+            <div class="px-6 pb-6 text-ink-soft leading-relaxed">{item.a}</div>
+          </details>
+        ))}
       </div>
     </div>
   </section>
