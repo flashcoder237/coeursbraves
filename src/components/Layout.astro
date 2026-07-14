@@ -68,6 +68,16 @@ const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
     <CookieBanner />
 
     <script is:inline>
+      // Mémorise la langue de la page courante (cookie lu par le middleware Vercel) :
+      // ainsi un choix manuel via le sélecteur prime sur la détection automatique.
+      (function () {
+        var seg = location.pathname.split("/")[1];
+        var lang = seg === "en" || seg === "de" ? seg : "fr";
+        document.cookie = "cb-lang=" + lang + "; path=/; max-age=31536000; samesite=lax";
+      })();
+    </script>
+
+    <script is:inline>
       document.addEventListener("DOMContentLoaded", () => {
         const els = document.querySelectorAll(".reveal");
         if (!els.length) return;
