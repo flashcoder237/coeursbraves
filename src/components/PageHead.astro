@@ -1,0 +1,22 @@
+---
+import Eyebrow from "./Eyebrow.astro";
+interface Props {
+  kicker?: string;
+  title: string;
+  subtitle?: string;
+  crumb?: string;
+}
+const { kicker, title, subtitle, crumb } = Astro.props;
+---
+<section class="bg-cream border-b border-hairline">
+  <div class="container-cb pt-32 pb-14">
+    <nav class="text-xs text-ink-mute mb-6 flex items-center gap-2" aria-label="Fil d'ariane">
+      <a href="/" class="hover:text-terra transition-colors">Accueil</a>
+      <span aria-hidden="true">/</span>
+      <span class="text-ink-soft">{crumb ?? title}</span>
+    </nav>
+    {kicker && <Eyebrow label={kicker} />}
+    <h1 class="mt-5 display-xl" style="font-size:clamp(2.1rem,5vw,3.5rem)">{title}</h1>
+    {subtitle && <p class="mt-4 text-ink-mute text-lg max-w-2xl leading-relaxed">{subtitle}</p>}
+  </div>
+</section>

@@ -1,0 +1,71 @@
+---
+import Layout from "~/components/Layout.astro";
+import PageHead from "~/components/PageHead.astro";
+import { site } from "~/data/site";
+import { legal } from "~/data/org";
+---
+<Layout
+  title="Politique de confidentialité"
+  description="Politique de confidentialité et protection des données personnelles (RGPD) de Cœurs Braves."
+>
+  <PageHead kicker="Vos données" title="Politique de confidentialité" subtitle="Protection de vos données personnelles (RGPD / DSGVO)." crumb="Confidentialité" />
+
+  <section class="bg-cream">
+    <div class="container-cb py-16 md:py-20 max-w-3xl legal-doc">
+      <p>
+        {site.legalName} accorde une grande importance à la protection de vos données personnelles.
+        Cette politique explique quelles données sont collectées, pourquoi, et quels sont vos droits,
+        conformément au Règlement général sur la protection des données (RGPD / DSGVO).
+      </p>
+
+      <h2>1. Responsable du traitement</h2>
+      <p>
+        {site.legalName} — {site.hq.city} ({site.hq.postal}), {site.hq.country}.<br />
+        Contact : <a href={`mailto:${site.email}`}>{site.email}</a>.
+      </p>
+
+      <h2>2. Données collectées</h2>
+      <p>
+        Nous collectons uniquement les données que vous nous transmettez volontairement via nos
+        formulaires (adhésion, contact, newsletter) : nom, adresse e-mail, pays de résidence et le
+        contenu de votre message. Aucune donnée sensible n'est demandée.
+      </p>
+
+      <h2>3. Finalités et base légale</h2>
+      <p>
+        Ces données servent exclusivement à répondre à vos demandes, gérer votre adhésion ou vous
+        adresser nos actualités si vous y avez consenti. La base légale est votre consentement
+        (art. 6.1.a RGPD) et, le cas échéant, l'intérêt légitime de l'association à répondre à ses membres.
+      </p>
+
+      <h2>4. Destinataires</h2>
+      <p>
+        Vos données sont traitées par l'équipe de {site.legalName} et ne sont ni vendues ni cédées à
+        des tiers à des fins commerciales.
+      </p>
+
+      <h2>5. Durée de conservation</h2>
+      <p>
+        Vos données sont conservées le temps nécessaire au traitement de votre demande ou de votre
+        engagement, puis supprimées ou archivées conformément aux obligations légales.
+      </p>
+
+      <h2>6. Cookies</h2>
+      <p>
+        Ce site n'utilise que des cookies strictement nécessaires à son fonctionnement. Les polices
+        d'écriture sont hébergées localement : aucune donnée n'est transmise à des services tiers
+        (pas de Google Fonts, pas de traceur publicitaire).
+      </p>
+
+      <h2>7. Vos droits</h2>
+      <p>
+        Vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, d'opposition
+        et de portabilité de vos données. Pour l'exercer, écrivez-nous à
+        <a href={`mailto:${site.email}`}>{site.email}</a>. Vous pouvez également introduire une
+        réclamation auprès de l'autorité de contrôle compétente.
+      </p>
+
+      <p class="legal-meta">Dernière mise à jour : {legal.updatedAt}</p>
+    </div>
+  </section>
+</Layout>

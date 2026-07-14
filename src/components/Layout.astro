@@ -2,6 +2,8 @@
 import "~/styles/global.css";
 import Nav from "./Nav.astro";
 import Footer from "./Footer.astro";
+import CookieBanner from "./CookieBanner.astro";
+import FloatingActions from "./FloatingActions.astro";
 import { site } from "~/data/site";
 
 interface Props {
@@ -46,6 +48,8 @@ const ogImage = new URL(image, Astro.site ?? Astro.url.origin).href;
       <slot />
     </main>
     <Footer />
+    <FloatingActions />
+    <CookieBanner />
 
     <script is:inline>
       document.addEventListener("DOMContentLoaded", () => {

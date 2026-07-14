@@ -278,10 +278,99 @@ h1, h2, h3, h4, .font-display {
   transform: translateY(-2px);
 }
 
+/* --- Widget de don --- */
+.cb-freq {
+  flex: 1; border-radius: 999px; padding: 0.62rem 0;
+  font-family: var(--font-display); font-weight: 600; font-size: 0.9rem;
+  color: var(--color-ink-mute); transition: background-color 0.22s, color 0.22s;
+}
+.cb-freq.is-active { background: var(--color-terra); color: #fff; }
+.cb-amt {
+  border-radius: 0.75rem; padding: 0.72rem 0;
+  font-family: var(--font-display); font-weight: 700; font-size: 0.95rem;
+  border: 1px solid var(--color-hairline); background: var(--color-cream); color: var(--color-ink);
+  transition: border-color 0.22s, background-color 0.22s, color 0.22s, transform 0.22s var(--ease-smooth);
+}
+.cb-amt:hover { border-color: var(--color-terra); transform: translateY(-2px); }
+.cb-amt.is-active { background: var(--color-terra); color: #fff; border-color: var(--color-terra); }
+
+/* Barres de progression (campagne + allocation) */
+.progress-track { height: 0.6rem; border-radius: 999px; background: rgba(26,26,24,0.08); overflow: hidden; }
+.alloc-track { height: 0.55rem; border-radius: 999px; background: rgba(255,255,255,0.12); overflow: hidden; }
+.progress-fill, .alloc-fill { display: block; height: 100%; width: 0; border-radius: 999px; transition: width 1.1s var(--ease-smooth); }
+.progress-fill { background: linear-gradient(90deg, var(--color-terra), var(--color-gold)); }
+.reveal.is-visible .progress-fill, .reveal.is-visible .alloc-fill { width: var(--pct); }
+@media (prefers-reduced-motion: reduce) {
+  .progress-fill, .alloc-fill { transition: none; width: var(--pct); }
+  .cb-amt:hover { transform: none; }
+}
+
+/* --- Documents légaux --- */
+.legal-doc { color: var(--color-ink-soft); line-height: 1.75; }
+.legal-doc h2 {
+  font-family: var(--font-display); font-weight: 700; color: var(--color-ink);
+  font-size: 1.25rem; margin-top: 2.25rem; margin-bottom: 0.6rem;
+}
+.legal-doc h2:first-child { margin-top: 0; }
+.legal-doc p { margin-bottom: 1rem; }
+.legal-doc a { color: var(--color-terra); text-decoration: underline; }
+.legal-doc strong { color: var(--color-ink); }
+.legal-meta { margin-top: 2.5rem; font-size: 0.85rem; color: var(--color-ink-mute); font-style: italic; }
+
 /* --- Note de confirmation des formulaires --- */
 .cb-form-note {
   margin-top: 0.85rem; font-size: 0.88rem; font-weight: 600;
   color: var(--color-emerald); line-height: 1.5;
+}
+
+/* --- Bandeau cookies --- */
+.cookie-banner {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 80;
+  background: var(--color-ink); color: rgba(255,255,255,0.9);
+  box-shadow: 0 -12px 40px -20px rgba(0,0,0,0.5);
+  transform: translateY(110%); transition: transform 0.4s var(--ease-smooth);
+}
+.cookie-banner.is-open { transform: translateY(0); }
+.cookie-inner {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 1rem 1.5rem; padding-top: 1rem; padding-bottom: 1rem;
+}
+.cookie-text { font-size: 0.9rem; line-height: 1.5; max-width: 62ch; }
+.cookie-link { color: var(--color-terra-bright); text-decoration: underline; }
+.cookie-actions { display: flex; gap: 0.6rem; flex-shrink: 0; }
+.cookie-btn { padding: 0.7rem 1.4rem; font-size: 0.9rem; }
+.cookie-banner .btn-outline { color: #fff; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,0.5); }
+.cookie-banner .btn-outline:hover { background: #fff; color: var(--color-ink); }
+
+/* --- Boutons flottants (don / WhatsApp / haut) --- */
+.fab-stack {
+  position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 60;
+  display: flex; flex-direction: column; align-items: flex-end; gap: 0.7rem;
+}
+.fab {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  border-radius: 999px; cursor: pointer; color: #fff;
+  box-shadow: 0 14px 30px -12px rgba(0,0,0,0.45);
+  transition: transform 0.25s var(--ease-smooth), box-shadow 0.25s, background-color 0.25s;
+}
+.fab:hover { transform: translateY(-3px); box-shadow: 0 20px 38px -14px rgba(0,0,0,0.5); }
+.fab-wa { width: 3.25rem; height: 3.25rem; background: #25d366; }
+.fab-wa:hover { background: #1eb457; }
+.fab-don { background: var(--color-terra); padding: 0 1.25rem; height: 3.25rem; font-family: var(--font-display); font-weight: 600; }
+.fab-don:hover { background: var(--color-terra-dark); }
+.fab-don-label { font-size: 0.95rem; white-space: nowrap; }
+.fab-top {
+  width: 2.9rem; height: 2.9rem; background: var(--color-ink); border: none;
+  opacity: 0; pointer-events: none; transform: translateY(8px);
+}
+.fab-top.is-visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.fab-top:hover { background: #33322d; }
+@media (max-width: 640px) {
+  .fab-don-label { display: none; }
+  .fab-don { width: 3.25rem; padding: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fab:hover, .fab-top { transform: none; }
 }
 
 /* --- Focus clavier visible --- */

@@ -1,0 +1,69 @@
+---
+import Layout from "~/components/Layout.astro";
+import PageHead from "~/components/PageHead.astro";
+import Eyebrow from "~/components/Eyebrow.astro";
+import Icon from "~/components/Icon.astro";
+import MotifTexture from "~/components/MotifTexture.astro";
+import { team } from "~/data/org";
+import { engagements } from "~/data/site";
+
+const ring = ["bg-terra", "bg-emerald", "bg-gold", "bg-terra"];
+const initials = (n: string) =>
+  n.startsWith("[") ? "?" : n.split(" ").filter(Boolean).slice(0, 2).map((w) => w[0]).join("").toUpperCase();
+---
+<Layout
+  title="L'équipe"
+  description="Les femmes et les hommes qui portent la vision de Cœurs Braves : gouvernance, engagement et transparence."
+>
+  <PageHead
+    kicker="Gouvernance"
+    title="Les visages de Cœurs Braves."
+    subtitle="Une équipe engagée, une gouvernance transparente au service de l'impact."
+    crumb="L'équipe"
+  />
+
+  <!-- Équipe -->
+  <section class="bg-cream">
+    <div class="container-cb py-20 md:py-24">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {team.map((m, i) => (
+          <figure class="reveal bg-cream-2 border border-hairline rounded-2xl p-7 text-center card-hover" style={`transition-delay:${i * 80}ms`}>
+            {m.photo ? (
+              <img src={m.photo} alt={m.name} width="200" height="200"
+                class="w-24 h-24 rounded-full object-cover mx-auto ring-2 ring-terra/40 ring-offset-2 ring-offset-cream-2" loading="lazy" />
+            ) : (
+              <span class:list={["w-24 h-24 rounded-full grid place-items-center mx-auto text-white font-display font-700 text-2xl", ring[i % ring.length]]} style="font-weight:700">{initials(m.name)}</span>
+            )}
+            <figcaption class="mt-5">
+              <p class="font-display font-700 text-ink" style="font-weight:700">{m.name}</p>
+              {"alias" in m && m.alias && <p class="text-xs text-terra font-semibold mt-0.5">« {m.alias} »</p>}
+              <p class="text-sm text-ink-mute mt-1">{m.role}</p>
+              <p class="text-sm text-ink-soft leading-relaxed mt-3">{m.bio}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Valeurs / engagements -->
+  <section class="relative bg-forest text-white overflow-hidden">
+    <MotifTexture class="text-white/[0.06]" />
+    <div class="relative container-cb py-20 md:py-24">
+      <div class="max-w-2xl">
+        <Eyebrow label="Nos engagements" light />
+        <h2 class="mt-6 display-xl !text-white" style="font-size:clamp(1.9rem,4vw,3rem)">
+          Une gouvernance <span class="text-terra-bright">responsable.</span>
+        </h2>
+      </div>
+      <ul class="mt-12 grid md:grid-cols-2 gap-x-10 gap-y-5">
+        {engagements.map((e) => (
+          <li class="flex items-start gap-3">
+            <span class="icon-chip w-7 h-7 shrink-0 bg-terra-bright/20 text-terra-bright mt-0.5"><Icon name="check" class="w-4 h-4" /></span>
+            <span class="text-white/85 leading-relaxed">{e}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Layout>

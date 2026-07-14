@@ -63,6 +63,7 @@ const year = new Date().getFullYear();
         {nav.map((n) => (
           <li><a href={n.href} class="hover:text-white transition">{n.label}</a></li>
         ))}
+        <li><a href="/equipe/" class="hover:text-white transition">L'équipe</a></li>
         <li><a href="/faq/" class="hover:text-white transition">FAQ</a></li>
       </ul>
     </div>
@@ -93,9 +94,13 @@ const year = new Date().getFullYear();
   </div>
 
   <div class="border-t border-white/10">
-    <div class="container-cb py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50">
+    <div class="container-cb py-5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/50">
       <p>© {year} {site.legalName}. Tous droits réservés.</p>
-      <p>Investir dans l'humain, c'est construire l'avenir.</p>
+      <nav class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2" aria-label="Liens légaux">
+        <a href="/mentions-legales/" class="hover:text-white transition">Mentions légales</a>
+        <a href="/confidentialite/" class="hover:text-white transition">Confidentialité</a>
+        <a href="/faq/" class="hover:text-white transition">FAQ</a>
+      </nav>
     </div>
   </div>
 </footer>

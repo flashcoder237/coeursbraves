@@ -1,0 +1,21 @@
+---
+import Layout from "~/components/Layout.astro";
+import MotifTexture from "~/components/MotifTexture.astro";
+---
+<Layout title="Page introuvable" description="La page que vous cherchez n'existe pas ou a été déplacée.">
+  <section class="relative bg-forest text-white overflow-hidden min-h-[72vh] flex items-center">
+    <MotifTexture class="text-white/[0.06]" />
+    <div class="relative container-cb py-24 text-center">
+      <p class="font-display font-700 text-terra-bright leading-none" style="font-weight:700;font-size:clamp(4rem,14vw,9rem)">404</p>
+      <h1 class="mt-4 display-xl !text-white" style="font-size:clamp(1.8rem,4vw,3rem)">Cette page a pris un autre chemin.</h1>
+      <p class="mt-5 text-white/70 text-lg max-w-xl mx-auto leading-relaxed">
+        Le lien est peut-être erroné ou la page a été déplacée. Retrouvez votre route ci-dessous.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-3 justify-center">
+        <a href="/" class="btn btn-cream">Retour à l'accueil</a>
+        <a href="/ecosysteme/" class="btn btn-ghost-white">Découvrir l'écosystème</a>
+        <a href="/contact/" class="btn btn-ghost-white">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,59 @@
+---
+import Layout from "~/components/Layout.astro";
+import PageHead from "~/components/PageHead.astro";
+import { site } from "~/data/site";
+import { legal } from "~/data/org";
+---
+<Layout
+  title="Mentions légales"
+  description="Mentions légales et informations sur l'éditeur du site Cœurs Braves (Impressum)."
+>
+  <PageHead kicker="Informations" title="Mentions légales" subtitle="Impressum & informations sur l'éditeur." crumb="Mentions légales" />
+
+  <section class="bg-cream">
+    <div class="container-cb py-16 md:py-20 max-w-3xl legal-doc">
+      <h2>Éditeur du site</h2>
+      <p>
+        <strong>{site.legalName}</strong><br />
+        Forme juridique : {legal.legalForm}<br />
+        Siège : {site.hq.city} ({site.hq.postal}), {site.hq.country}<br />
+        Représentant légal : {legal.representative}<br />
+        Directeur·rice de la publication : {legal.publicationDirector}
+      </p>
+
+      <h2>Enregistrement</h2>
+      <p>
+        Enregistrement : {legal.registration}<br />
+        Tribunal : {legal.court}<br />
+        N° de TVA : {legal.vatId}
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        E-mail : <a href={`mailto:${site.email}`}>{site.email}</a><br />
+        Téléphone : <a href={`tel:${site.phoneIntl}`}>{site.phone}</a>
+      </p>
+
+      <h2>Hébergement</h2>
+      <p>
+        {legal.host.name}<br />
+        {legal.host.address}
+      </p>
+
+      <h2>Propriété intellectuelle</h2>
+      <p>
+        L'ensemble des contenus (textes, visuels, logos, éléments graphiques) présents sur ce site
+        est la propriété de {site.legalName}, sauf mention contraire, et ne peut être reproduit sans
+        autorisation préalable.
+      </p>
+
+      <h2>Responsabilité</h2>
+      <p>
+        {site.legalName} s'efforce d'assurer l'exactitude des informations publiées mais ne saurait
+        être tenue responsable des erreurs, omissions ou de l'indisponibilité temporaire du site.
+      </p>
+
+      <p class="legal-meta">Dernière mise à jour : {legal.updatedAt}</p>
+    </div>
+  </section>
+</Layout>

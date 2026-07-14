@@ -5,6 +5,10 @@ import Icon from "~/components/Icon.astro";
 import Eyebrow from "~/components/Eyebrow.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
+import { donation, allocation } from "~/data/org";
+
+const pct = Math.min(100, Math.round((donation.campaign.raised / donation.campaign.goal) * 100));
+const fmtEur = (n: number) => new Intl.NumberFormat("fr-FR").format(n);
 
 const impacts = [
   { icon: "graduation-cap", t: "Former", d: "Développer les compétences professionnelles et entrepreneuriales.", chip: "bg-terra/12 text-terra" },
@@ -32,7 +36,6 @@ const gouvernance = [
   "Une amélioration continue de nos pratiques",
 ];
 
-const montants = ["25 €", "50 €", "100 €", "250 €"];
 const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold" ? "border-t-gold" : "border-t-terra";
 ---
 
@@ -62,25 +65,50 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
         </ul>
       </div>
 
-      <div class="reveal bg-cream-2 border border-hairline rounded-[1.6rem] p-8 lg:sticky lg:top-24 shadow-sm">
+      <div id="cb-don" class="reveal bg-cream-2 border border-hairline rounded-[1.6rem] p-8 lg:sticky lg:top-24 shadow-sm scroll-mt-28"
+        data-onetime={donation.stripe.oneTime} data-monthly={donation.stripe.monthly}
+        data-currency={donation.currency} data-impacts={JSON.stringify(donation.impacts)}
+        data-default-impact={donation.defaultImpact}>
         <h3 class="font-display font-700 text-xl text-center" style="font-weight:700">Faire un don</h3>
-        <div class="mt-5 flex gap-1 bg-cream rounded-full p-1 border border-hairline text-sm font-display font-600">
-          <button class="flex-1 rounded-full py-2.5 bg-terra text-white" style="font-weight:600">Ponctuel</button>
-          <button class="flex-1 rounded-full py-2.5 text-ink-mute" style="font-weight:600">Mensuel</button>
+
+        <!-- Barre de campagne -->
+        <div class="mt-5 mb-6">
+          <div class="flex items-baseline justify-between text-sm mb-2">
+            <span class="font-display font-700 text-terra" style="font-weight:700">{fmtEur(donation.campaign.raised)} {donation.currency}</span>
+            <span class="text-ink-mute">objectif {fmtEur(donation.campaign.goal)} {donation.currency}</span>
+          </div>
+          <div class="progress-track"><span class="progress-fill" style={`--pct:${pct}%`}></span></div>
+          <p class="mt-2 text-xs text-ink-mute">{donation.campaign.title} · {donation.campaign.donors} donateurs</p>
         </div>
+
+        <!-- Fréquence -->
+        <div class="flex gap-1 bg-cream rounded-full p-1 border border-hairline text-sm">
+          <button type="button" data-freq="oneTime" class="cb-freq is-active">Ponctuel</button>
+          <button type="button" data-freq="monthly" class="cb-freq">Mensuel</button>
+        </div>
+
+        <!-- Montants -->
         <div class="mt-5 grid grid-cols-4 gap-2">
-          {montants.map((m, i) => (
-            <button class:list={["rounded-xl py-3 font-display font-700 border transition", i === 1 ? "bg-terra text-white border-terra" : "bg-cream border-hairline hover:border-terra"]} style="font-weight:700">{m}</button>
+          {donation.presets.map((m, i) => (
+            <button type="button" data-amount={m} class:list={["cb-amt", i === 1 && "is-active"]}>{m}&nbsp;{donation.currency}</button>
           ))}
         </div>
         <div class="mt-3 relative">
-          <input placeholder="Autre montant" class="w-full rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
+          <input id="cb-custom" type="number" min="1" inputmode="numeric" placeholder="Autre montant"
+            class="w-full rounded-xl border border-hairline px-4 py-3 outline-none focus:border-terra bg-cream" />
           <span class="absolute right-4 top-1/2 -translate-y-1/2 text-ink-mute">€</span>
         </div>
-        <button class="btn btn-terra w-full mt-4">Faire un don maintenant <Icon name="heart" class="w-4 h-4" /></button>
-        <p class="mt-4 text-xs text-ink-mute text-center leading-relaxed">
-          Des solutions de paiement adaptées aux contributions nationales et internationales
-          sont mises en place progressivement.
+
+        <!-- Équivalence d'impact -->
+        <p id="cb-impact" class="mt-4 flex items-start gap-2 text-sm text-emerald leading-snug">
+          <Icon name="check" class="w-4 h-4 shrink-0 mt-0.5" /><span data-impact-text>Votre don finance une session d'accompagnement entrepreneurial.</span>
+        </p>
+
+        <button type="button" id="cb-donate" class="btn btn-terra w-full mt-4">
+          Faire un don de <span id="cb-amt-label">50&nbsp;{donation.currency}</span> <Icon name="heart" class="w-4 h-4" />
+        </button>
+        <p class="mt-4 flex items-center justify-center gap-1.5 text-xs text-ink-mute">
+          <Icon name="check" class="w-3.5 h-3.5 text-emerald" /> Paiement 100&nbsp;% sécurisé via Stripe
         </p>
       </div>
     </div>
@@ -135,14 +163,32 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
           responsabilité et transparence.
         </p>
       </div>
-      <ul class="grid gap-3 reveal">
-        {gouvernance.map((g) => (
-          <li class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-5 py-4">
-            <span class="icon-chip w-8 h-8 shrink-0 bg-gold/20 text-gold"><Icon name="check" class="w-5 h-5" /></span>
-            <span class="text-white/90">{g}</span>
-          </li>
-        ))}
-      </ul>
+      <div class="reveal space-y-5">
+        <div class="bg-white/5 border border-white/10 rounded-2xl p-6">
+          <p class="font-display font-700 text-white mb-5" style="font-weight:700">Où va votre argent</p>
+          {allocation.map((a) => {
+            const fill = a.color === "emerald" ? "var(--color-emerald)" : a.color === "gold" ? "var(--color-gold)" : "var(--color-terra-bright)";
+            return (
+              <div class="mb-4 last:mb-0">
+                <div class="flex justify-between text-sm mb-1.5">
+                  <span class="text-white/85">{a.label}</span>
+                  <span class="font-display font-700 text-white" style="font-weight:700">{a.pct}%</span>
+                </div>
+                <div class="alloc-track"><span class="alloc-fill" style={`--pct:${a.pct}%;background:${fill}`}></span></div>
+              </div>
+            );
+          })}
+          <p class="text-xs text-white/45 mt-4">Répartition indicative — chiffres à confirmer dans le rapport d'activité.</p>
+        </div>
+        <ul class="grid gap-3">
+          {gouvernance.map((g) => (
+            <li class="flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl px-5 py-4">
+              <span class="icon-chip w-8 h-8 shrink-0 bg-gold/20 text-gold"><Icon name="check" class="w-5 h-5" /></span>
+              <span class="text-white/90">{g}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -154,9 +200,90 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
         <span class="text-terra">génération en génération.</span>
       </p>
       <div class="mt-8 flex flex-wrap gap-3 justify-center">
-        <a href="#" class="btn btn-terra">Faire un don <Icon name="heart" class="w-4 h-4" /></a>
+        <a href="#cb-don" class="btn btn-terra">Faire un don <Icon name="heart" class="w-4 h-4" /></a>
         <a href="/contact/" class="btn btn-outline">Contacter l'équipe</a>
       </div>
     </div>
   </section>
+
+  <script is:inline>
+    (function () {
+      var root = document.getElementById("cb-don");
+      if (!root) return;
+      var currency = root.dataset.currency || "€";
+      var impacts = {};
+      try { impacts = JSON.parse(root.dataset.impacts || "{}"); } catch (e) {}
+      var defaultImpact = root.dataset.defaultImpact || "";
+      var links = { oneTime: root.dataset.onetime, monthly: root.dataset.monthly };
+
+      var freq = "oneTime";
+      var amount = 50;
+      var freqBtns = root.querySelectorAll(".cb-freq");
+      var amtBtns = root.querySelectorAll(".cb-amt");
+      var custom = root.querySelector("#cb-custom");
+      var label = root.querySelector("#cb-amt-label");
+      var impactText = root.querySelector("[data-impact-text]");
+      var donate = root.querySelector("#cb-donate");
+
+      function nf(n) { return new Intl.NumberFormat("fr-FR").format(n); }
+
+      function refresh() {
+        if (label) label.innerHTML = nf(amount) + " " + currency + (freq === "monthly" ? "/mois" : "");
+        if (impactText) {
+          var msg = impacts[amount] || defaultImpact;
+          impactText.textContent = freq === "monthly"
+            ? "Chaque mois, vous financez " + msg + "."
+            : "Votre don finance " + msg + ".";
+        }
+      }
+      function setAmount(v, fromCustom) {
+        amount = v;
+        amtBtns.forEach(function (b) { b.classList.toggle("is-active", !fromCustom && Number(b.dataset.amount) === v); });
+        if (!fromCustom && custom) custom.value = "";
+        refresh();
+      }
+
+      freqBtns.forEach(function (b) {
+        b.addEventListener("click", function () {
+          freq = b.dataset.freq;
+          freqBtns.forEach(function (x) { x.classList.toggle("is-active", x === b); });
+          refresh();
+        });
+      });
+      amtBtns.forEach(function (b) {
+        b.addEventListener("click", function () { setAmount(Number(b.dataset.amount), false); });
+      });
+      if (custom) {
+        custom.addEventListener("input", function () {
+          var v = parseInt(custom.value, 10);
+          if (v > 0) {
+            amount = v;
+            amtBtns.forEach(function (x) { x.classList.remove("is-active"); });
+            refresh();
+          }
+        });
+      }
+      function showNote(text) {
+        var note = document.getElementById("cb-donate-note");
+        if (!note) {
+          note = document.createElement("p");
+          note.id = "cb-donate-note";
+          note.className = "cb-form-note text-center";
+          donate.insertAdjacentElement("afterend", note);
+        }
+        note.textContent = text;
+      }
+      if (donate) {
+        donate.addEventListener("click", function () {
+          var url = links[freq];
+          if (!url || url.indexOf("COMPL") !== -1) {
+            showNote("Le paiement en ligne arrive très bientôt. En attendant, écrivez-nous pour faire un don — merci de votre soutien.");
+            return;
+          }
+          window.open(url, "_blank", "noopener");
+        });
+      }
+      refresh();
+    })();
+  </script>
 </Layout>

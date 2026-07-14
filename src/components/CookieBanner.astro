@@ -1,0 +1,38 @@
+---
+// Bandeau de consentement RGPD. Le site n'utilise aujourd'hui aucun traceur
+// (fonts self-hébergées, pas d'analytics) : le choix est mémorisé pour le jour
+// où un outil de mesure d'audience sera ajouté.
+---
+<div id="cb-cookie" class="cookie-banner" hidden>
+  <div class="container-cb cookie-inner">
+    <p class="cookie-text">
+      Nous utilisons uniquement des cookies nécessaires au bon fonctionnement du site.
+      Aucun traceur publicitaire. En savoir plus dans notre
+      <a href="/confidentialite/" class="cookie-link">politique de confidentialité</a>.
+    </p>
+    <div class="cookie-actions">
+      <button type="button" id="cb-cookie-refuse" class="btn btn-outline cookie-btn">Refuser</button>
+      <button type="button" id="cb-cookie-accept" class="btn btn-terra cookie-btn">Accepter</button>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function () {
+    var KEY = "cb-cookie-consent";
+    var el = document.getElementById("cb-cookie");
+    if (!el) return;
+    try {
+      if (localStorage.getItem(KEY)) return; // choix déjà fait
+    } catch (e) {}
+    el.hidden = false;
+    requestAnimationFrame(function () { el.classList.add("is-open"); });
+    function close(value) {
+      try { localStorage.setItem(KEY, value); } catch (e) {}
+      el.classList.remove("is-open");
+      setTimeout(function () { el.hidden = true; }, 350);
+    }
+    document.getElementById("cb-cookie-accept").addEventListener("click", function () { close("accepted"); });
+    document.getElementById("cb-cookie-refuse").addEventListener("click", function () { close("refused"); });
+  })();
+</script>

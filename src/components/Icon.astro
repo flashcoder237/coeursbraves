@@ -5,8 +5,9 @@ interface Props {
   name: string;
   class?: string;
   stroke?: number;
+  style?: string;
 }
-const { name, class: cls = "w-6 h-6", stroke = 1.75 } = Astro.props;
+const { name, class: cls = "w-6 h-6", stroke = 1.75, style } = Astro.props;
 
 // Icônes au trait (fill none)
 const line: Record<string, string> = {
@@ -46,8 +47,8 @@ const isSolid = name in solid;
 const body = isSolid ? solid[name] : (line[name] ?? "");
 ---
 {isSolid ? (
-  <svg viewBox="0 0 24 24" fill="currentColor" class={cls} aria-hidden="true" set:html={body} />
+  <svg viewBox="0 0 24 24" fill="currentColor" class={cls} style={style} aria-hidden="true" set:html={body} />
 ) : (
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width={stroke}
-    stroke-linecap="round" stroke-linejoin="round" class={cls} aria-hidden="true" set:html={body} />
+    stroke-linecap="round" stroke-linejoin="round" class={cls} style={style} aria-hidden="true" set:html={body} />
 )}
