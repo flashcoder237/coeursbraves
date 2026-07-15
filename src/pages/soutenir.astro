@@ -95,8 +95,37 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
     </div>
   </section>
 
-  <!-- Ce que votre contribution rend possible -->
+  <!-- Donner par Mobile Money (Cameroun) -->
   <section class="bg-cream-2">
+    <div class="container-cb py-16 md:py-20">
+      <div class="max-w-2xl mx-auto text-center">
+        <div class="flex justify-center"><Eyebrow label={s.momo.eyebrow} align="center" /></div>
+        <h2 class="mt-6 section-title">{s.momo.title} <strong>{s.momo.strong}</strong></h2>
+        <p class="mt-5 prose-cb">{s.momo.text}</p>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
+        {[
+          { label: "Orange Money", num: donation.mobileMoney.orange, logo: "/images/cb/om.png" },
+          { label: "MTN Mobile Money", num: donation.mobileMoney.mtn, logo: "/images/cb/momo.png" },
+        ].map((op) => (
+          <div class="momo-card reveal">
+            <img src={op.logo} alt={op.label} width="56" height="56"
+              class="w-14 h-14 rounded-2xl object-contain mb-4 shadow-sm ring-1 ring-hairline" loading="lazy" />
+            <p class="font-display font-700 text-ink" style="font-weight:700">{op.label}</p>
+            <div class="momo-number">
+              <span class="font-display font-700 text-lg text-ink" style="font-weight:700">{op.num}</span>
+              <button type="button" class="momo-copy" data-copy={op.num} aria-label="Copier le numéro"><Icon name="copy" class="w-4 h-4" /></button>
+            </div>
+            <p class="mt-1 text-sm text-ink-mute">{s.momo.holder} {donation.mobileMoney.name}</p>
+          </div>
+        ))}
+      </div>
+      <p class="mt-6 text-center text-xs text-ink-mute max-w-xl mx-auto">{s.momo.hint}</p>
+    </div>
+  </section>
+
+  <!-- Ce que votre contribution rend possible -->
+  <section class="bg-cream">
     <div class="container-cb py-20 md:py-24">
       <div class="text-center"><Eyebrow label={s.impact.eyebrow} align="center" /></div>
       <h2 class="mt-6 section-title">{s.impact.title} <strong>{s.impact.strong}</strong></h2>
@@ -113,7 +142,7 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
   </section>
 
   <!-- Modes de contribution -->
-  <section class="bg-cream">
+  <section class="bg-cream-2">
     <div class="container-cb py-20 md:py-24">
       <div class="text-center"><Eyebrow label={s.modes.eyebrow} align="center" /></div>
       <h2 class="mt-6 section-title">{s.modes.title} <strong>{s.modes.strong}</strong></h2>
@@ -258,5 +287,19 @@ const border = (c: string) => c === "emerald" ? "border-t-emerald" : c === "gold
       }
       refresh();
     })();
+  </script>
+
+  <script is:inline>
+    // Copier un numéro Mobile Money d'un clic.
+    document.querySelectorAll(".momo-copy").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var val = btn.getAttribute("data-copy") || "";
+        if (!val || navigator.clipboard === undefined) return;
+        navigator.clipboard.writeText(val).then(function () {
+          btn.classList.add("is-copied");
+          setTimeout(function () { btn.classList.remove("is-copied"); }, 1500);
+        }).catch(function () {});
+      });
+    });
   </script>
 </Layout>

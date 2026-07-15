@@ -10,6 +10,11 @@
     "goal": 15000,
     "donors": 84
   },
+  "mobileMoney": {
+    "name": "Association Cœurs Braves",
+    "orange": "[Numéro Orange Money à compléter]",
+    "mtn": "[Numéro MTN MoMo à compléter]"
+  },
   "allocation": [
     { "label": "Programmes & actions de terrain", "pct": 80, "color": "terra" },
     { "label": "Fonctionnement de l'association", "pct": 12, "color": "gold" },

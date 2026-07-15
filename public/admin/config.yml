@@ -92,6 +92,13 @@ collections:
               - { name: raised, label: Montant collecté, widget: number, value_type: int }
               - { name: goal, label: Objectif, widget: number, value_type: int }
               - { name: donors, label: Nombre de donateurs, widget: number, value_type: int }
+          - name: mobileMoney
+            label: Mobile Money (Cameroun)
+            widget: object
+            fields:
+              - { name: name, label: Nom du bénéficiaire, widget: string }
+              - { name: orange, label: Numéro Orange Money, widget: string }
+              - { name: mtn, label: Numéro MTN MoMo, widget: string }
           - name: allocation
             label: "Répartition « Où va votre argent »"
             widget: list
