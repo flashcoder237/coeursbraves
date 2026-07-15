@@ -13,7 +13,7 @@ type Entry = { t: string; u: string; k: string; c: string };
 const pages: Entry[] = [
   { t: "Accueil", u: "/", k: "accueil investir humain communauté mission", c: "Page" },
   { t: "Notre histoire", u: "/notre-histoire/", k: "histoire fondateur brave djamal origine vision valeurs", c: "Page" },
-  { t: "Notre écosystème", u: "/ecosysteme/", k: "écosystème pôles programmes academy fermiers technologies immigration marmite", c: "Page" },
+  { t: "Nos programmes", u: "/ecosysteme/", k: "programmes actions solidarité academy fermiers technology immigration marmite aide", c: "Page" },
   { t: "Rejoindre", u: "/rejoindre/", k: "rejoindre adhésion membre bénévole mentor expert engagement", c: "Page" },
   { t: "Partenaires", u: "/partenaires/", k: "partenaires partenariat entreprises fondations institutions mécénat", c: "Page" },
   { t: "L'équipe", u: "/equipe/", k: "équipe gouvernance bureau fondateur président trésorier", c: "Page" },
@@ -25,7 +25,7 @@ const pages: Entry[] = [
 ];
 
 const poleEntries: Entry[] = poles.map((p) => ({
-  t: p.name, u: "/ecosysteme/", k: `${p.baseline} ${p.text}`, c: "Pôle",
+  t: p.name, u: "/ecosysteme/", k: `${p.baseline} ${p.text}`, c: "Programme",
 }));
 const articleEntries: Entry[] = journalItems.map((a) => ({
   t: a.data.title, u: `/journal/${a.slug}/`, k: `${a.data.category} ${a.data.excerpt}`, c: "Article",

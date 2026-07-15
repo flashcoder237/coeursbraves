@@ -5,19 +5,23 @@ import settings from "./cms/settings.json";
 
 export const site = {
   name: "Cœurs Braves",
-  legalName: "Cœurs Braves — Association",
+  legalName: "Association Cœurs Braves (A.C.B)",
   tagline: "Investir dans l'humain. Construire des opportunités. Transformer des vies.",
   founder: "Assaa Ouemba Billy Loïc, dit « Brave Djamal »",
   email: settings.email,
   phone: settings.phone,
   phoneIntl: settings.phone.replace(/\D/g, ""), // format wa.me / tel sans espaces
-  hq: settings.hq,
+  phone2: settings.phone2,
+  phone2Intl: settings.phone2.replace(/\D/g, ""),
+  hq: settings.hq, // siège social (Cameroun)
+  antenna: settings.antenna, // antenne (Allemagne)
   countries: ["Cameroun", "République centrafricaine", "Allemagne", "Diaspora africaine"],
   social: {
     facebook: settings.facebook,
     instagram: settings.instagram,
     tiktok: settings.tiktok,
     whatsapp: settings.whatsapp,
+    whatsapp2: settings.whatsapp2,
   },
 };
 
@@ -36,7 +40,7 @@ export const nav = [
 export const stats = [
   { num: "3 500+", label: "Membres engagés dans notre communauté internationale" },
   { num: "4", label: "Pays et territoires déjà mobilisés" },
-  { num: "6", label: "Pôles complémentaires au service du développement" },
+  { num: "5", label: "Programmes de solidarité complémentaires" },
   { num: "100+", label: "Personnes accompagnées et formées" },
 ];
 
@@ -62,22 +66,13 @@ export const poles = [
     text: "Agriculture moderne, élevage, transformation alimentaire et coopératives : nourrir les communautés tout en créant des revenus durables.",
   },
   {
-    slug: "assaa-technologies",
-    name: "ASSAA Technologies",
-    baseline: "Concevoir les solutions numériques qui accompagnent la transformation.",
-    color: "red",
-    icon: "code",
-    image: "/images/cb/youth-laptop-2.jpg",
-    text: "Développement de solutions numériques, applications et outils au service des organisations et des communautés.",
-  },
-  {
     slug: "technology-center",
     name: "The Technology Center",
-    baseline: "Créer un environnement propice à l'innovation et à la recherche.",
+    baseline: "Mettre la technologie au service des communautés.",
     color: "red",
     icon: "cpu",
-    image: "/images/cb/entrepreneurs-meeting.jpg",
-    text: "Intelligence artificielle, robotique, recherche scientifique et prototypage : un pôle dédié à l'entrepreneuriat technologique africain.",
+    image: "/images/cb/youth-laptop-2.jpg",
+    text: "Former les jeunes au numérique et imaginer des solutions aux défis locaux, pour réduire la fracture technologique.",
   },
   {
     slug: "immigration-services",

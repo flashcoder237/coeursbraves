@@ -1,0 +1,63 @@
+---
+import Icon from "./Icon.astro";
+interface Props {
+  url: string;        // URL absolue à partager
+  title: string;      // titre du contenu
+  label?: string;
+  dark?: boolean;     // variante pour fond sombre (footer, sections ink/forêt)
+}
+const { url, title, label = "Partager", dark = false } = Astro.props;
+const e = encodeURIComponent;
+const networks = [
+  { name: "Facebook", icon: "facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${e(url)}` },
+  { name: "X", icon: "x-twitter", href: `https://twitter.com/intent/tweet?url=${e(url)}&text=${e(title)}` },
+  { name: "WhatsApp", icon: "whatsapp", href: `https://wa.me/?text=${e(`${title} — ${url}`)}` },
+  { name: "LinkedIn", icon: "linkedin", href: `https://www.linkedin.com/sharing/share-offsite/?url=${e(url)}` },
+];
+const chip = dark
+  ? "icon-chip w-10 h-10 bg-white/8 border border-white/15 text-white/80 hover:text-white hover:bg-terra hover:border-terra transition-colors"
+  : "icon-chip w-10 h-10 bg-cream-2 border border-hairline text-ink hover:text-white hover:bg-terra hover:border-terra transition-colors";
+---
+<div class="cb-share flex flex-wrap items-center gap-2.5" data-url={url} data-title={title}>
+  <span class:list={["text-sm font-display mr-1", dark ? "text-white/60" : "text-ink-mute"]} style="font-weight:600">{label}</span>
+  {networks.map((n) => (
+    <a href={n.href} target="_blank" rel="noopener" aria-label={`Partager sur ${n.name}`} class={chip}>
+      <Icon name={n.icon} class="w-[18px] h-[18px]" />
+    </a>
+  ))}
+  <button type="button" class={`cb-share-copy ${chip}`} aria-label="Copier le lien" title="Copier le lien">
+    <Icon name="copy" class="w-[18px] h-[18px]" />
+  </button>
+  <button type="button" class={`cb-share-native ${chip} hidden`} aria-label="Partager…" title="Partager…">
+    <Icon name="share" class="w-[18px] h-[18px]" />
+  </button>
+  <span class="cb-share-toast text-xs font-medium text-emerald opacity-0 transition-opacity duration-300" aria-live="polite">Lien copié !</span>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>(".cb-share").forEach((root) => {
+    if (root.dataset.bound) return;
+    root.dataset.bound = "1";
+    const url = root.dataset.url || location.href;
+    const title = root.dataset.title || document.title;
+    const toast = root.querySelector<HTMLElement>(".cb-share-toast");
+
+    root.querySelector(".cb-share-copy")?.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(url);
+        if (toast) {
+          toast.style.opacity = "1";
+          setTimeout(() => (toast.style.opacity = "0"), 1800);
+        }
+      } catch {}
+    });
+
+    const nativeBtn = root.querySelector<HTMLElement>(".cb-share-native");
+    if (nativeBtn && typeof navigator.share === "function") {
+      nativeBtn.classList.remove("hidden");
+      nativeBtn.addEventListener("click", () => {
+        navigator.share({ title, url }).catch(() => {});
+      });
+    }
+  });
+</script>

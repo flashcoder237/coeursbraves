@@ -7,6 +7,7 @@ import PatternBand from "~/components/PatternBand.astro";
 import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
 import { getEvents } from "~/i18n/content";
 import { site } from "~/data/site";
+import ShareButtons from "~/components/ShareButtons.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -43,7 +44,7 @@ const gallery = [
   { src: "/images/cb/events/supporters-2.jpg", alt: "Supporters réunis à La Marmite" },
 ];
 ---
-<Layout title={t("nav.events")} description={t("events.subtitle")}>
+<Layout title={t("nav.events")} description={t("events.subtitle")} image="/images/cb/events/rassemblement.jpg">
   <!-- Hero « agenda » — signature or/ink -->
   <section class="relative bg-ink text-white overflow-hidden">
     <MotifTexture class="text-white/[0.05]" />
@@ -169,6 +170,13 @@ const gallery = [
       <Eyebrow label={t("events.nl_kicker")} align="center" />
       <h2 class="mt-5 section-title" style="font-size:clamp(1.6rem,3vw,2.3rem)">{t("events.nl_title")}</h2>
       <a href={L("/journal/") + "#newsletter"} class="btn btn-terra mt-6">{t("newsletter.subscribe")}</a>
+      <div class="mt-10 pt-8 border-t border-hairline flex justify-center">
+        <ShareButtons
+          url={new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href}
+          title={t("nav.events") + " — " + site.name}
+          label={lang === "en" ? "Share" : lang === "de" ? "Teilen" : "Partager l'agenda"}
+        />
+      </div>
     </div>
   </section>
 

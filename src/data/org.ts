@@ -5,20 +5,21 @@
 import { site } from "./site";
 
 // ---------------------------------------------------------------------------
-// Mentions légales / Impressum (Allemagne) + éditeur
+// Mentions légales + éditeur (association déclarée au Cameroun)
 // ---------------------------------------------------------------------------
 export const legal = {
-  legalForm: "[À compléter : forme juridique — ex. e.V. (Verein) ou association loi 1901]",
-  registration: "[À compléter : n° d'enregistrement — ex. Vereinsregister VR 12345]",
-  court: "[À compléter : tribunal d'enregistrement — ex. Amtsgericht Mainz]",
-  vatId: "[À compléter : n° de TVA intracommunautaire, si applicable]",
-  representative: site.founder, // représentant légal
-  publicationDirector: "[À compléter : directeur·rice de la publication]",
+  legalForm: "Association déclarée régie par la loi camerounaise n°90/053 du 19 décembre 1990 relative à la liberté d'association.",
+  registration: "Récépissé de déclaration délivré le 21 février 2023 par la Préfecture de Nkongsamba. [N° de récépissé à compléter]",
+  court: "Préfecture de Nkongsamba — Département du Moungo, Région du Littoral (Cameroun)",
+  vatId: "Non applicable (association à but non lucratif).",
+  representative: "Assaa Ouemba Billy Loïc, Président",
+  publicationDirector: "Assaa Ouemba Billy Loïc, Président",
+  object: "Éduquer, développer et promouvoir la solidarité sous toutes ses formes ; agir contre la pauvreté et pour l'accueil des personnes exclues, des minorités, de la jeunesse et des familles ; former et accompagner les porteurs de projets ; promouvoir la culture ; coopérer avec les institutions et ONG, au Cameroun et dans la diaspora.",
   host: {
-    name: "[À compléter : nom de l'hébergeur — ex. Netlify, Vercel, OVH]",
+    name: "[À compléter : nom de l'hébergeur — ex. Vercel]",
     address: "[À compléter : adresse de l'hébergeur]",
   },
-  updatedAt: "[À compléter : date de dernière mise à jour]",
+  updatedAt: "15 juillet 2026",
 };
 
 // ---------------------------------------------------------------------------

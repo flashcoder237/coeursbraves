@@ -4,6 +4,7 @@ import Eyebrow from "~/components/Eyebrow.astro";
 import Icon from "~/components/Icon.astro";
 import MotifTexture from "~/components/MotifTexture.astro";
 import PatternBand from "~/components/PatternBand.astro";
+import ShareButtons from "~/components/ShareButtons.astro";
 import { render } from "astro:content";
 import { useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
 import { getArticle, getJournal, getJournalSlugs } from "~/i18n/content";
@@ -25,9 +26,12 @@ const { Content } = await render(entry!);
 const article = entry!.data;
 
 const related = (await getJournal(lang)).filter((a) => a.slug !== slug).slice(0, 3);
+
+const shareUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
+const shareLabel = lang === "en" ? "Share" : lang === "de" ? "Teilen" : "Partager";
 ---
 
-<Layout title={article.title} description={article.excerpt}>
+<Layout title={article.title} description={article.excerpt} image={article.image} imageAlt={article.title} ogType="article">
   <!-- En-tête -->
   <header class="relative flex items-end min-h-[52vh] overflow-hidden">
     <img src={article.image} alt="" class="absolute inset-0 w-full h-full object-cover" />
@@ -62,7 +66,11 @@ const related = (await getJournal(lang)).filter((a) => a.slug !== slug).slice(0,
         </div>
       )}
 
-      <div class="mt-12 pt-8 border-t border-hairline flex flex-wrap items-center justify-between gap-4">
+      <div class="mt-12 pt-8 border-t border-hairline">
+        <ShareButtons url={shareUrl} title={article.title} label={shareLabel} />
+      </div>
+
+      <div class="mt-8 flex flex-wrap items-center justify-between gap-4">
         <a href={L("/journal/")} class="inline-flex items-center gap-2 font-display font-600 text-ink hover:text-terra transition-colors" style="font-weight:600"><span class="text-lg">←</span> {t("journal.all_articles")}</a>
         <a href={L("/soutenir/")} class="btn btn-terra text-sm">{t("cta.support")} <Icon name="heart" class="w-4 h-4" /></a>
       </div>

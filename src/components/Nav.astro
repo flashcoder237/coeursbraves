@@ -1,7 +1,7 @@
 ---
 import Icon from "./Icon.astro";
 import LanguageSwitcher from "./LanguageSwitcher.astro";
-import { navItems, useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
+import { navGroups, navSingles, useTranslations, getLangFromUrl, localizePath } from "~/i18n/ui";
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const path = Astro.url.pathname;
@@ -10,6 +10,7 @@ const isActive = (href: string) => {
   const full = localizePath(href, lang);
   return path === full || path.startsWith(full);
 };
+const groupActive = (items: readonly { href: string }[]) => items.some((it) => isActive(it.href));
 ---
 
 <header id="cb-header" class="sticky top-0 z-50 bg-cream/85 backdrop-blur-md transition-all">
@@ -21,16 +22,24 @@ const isActive = (href: string) => {
     </a>
 
     <!-- Navigation desktop -->
-    <nav class="hidden lg:flex items-center gap-7" aria-label="Navigation principale">
-      {navItems.map((item) => (
-        <a
-          href={localizePath(item.href, lang)}
-          class:list={[
-            "nav-link text-[0.95rem] font-medium transition-colors",
-            isActive(item.href) ? "is-active" : "text-ink-soft hover:text-terra",
-          ]}
-        >
-          {t(item.key)}
+    <nav class="hidden lg:flex items-center gap-1" aria-label="Navigation principale">
+      {navGroups.map((group) => (
+        <div class="nav-group">
+          <button type="button" class:list={["nav-group-btn", groupActive(group.items) && "is-active"]} aria-haspopup="true" aria-expanded="false">
+            {t(group.key)}
+            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="nav-dropdown">
+            {group.items.map((it) => (
+              <a href={localizePath(it.href, lang)} class:list={["nav-dropdown-item", isActive(it.href) && "is-active"]}>{t(it.key)}</a>
+            ))}
+          </div>
+        </div>
+      ))}
+      {navSingles.map((it) => (
+        <a href={localizePath(it.href, lang)}
+          class:list={["nav-link nav-single text-[0.95rem] font-medium transition-colors", isActive(it.href) ? "is-active" : "text-ink-soft hover:text-terra"]}>
+          {t(it.key)}
         </a>
       ))}
     </nav>
@@ -54,15 +63,21 @@ const isActive = (href: string) => {
   <!-- Menu mobile -->
   <div id="cb-mobile" class="lg:hidden hidden border-t border-hairline bg-cream">
     <nav class="container-cb flex flex-col py-3" aria-label="Navigation mobile">
-      {navItems.map((item) => (
-        <a
-          href={localizePath(item.href, lang)}
-          class:list={[
-            "text-base font-medium py-3 border-b border-hairline/60",
-            isActive(item.href) ? "text-terra" : "text-ink",
-          ]}
-        >
-          {t(item.key)}
+      {navGroups.map((group) => (
+        <div class="py-2 border-b border-hairline/60">
+          <p class="nav-mobile-group">{t(group.key)}</p>
+          {group.items.map((it) => (
+            <a href={localizePath(it.href, lang)}
+              class:list={["block py-2.5 pl-3 text-base", isActive(it.href) ? "text-terra font-medium" : "text-ink"]}>
+              {t(it.key)}
+            </a>
+          ))}
+        </div>
+      ))}
+      {navSingles.map((it) => (
+        <a href={localizePath(it.href, lang)}
+          class:list={["py-3 text-base font-medium border-b border-hairline/60", isActive(it.href) ? "text-terra" : "text-ink"]}>
+          {t(it.key)}
         </a>
       ))}
       <a href={localizePath("/soutenir/", lang)} class="btn btn-dark mt-4">{t("cta.support")}</a>
@@ -81,6 +96,21 @@ const isActive = (href: string) => {
         burger.setAttribute("aria-expanded", String(open ? false : true));
       });
     }
+    // Menus déroulants : clic/tactile (le survol est géré en CSS).
+    const groups = document.querySelectorAll(".nav-group");
+    groups.forEach((g) => {
+      const btn = g.querySelector(".nav-group-btn");
+      if (!btn) return;
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const open = g.classList.contains("is-open");
+        groups.forEach((x) => { x.classList.remove("is-open"); x.querySelector(".nav-group-btn").setAttribute("aria-expanded", "false"); });
+        if (!open) { g.classList.add("is-open"); btn.setAttribute("aria-expanded", "true"); }
+      });
+    });
+    document.addEventListener("click", () => {
+      groups.forEach((x) => { x.classList.remove("is-open"); x.querySelector(".nav-group-btn").setAttribute("aria-expanded", "false"); });
+    });
     if (header) {
       const onScroll = () => {
         if (window.scrollY > 8) header.classList.add("shadow-sm", "border-b", "border-hairline");

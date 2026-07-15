@@ -3,11 +3,15 @@ import { site } from "~/data/site";
 import Icon from "./Icon.astro";
 import PatternBand from "./PatternBand.astro";
 import MotifTexture from "./MotifTexture.astro";
+import ShareButtons from "./ShareButtons.astro";
 import { navItems, useTranslations, getLangFromUrl, localizePath, countries } from "~/i18n/ui";
 const year = new Date().getFullYear();
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 const L = (p: string) => localizePath(p, lang);
+const siteUrl = new URL(L("/"), Astro.site ?? Astro.url.origin).href;
+const siteShareTitle = `${site.name} — Investir dans l'humain`;
+const siteShareLabel = lang === "en" ? "Share the site" : lang === "de" ? "Website teilen" : "Partager le site";
 ---
 
 <!-- Bande d'appel — terracotta -->
@@ -82,7 +86,8 @@ const L = (p: string) => localizePath(p, lang);
 
     <div class="md:col-span-2">
       <h3 class="font-display font-semibold text-white text-xs uppercase tracking-[0.18em] mb-4">{t("footer.presence")}</h3>
-      <p class="text-sm text-white/80 mb-2">{t("footer.headoffice")} : {site.hq.city} ({site.hq.postal}), {site.hq.country}</p>
+      <p class="text-sm text-white/80">{t("footer.headoffice")} : {site.hq.city}, {site.hq.country}</p>
+      <p class="text-sm text-white/80 mb-3">{t("footer.branch")} : {site.antenna.city} ({site.antenna.postal}), {site.antenna.country}</p>
       <ul class="space-y-2.5 text-sm">
         {countries[lang].map((c) => <li>{c}</li>)}
       </ul>
@@ -92,6 +97,12 @@ const L = (p: string) => localizePath(p, lang);
         <a href={site.social.tiktok} target="_blank" rel="noopener" aria-label="TikTok" class="icon-chip w-9 h-9 bg-white/8 border border-white/15 text-white/80 hover:text-white hover:bg-white/15 transition-colors"><Icon name="tiktok" class="w-4 h-4" /></a>
         <a href={site.social.whatsapp} target="_blank" rel="noopener" aria-label="WhatsApp" class="icon-chip w-9 h-9 bg-white/8 border border-white/15 text-white/80 hover:text-white hover:bg-white/15 transition-colors"><Icon name="whatsapp" class="w-4 h-4" /></a>
       </div>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="container-cb py-6 flex justify-center">
+      <ShareButtons url={siteUrl} title={siteShareTitle} label={siteShareLabel} dark />
     </div>
   </div>
 

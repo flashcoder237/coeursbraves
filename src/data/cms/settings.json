@@ -2,10 +2,18 @@
   "email": "contact@coeursbraves.com",
   "phone": "+49 1521 0418658",
   "whatsapp": "https://wa.me/4915210418658",
+  "phone2": "+41 79 360 36 49",
+  "whatsapp2": "https://wa.me/41793603649",
   "facebook": "https://web.facebook.com/LESCOEURSBRAVES",
   "instagram": "https://www.instagram.com/coeurs_braves",
   "tiktok": "https://www.tiktok.com/@coeurs_braves",
   "hq": {
+    "city": "Nkongsamba",
+    "area": "Arrondissement de Nkongsamba 1er",
+    "postal": "",
+    "country": "Cameroun"
+  },
+  "antenna": {
     "city": "Mainz",
     "postal": "55131",
     "country": "Allemagne"

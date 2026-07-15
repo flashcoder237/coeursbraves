@@ -43,17 +43,27 @@ collections:
         file: src/data/cms/settings.json
         fields:
           - { name: email, label: E-mail, widget: string }
-          - { name: phone, label: Téléphone, widget: string }
-          - { name: whatsapp, label: Lien WhatsApp, widget: string }
+          - { name: phone, label: Téléphone principal, widget: string }
+          - { name: whatsapp, label: Lien WhatsApp principal, widget: string }
+          - { name: phone2, label: Téléphone secondaire, widget: string, required: false }
+          - { name: whatsapp2, label: Lien WhatsApp secondaire, widget: string, required: false }
           - { name: facebook, label: Facebook, widget: string, required: false }
           - { name: instagram, label: Instagram, widget: string, required: false }
           - { name: tiktok, label: TikTok, widget: string, required: false }
           - name: hq
-            label: Siège
+            label: Siège social
             widget: object
             fields:
               - { name: city, label: Ville, widget: string }
-              - { name: postal, label: Code postal, widget: string }
+              - { name: area, label: Arrondissement / quartier, widget: string, required: false }
+              - { name: postal, label: Code postal, widget: string, required: false }
+              - { name: country, label: Pays, widget: string }
+          - name: antenna
+            label: Antenne
+            widget: object
+            fields:
+              - { name: city, label: Ville, widget: string }
+              - { name: postal, label: Code postal, widget: string, required: false }
               - { name: country, label: Pays, widget: string }
 
   # -------------------------------------------------------------------------

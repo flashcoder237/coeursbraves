@@ -10,20 +10,20 @@ interface EcoContent {
 
 const content: Record<Lang, EcoContent> = {
   fr: {
-    hero: { kicker: "Notre écosystème", title: "Un écosystème au service du développement", subtitle: "Bien plus qu'une association : plusieurs pôles complémentaires qui collaborent pour accompagner les personnes et soutenir les projets." },
-    poles: { eyebrow: "Nos pôles", title: "Six initiatives, une même", strong: "ambition.", label: "Pôle" },
+    hero: { kicker: "Nos programmes", title: "Des actions concrètes au service des communautés", subtitle: "Cœurs Braves mène plusieurs programmes de solidarité pour nourrir, former, soigner et accompagner celles et ceux qui en ont le plus besoin." },
+    poles: { eyebrow: "Nos programmes", title: "Cinq actions, une même", strong: "ambition.", label: "Programme" },
     methode: { eyebrow: "Notre méthode", title: "Une méthode fondée sur", accent: "l'action.", subtitle: "Chaque projet suit une démarche structurée, cohérente et centrée sur les besoins réels." },
     engagements: { eyebrow: "Nos engagements", title: "Ce à quoi nous nous", strong: "engageons.", lead: "Nos engagements ne sont pas de simples principes : ils constituent le fondement de notre identité et orientent chacune de nos décisions.", cta: "Construire avec nous" },
   },
   en: {
-    hero: { kicker: "Our ecosystem", title: "An ecosystem serving development", subtitle: "Much more than an association: several complementary hubs working together to support people and back their projects." },
-    poles: { eyebrow: "Our hubs", title: "Six initiatives, one shared", strong: "ambition.", label: "Hub" },
+    hero: { kicker: "Our programmes", title: "Concrete actions serving communities", subtitle: "Cœurs Braves runs several solidarity programmes to feed, train, care for and support those who need it most." },
+    poles: { eyebrow: "Our programmes", title: "Five actions, one shared", strong: "ambition.", label: "Programme" },
     methode: { eyebrow: "Our method", title: "A method rooted in", accent: "action.", subtitle: "Every project follows a structured, coherent approach centred on real needs." },
     engagements: { eyebrow: "Our commitments", title: "What we", strong: "commit to.", lead: "Our commitments are not mere principles: they are the foundation of our identity and guide every decision we make.", cta: "Build with us" },
   },
   de: {
-    hero: { kicker: "Unser Ökosystem", title: "Ein Ökosystem im Dienst der Entwicklung", subtitle: "Weit mehr als ein Verein: mehrere ergänzende Bereiche, die zusammenarbeiten, um Menschen zu begleiten und Projekte zu fördern." },
-    poles: { eyebrow: "Unsere Bereiche", title: "Sechs Initiativen, ein gemeinsames", strong: "Ziel.", label: "Bereich" },
+    hero: { kicker: "Unsere Programme", title: "Konkrete Aktionen im Dienst der Gemeinschaften", subtitle: "Cœurs Braves führt mehrere solidarische Programme durch, um diejenigen zu ernähren, auszubilden, zu versorgen und zu begleiten, die es am dringendsten brauchen." },
+    poles: { eyebrow: "Unsere Programme", title: "Fünf Aktionen, ein gemeinsames", strong: "Ziel.", label: "Programm" },
     methode: { eyebrow: "Unsere Methode", title: "Eine Methode, die auf", accent: "Handeln beruht.", subtitle: "Jedes Projekt folgt einem strukturierten, kohärenten Ansatz, der sich an den tatsächlichen Bedürfnissen orientiert." },
     engagements: { eyebrow: "Unsere Grundsätze", title: "Wozu wir uns", strong: "verpflichten.", lead: "Unsere Grundsätze sind keine bloßen Prinzipien: Sie bilden das Fundament unserer Identität und leiten jede unserer Entscheidungen.", cta: "Mit uns gestalten" },
   },

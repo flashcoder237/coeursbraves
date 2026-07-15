@@ -10,7 +10,7 @@ export const languages = {
 export const defaultLang = "fr";
 export type Lang = keyof typeof languages;
 
-// Éléments de navigation (href non préfixé ; la locale est ajoutée à l'affichage)
+// Liste à plat (utilisée par le footer).
 export const navItems = [
   { key: "nav.history", href: "/notre-histoire/" },
   { key: "nav.ecosystem", href: "/ecosysteme/" },
@@ -21,17 +21,52 @@ export const navItems = [
   { key: "nav.contact", href: "/contact/" },
 ] as const;
 
+// Menu principal groupé (barre de navigation) : 3 menus déroulants + liens directs.
+export const navGroups = [
+  {
+    key: "navgrp.about",
+    items: [
+      { key: "nav.history", href: "/notre-histoire/" },
+      { key: "nav.team", href: "/equipe/" },
+      { key: "nav.faq", href: "/faq/" },
+    ],
+  },
+  {
+    key: "navgrp.actions",
+    items: [
+      { key: "nav.ecosystem", href: "/ecosysteme/" },
+      { key: "nav.journal", href: "/journal/" },
+      { key: "nav.events", href: "/evenements/" },
+    ],
+  },
+  {
+    key: "navgrp.engage",
+    items: [
+      { key: "nav.join", href: "/rejoindre/" },
+      { key: "nav.partners", href: "/partenaires/" },
+    ],
+  },
+] as const;
+
+// Liens directs (hors menus déroulants).
+export const navSingles = [
+  { key: "nav.contact", href: "/contact/" },
+] as const;
+
 export const ui = {
   fr: {
     "nav.home": "Accueil",
     "nav.history": "Notre histoire",
-    "nav.ecosystem": "Écosystème",
+    "nav.ecosystem": "Programmes",
     "nav.join": "Rejoindre",
     "nav.partners": "Partenaires",
     "nav.journal": "Journal",
     "nav.events": "Événements",
     "nav.contact": "Contact",
     "nav.team": "L'équipe",
+    "navgrp.about": "L'association",
+    "navgrp.actions": "Nos actions",
+    "navgrp.engage": "S'engager",
     "nav.faq": "FAQ",
     "cta.support": "Soutenir nos actions",
     "cta.donate": "Faire un don",
@@ -48,6 +83,7 @@ export const ui = {
     "footer.engage": "S'engager",
     "footer.presence": "Présence",
     "footer.headoffice": "Siège",
+    "footer.branch": "Antenne",
     "footer.become_member": "Devenir membre",
     "footer.become_volunteer": "Devenir bénévole",
     "footer.become_partner": "Devenir partenaire",
@@ -109,13 +145,16 @@ export const ui = {
   en: {
     "nav.home": "Home",
     "nav.history": "Our story",
-    "nav.ecosystem": "Ecosystem",
+    "nav.ecosystem": "Programmes",
     "nav.join": "Join us",
     "nav.partners": "Partners",
     "nav.journal": "News",
     "nav.events": "Events",
     "nav.contact": "Contact",
     "nav.team": "The team",
+    "navgrp.about": "About us",
+    "navgrp.actions": "Our work",
+    "navgrp.engage": "Get involved",
     "nav.faq": "FAQ",
     "cta.support": "Support our work",
     "cta.donate": "Donate",
@@ -132,6 +171,7 @@ export const ui = {
     "footer.engage": "Get involved",
     "footer.presence": "Where we are",
     "footer.headoffice": "Head office",
+    "footer.branch": "Branch",
     "footer.become_member": "Become a member",
     "footer.become_volunteer": "Become a volunteer",
     "footer.become_partner": "Become a partner",
@@ -193,13 +233,16 @@ export const ui = {
   de: {
     "nav.home": "Startseite",
     "nav.history": "Unsere Geschichte",
-    "nav.ecosystem": "Ökosystem",
+    "nav.ecosystem": "Programme",
     "nav.join": "Mitmachen",
     "nav.partners": "Partner",
     "nav.journal": "Aktuelles",
     "nav.events": "Veranstaltungen",
     "nav.contact": "Kontakt",
     "nav.team": "Das Team",
+    "navgrp.about": "Der Verein",
+    "navgrp.actions": "Unsere Aktionen",
+    "navgrp.engage": "Engagieren",
     "nav.faq": "FAQ",
     "cta.support": "Unsere Arbeit unterstützen",
     "cta.donate": "Spenden",
@@ -216,6 +259,7 @@ export const ui = {
     "footer.engage": "Engagieren",
     "footer.presence": "Präsenz",
     "footer.headoffice": "Sitz",
+    "footer.branch": "Zweigstelle",
     "footer.become_member": "Mitglied werden",
     "footer.become_volunteer": "Freiwillige/r werden",
     "footer.become_partner": "Partner werden",

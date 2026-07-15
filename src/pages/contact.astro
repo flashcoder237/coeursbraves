@@ -12,7 +12,7 @@ const t = useTranslations(lang);
 const c = getContact(lang);
 ---
 
-<Layout title={t("nav.contact")} description={c.hero.subtitle}>
+<Layout title={t("nav.contact")} description={c.hero.subtitle} image="/images/cb/children-flag.jpg">
   <PageHero
     image="/images/cb/children-flag.jpg"
     kicker={c.hero.kicker}
@@ -43,13 +43,20 @@ const c = getContact(lang);
               <a href={site.social.whatsapp} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-1 text-sm text-emerald hover:underline">
                 <Icon name="whatsapp" class="w-4 h-4" /> {c.info.whatsappLink}
               </a>
+              <div class="mt-2 pt-2 border-t border-hairline/70">
+                <a href={`tel:${site.phone2Intl}`} class="text-terra hover:underline">{site.phone2}</a>
+                <a href={site.social.whatsapp2} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-1 text-sm text-emerald hover:underline">
+                  <Icon name="whatsapp" class="w-4 h-4" /> {c.info.whatsappLink}
+                </a>
+              </div>
             </div>
           </div>
           <div class="flex gap-4 bg-cream-2 border border-hairline rounded-2xl p-5">
             <span class="icon-chip w-12 h-12 shrink-0 bg-gold/15 text-gold"><Icon name="map-pin" class="w-6 h-6" /></span>
             <div>
               <p class="font-display font-700" style="font-weight:700">{c.info.presenceLabel}</p>
-              <p class="text-ink-soft text-sm mt-0.5">{t("footer.headoffice")} : {site.hq.city} ({site.hq.postal}), {site.hq.country}</p>
+              <p class="text-ink-soft text-sm mt-0.5">{t("footer.headoffice")} : {site.hq.city}, {site.hq.country}</p>
+              <p class="text-ink-soft text-sm">{t("footer.branch")} : {site.antenna.city} ({site.antenna.postal}), {site.antenna.country}</p>
               <p class="text-ink-mute text-sm mt-1">{countries[lang].join(" · ")}</p>
             </div>
           </div>

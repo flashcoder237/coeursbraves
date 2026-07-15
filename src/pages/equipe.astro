@@ -41,7 +41,7 @@ const initials = (n: string) =>
               <p class="font-display font-700 text-ink" style="font-weight:700">{m.name}</p>
               {m.alias && <p class="text-xs text-terra font-semibold mt-0.5">« {m.alias} »</p>}
               <p class="text-sm text-ink-mute mt-1">{m.role}</p>
-              <p class="text-sm text-ink-soft leading-relaxed mt-3">{m.bio}</p>
+              {m.bio && <p class="text-sm text-ink-soft leading-relaxed mt-3">{m.bio}</p>}
             </figcaption>
           </figure>
         ))}

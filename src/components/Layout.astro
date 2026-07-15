@@ -12,12 +12,26 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  ogType?: string;
 }
-const { title, description, image = "/images/cb/hero-community.jpg" } = Astro.props;
+const {
+  title, description,
+  image = "/images/cb/hero-community.jpg",
+  imageAlt, imageWidth, imageHeight, ogType = "website",
+} = Astro.props;
 const fullTitle = title === site.name ? `${site.name} — Investir dans l'humain` : `${title} — ${site.name}`;
 const desc = description ?? "Association internationale africaine qui investit dans l'humain pour créer des opportunités durables.";
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href;
 const ogImage = new URL(image, Astro.site ?? Astro.url.origin).href;
+// Dimensions : uniquement si connues (défaut = image d'accueil 1672×941), sinon on omet
+const isDefaultImg = image === "/images/cb/hero-community.jpg";
+const ogW = imageWidth ?? (isDefaultImg ? 1672 : undefined);
+const ogH = imageHeight ?? (isDefaultImg ? 941 : undefined);
+const ogAlt = imageAlt ?? "La communauté Cœurs Braves réunie";
+const ogImageType = image.toLowerCase().endsWith(".png") ? "image/png" : "image/jpeg";
 const lang = getLangFromUrl(Astro.url);
 const base = Astro.site ?? new URL(Astro.url.origin);
 const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
@@ -37,25 +51,29 @@ const alternates = (Object.keys(languages) as Lang[]).map((code) => ({
     <link rel="canonical" href={canonical} />
     {alternates.map((a) => <link rel="alternate" hreflang={a.code} href={a.href} />)}
     <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
     <!-- Open Graph / réseaux sociaux -->
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:site_name" content={site.name} />
-    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale" content={lang === "en" ? "en_US" : lang === "de" ? "de_DE" : "fr_FR"} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={desc} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:secure_url" content={ogImage} />
-    <meta property="og:image:type" content="image/jpeg" />
-    <meta property="og:image:width" content="1672" />
-    <meta property="og:image:height" content="941" />
-    <meta property="og:image:alt" content="La communauté Cœurs Braves réunie" />
+    <meta property="og:image:type" content={ogImageType} />
+    {ogW && <meta property="og:image:width" content={String(ogW)} />}
+    {ogH && <meta property="og:image:height" content={String(ogH)} />}
+    <meta property="og:image:alt" content={ogAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={desc} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogAlt} />
   </head>
   <body class="min-h-screen bg-paper text-ink antialiased" data-contact-email={site.email}>
     <Nav />

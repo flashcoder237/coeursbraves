@@ -24,7 +24,7 @@ const content: Record<Lang, HistContent> = {
     timeline: { eyebrow: "Notre parcours", title: "Les grandes", strong: "étapes.", label: "Étape", items: [
       { t: "La naissance d'une conviction", d: "Les premières réflexions autour d'une organisation dédiée au développement humain et à l'accompagnement des talents." },
       { t: "Les premières actions", d: "Organisation des premiers ateliers, formations et initiatives communautaires." },
-      { t: "La structuration de l'écosystème", d: "Création progressive des différentes initiatives et pôles d'activité portés par Cœurs Braves." },
+      { t: "La structuration de nos programmes", d: "Création progressive des différentes initiatives et actions de solidarité portées par Cœurs Braves." },
       { t: "L'ouverture à l'international", d: "Développement des activités au Cameroun, en République centrafricaine, en Allemagne et auprès de la diaspora africaine." },
       { t: "Aujourd'hui", d: "Une communauté internationale engagée qui rassemble des milliers de membres autour d'une même vision." },
       { t: "Demain", d: "Accélérer la création d'opportunités, renforcer les partenariats stratégiques et contribuer à l'émergence d'une Afrique plus innovante, inclusive et prospère." },
@@ -43,7 +43,7 @@ const content: Record<Lang, HistContent> = {
     timeline: { eyebrow: "Our journey", title: "The major", strong: "milestones.", label: "Step", items: [
       { t: "The birth of a conviction", d: "The first reflections around an organisation dedicated to human development and to supporting talent." },
       { t: "The first actions", d: "Organising the first workshops, training courses and community initiatives." },
-      { t: "Structuring the ecosystem", d: "The gradual creation of the various initiatives and activity hubs led by Cœurs Braves." },
+      { t: "Structuring our programmes", d: "The gradual creation of the various initiatives and solidarity actions led by Cœurs Braves." },
       { t: "Going international", d: "Expanding activities to Cameroon, the Central African Republic, Germany and the African diaspora." },
       { t: "Today", d: "A committed international community bringing together thousands of members around a shared vision." },
       { t: "Tomorrow", d: "Accelerating the creation of opportunities, strengthening strategic partnerships and helping a more innovative, inclusive and prosperous Africa emerge." },
@@ -62,7 +62,7 @@ const content: Record<Lang, HistContent> = {
     timeline: { eyebrow: "Unser Weg", title: "Die wichtigsten", strong: "Etappen.", label: "Schritt", items: [
       { t: "Die Geburt einer Überzeugung", d: "Die ersten Überlegungen zu einer Organisation für menschliche Entwicklung und die Förderung von Talenten." },
       { t: "Die ersten Aktionen", d: "Organisation der ersten Workshops, Ausbildungen und Gemeinschaftsinitiativen." },
-      { t: "Strukturierung des Ökosystems", d: "Die schrittweise Schaffung der verschiedenen Initiativen und Tätigkeitsbereiche von Cœurs Braves." },
+      { t: "Strukturierung unserer Programme", d: "Die schrittweise Schaffung der verschiedenen Initiativen und solidarischen Aktionen von Cœurs Braves." },
       { t: "Die internationale Öffnung", d: "Ausweitung der Aktivitäten auf Kamerun, die Zentralafrikanische Republik, Deutschland und die afrikanische Diaspora." },
       { t: "Heute", d: "Eine engagierte internationale Gemeinschaft, die Tausende Mitglieder um eine gemeinsame Vision vereint." },
       { t: "Morgen", d: "Die Schaffung von Chancen beschleunigen, strategische Partnerschaften stärken und zu einem innovativeren, inklusiveren und wohlhabenderen Afrika beitragen." },

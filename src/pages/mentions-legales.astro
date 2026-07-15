@@ -16,15 +16,19 @@ import { legal } from "~/data/org";
       <p>
         <strong>{site.legalName}</strong><br />
         Forme juridique : {legal.legalForm}<br />
-        Siège : {site.hq.city} ({site.hq.postal}), {site.hq.country}<br />
+        Siège social : {site.hq.city}{site.hq.area ? ` (${site.hq.area})` : ""}, {site.hq.country}<br />
+        Antenne : {site.antenna.city} ({site.antenna.postal}), {site.antenna.country}<br />
         Représentant légal : {legal.representative}<br />
         Directeur·rice de la publication : {legal.publicationDirector}
       </p>
 
+      <h2>Objet de l'association</h2>
+      <p>{legal.object}</p>
+
       <h2>Enregistrement</h2>
       <p>
-        Enregistrement : {legal.registration}<br />
-        Tribunal : {legal.court}<br />
+        {legal.registration}<br />
+        Autorité : {legal.court}<br />
         N° de TVA : {legal.vatId}
       </p>
 
