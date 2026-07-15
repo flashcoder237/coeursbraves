@@ -67,6 +67,40 @@ collections:
               - { name: country, label: Pays, widget: string }
 
   # -------------------------------------------------------------------------
+  # Dons & campagne (widget de la page Soutenir)
+  # -------------------------------------------------------------------------
+  - name: dons
+    label: Dons & campagne
+    files:
+      - name: config
+        label: Configuration des dons
+        file: src/data/cms/donation.json
+        fields:
+          - { name: currency, label: Devise, widget: string, hint: "Ex. €" }
+          - { name: presets, label: Montants suggérés, widget: list, field: { name: montant, label: Montant, widget: number, value_type: int } }
+          - name: stripe
+            label: Liens de paiement Stripe
+            widget: object
+            hint: "Créez 2 « Payment Links » dans Stripe (ponctuel à montant libre + abonnement mensuel)."
+            fields:
+              - { name: oneTime, label: Lien don ponctuel, widget: string }
+              - { name: monthly, label: Lien don mensuel, widget: string }
+          - name: campaign
+            label: Campagne en cours
+            widget: object
+            fields:
+              - { name: raised, label: Montant collecté, widget: number, value_type: int }
+              - { name: goal, label: Objectif, widget: number, value_type: int }
+              - { name: donors, label: Nombre de donateurs, widget: number, value_type: int }
+          - name: allocation
+            label: "Répartition « Où va votre argent »"
+            widget: list
+            fields:
+              - { name: label, label: Poste, widget: string }
+              - { name: pct, label: "Pourcentage (%)", widget: number, value_type: int, min: 0, max: 100 }
+              - { name: color, label: Couleur, widget: select, options: [terra, emerald, gold] }
+
+  # -------------------------------------------------------------------------
   # Journal (articles) — multilingue
   # -------------------------------------------------------------------------
   - name: journal

@@ -23,45 +23,18 @@ export const legal = {
 };
 
 // ---------------------------------------------------------------------------
-// Don — configuration Stripe
-// Créez dans Stripe deux « Payment Links » (Liens de paiement) :
-//  - un ponctuel avec « le client choisit le montant »
-//  - un abonnement mensuel
-// puis remplacez les URLs ci-dessous.
+// Don — configuration éditable depuis /admin (collection « Dons & campagne »),
+// via src/data/cms/donation.json : liens Stripe, montants, campagne, répartition.
+// Les textes traduits (équivalences d'impact, titre de campagne) sont dans
+// src/i18n/soutenir.ts.
+// Stripe : créez 2 « Payment Links » (ponctuel « montant libre » + abonnement mensuel).
 // ---------------------------------------------------------------------------
-export const donation = {
-  currency: "€",
-  presets: [25, 50, 100, 250],
-  stripe: {
-    oneTime: "https://buy.stripe.com/[À_COMPLÉTER_LIEN_PONCTUEL]",
-    monthly: "https://buy.stripe.com/[À_COMPLÉTER_LIEN_MENSUEL]",
-  },
-  // Équivalences d'impact (à ajuster avec l'association)
-  impacts: {
-    25: "un kit pédagogique pour un·e apprenant·e",
-    50: "un mois d'accompagnement entrepreneurial",
-    100: "une session de formation pour un petit groupe",
-    250: "le lancement d'un micro-projet agricole",
-  } as Record<number, string>,
-  defaultImpact: "de nouvelles opportunités pour la communauté",
-  // Campagne mise en avant (chiffres à remplacer)
-  campaign: {
-    title: "Équiper le prochain Technology Center",
-    raised: 6200, // [À compléter]
-    goal: 15000, // [À compléter]
-    unit: "€",
-    donors: 84, // [À compléter]
-  },
-};
+import donationCfg from "./cms/donation.json";
 
-// ---------------------------------------------------------------------------
-// Transparence « où va votre argent » (pourcentages à confirmer)
-// ---------------------------------------------------------------------------
-export const allocation = [
-  { label: "Programmes & actions de terrain", pct: 80, color: "terra" },
-  { label: "Fonctionnement de l'association", pct: 12, color: "gold" },
-  { label: "Collecte & communication", pct: 8, color: "emerald" },
-];
+export const donation = donationCfg;
+
+// Transparence « où va votre argent » (pourcentages éditables via /admin).
+export const allocation = donationCfg.allocation;
 
 // Équipe : migrée vers la collection de contenu `src/content/team/` (éditable via /admin).
 // Journal & Événements : idem, collections `src/content/journal` et `src/content/events`.

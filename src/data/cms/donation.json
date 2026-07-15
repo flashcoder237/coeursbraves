@@ -1,0 +1,18 @@
+{
+  "currency": "€",
+  "presets": [25, 50, 100, 250],
+  "stripe": {
+    "oneTime": "https://buy.stripe.com/A_COMPLETER_LIEN_PONCTUEL",
+    "monthly": "https://buy.stripe.com/A_COMPLETER_LIEN_MENSUEL"
+  },
+  "campaign": {
+    "raised": 6200,
+    "goal": 15000,
+    "donors": 84
+  },
+  "allocation": [
+    { "label": "Programmes & actions de terrain", "pct": 80, "color": "terra" },
+    { "label": "Fonctionnement de l'association", "pct": 12, "color": "gold" },
+    { "label": "Collecte & communication", "pct": 8, "color": "emerald" }
+  ]
+}
