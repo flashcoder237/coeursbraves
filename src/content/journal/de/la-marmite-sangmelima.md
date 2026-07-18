@@ -25,7 +25,7 @@ La Marmite des Cœurs Braves wächst weiter mit der Eröffnung eines neuen Stand
 
 ## Ernähren und beschäftigen
 
-Jeder Standort schafft lokale Arbeitsplätze und bildet junge Menschen in Küche und Service aus. Die zubereiteten Gerichte verwerten Produkte der Genossenschaften von Cœurs Braves Fermiers, in einem regionalen, qualitätsorientierten Ansatz.
+Jeder Standort schafft lokale Arbeitsplätze und bildet junge Menschen in Küche und Service aus. Die zubereiteten Gerichte verwerten Produkte aus der Region, in einem kurzen, qualitätsorientierten Ansatz.
 
 ## Ein Ort der Begegnung
 

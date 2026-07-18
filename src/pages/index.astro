@@ -20,11 +20,11 @@ const featured = actionItems.find((a) => a.featured) ?? actionItems[0];
 const rest = actionItems.filter((a) => !a.featured).slice(0, 4);
 const countryList = countries[lang];
 
-const partenaires = ["Seed Fund", "Diaspora Connect", "Institut de Formation de Yaoundé", "Tech4Africa", "Brave Djamal Foundation", "Clean Hope Center"];
+const partenaires = ["Diaspora Connect", "Institut de Formation de Yaoundé", "Tech4Africa", "Clean Hope Center"];
 
 const poleAccent: Record<string, string> = {
-  academy: "terra", fermiers: "emerald",
-  "technology-center": "gold", "immigration-services": "feature", "la-marmite": "emerald",
+  academy: "terra",
+  "technology-center": "gold", "la-marmite": "emerald",
 };
 ---
 

@@ -14,7 +14,7 @@ interface PartContent {
 const content: Record<Lang, PartContent> = {
   fr: {
     hero: { kicker: "Devenir partenaire", title: "Les plus grands changements se construisent ensemble", subtitle: "En mettant en commun nos compétences, nos ressources et nos expériences, nous créons des solutions à fort impact." },
-    why: { eyebrow: "Pourquoi un partenariat", title: "Un écosystème engagé pour les personnes et les", strong: "territoires.", lead: "Nos partenariats sont fondés sur une vision commune, la confiance et la recherche de résultats concrets. En collaborant avec nous, vous contribuez directement à un impact durable.", contributions: ["Développer les compétences des jeunes", "Accompagner les entrepreneurs", "Favoriser l'innovation", "Soutenir l'agriculture durable", "Promouvoir l'éducation et la formation", "Renforcer les initiatives communautaires", "Créer des emplois", "Générer un impact durable"] },
+    why: { eyebrow: "Pourquoi un partenariat", title: "Un écosystème engagé pour les personnes et les", strong: "territoires.", lead: "Nos partenariats sont fondés sur une vision commune, la confiance et la recherche de résultats concrets. En collaborant avec nous, vous contribuez directement à un impact durable.", contributions: ["Développer les compétences des jeunes", "Favoriser l'innovation", "Promouvoir l'éducation et la formation", "Renforcer les initiatives communautaires", "Créer des emplois", "Générer un impact durable"] },
     collab: { eyebrow: "Collaborations", title: "Nos domaines de", strong: "collaboration.", domaines: [
       { t: "Développement des compétences", d: "Programmes de formation, ateliers, conférences et mentorat." },
       { t: "Entrepreneuriat", d: "Accompagnement des porteurs de projets, incubation et accélération." },
@@ -37,7 +37,7 @@ const content: Record<Lang, PartContent> = {
   },
   en: {
     hero: { kicker: "Become a partner", title: "The greatest changes are built together", subtitle: "By pooling our skills, resources and experience, we create high-impact solutions." },
-    why: { eyebrow: "Why partner with us", title: "An ecosystem committed to people and", strong: "territories.", lead: "Our partnerships are built on a shared vision, trust and the pursuit of concrete results. By working with us, you contribute directly to lasting impact.", contributions: ["Develop young people's skills", "Support entrepreneurs", "Foster innovation", "Support sustainable agriculture", "Promote education and training", "Strengthen community initiatives", "Create jobs", "Generate lasting impact"] },
+    why: { eyebrow: "Why partner with us", title: "An ecosystem committed to people and", strong: "territories.", lead: "Our partnerships are built on a shared vision, trust and the pursuit of concrete results. By working with us, you contribute directly to lasting impact.", contributions: ["Develop young people's skills", "Foster innovation", "Promote education and training", "Strengthen community initiatives", "Create jobs", "Generate lasting impact"] },
     collab: { eyebrow: "Collaborations", title: "Our areas of", strong: "collaboration.", domaines: [
       { t: "Skills development", d: "Training programmes, workshops, conferences and mentoring." },
       { t: "Entrepreneurship", d: "Support for project leaders, incubation and acceleration." },
@@ -60,7 +60,7 @@ const content: Record<Lang, PartContent> = {
   },
   de: {
     hero: { kicker: "Partner werden", title: "Die größten Veränderungen entstehen gemeinsam", subtitle: "Indem wir unsere Kompetenzen, Ressourcen und Erfahrungen bündeln, schaffen wir wirkungsvolle Lösungen." },
-    why: { eyebrow: "Warum eine Partnerschaft", title: "Ein Ökosystem im Einsatz für Menschen und", strong: "Regionen.", lead: "Unsere Partnerschaften beruhen auf einer gemeinsamen Vision, Vertrauen und dem Streben nach konkreten Ergebnissen. Durch die Zusammenarbeit tragen Sie unmittelbar zu nachhaltiger Wirkung bei.", contributions: ["Kompetenzen junger Menschen entwickeln", "Unternehmer begleiten", "Innovation fördern", "Nachhaltige Landwirtschaft unterstützen", "Bildung und Ausbildung fördern", "Gemeinschaftsinitiativen stärken", "Arbeitsplätze schaffen", "Nachhaltige Wirkung erzeugen"] },
+    why: { eyebrow: "Warum eine Partnerschaft", title: "Ein Ökosystem im Einsatz für Menschen und", strong: "Regionen.", lead: "Unsere Partnerschaften beruhen auf einer gemeinsamen Vision, Vertrauen und dem Streben nach konkreten Ergebnissen. Durch die Zusammenarbeit tragen Sie unmittelbar zu nachhaltiger Wirkung bei.", contributions: ["Kompetenzen junger Menschen entwickeln", "Innovation fördern", "Bildung und Ausbildung fördern", "Gemeinschaftsinitiativen stärken", "Arbeitsplätze schaffen", "Nachhaltige Wirkung erzeugen"] },
     collab: { eyebrow: "Zusammenarbeit", title: "Unsere Felder der", strong: "Zusammenarbeit.", domaines: [
       { t: "Kompetenzentwicklung", d: "Ausbildungsprogramme, Workshops, Konferenzen und Mentoring." },
       { t: "Unternehmertum", d: "Begleitung von Projektträgern, Inkubation und Beschleunigung." },

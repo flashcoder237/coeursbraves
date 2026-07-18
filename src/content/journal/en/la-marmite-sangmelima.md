@@ -25,7 +25,7 @@ La Marmite des Cœurs Braves continues to grow with the opening of a new locatio
 
 ## Feed and employ
 
-Each location creates local jobs and trains young people in cooking and service. The meals prepared showcase produce from the Cœurs Braves Fermiers cooperatives, in a short-circuit, quality-focused approach.
+Each location creates local jobs and trains young people in cooking and service. The meals prepared showcase local produce, in a short-circuit, quality-focused approach.
 
 ## A place to meet
 

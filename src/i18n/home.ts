@@ -49,9 +49,7 @@ const fr: HomeContent = {
   },
   poles: {
     academy: { baseline: "Former gratuitement les jeunes et les femmes.", text: "Formations, développement personnel et accompagnement pour aider chacun à acquérir des compétences et à retrouver de l'autonomie." },
-    fermiers: { baseline: "Nourrir les communautés et créer des revenus.", text: "Agriculture et élevage solidaires pour lutter contre la précarité alimentaire et offrir des moyens de subsistance durables aux familles." },
     "technology-center": { baseline: "Mettre la technologie au service des communautés.", text: "Un espace pour former les jeunes au numérique, réduire la fracture technologique et imaginer des solutions aux défis locaux." },
-    "immigration-services": { baseline: "Accompagner les parcours de mobilité, avec humanité.", text: "Un accompagnement humain et responsable pour aider les personnes à préparer une mobilité légale et sûre, loin des filières dangereuses." },
     "la-marmite": { baseline: "Des repas solidaires et de l'insertion par l'emploi.", text: "La restauration au service de la solidarité : partager des repas, lutter contre la précarité et former des jeunes aux métiers de la cuisine." },
   },
   domaines: {
@@ -69,7 +67,6 @@ const fr: HomeContent = {
     items: [
       { tag: "Formation", title: "Nos ateliers d'entrepreneuriat forment une nouvelle génération", excerpt: "Des dizaines de porteurs de projets accompagnés dans la structuration de leur entreprise." },
       { tag: "Communauté", title: "Le Clean Hope Center, un lieu de vie et d'apprentissage", excerpt: "Formation, couture, santé : un centre au service de la communauté." },
-      { tag: "Agriculture", title: "Cœurs Braves Fermiers : l'élevage qui nourrit et emploie", excerpt: "Production d'œufs et coopératives agricoles au Cameroun." },
       { tag: "Santé", title: "Des actions de santé communautaire au plus près des populations", excerpt: "Prévention, sensibilisation et accompagnement des plus vulnérables." },
       { tag: "Jeunesse", title: "Une communauté qui célèbre chaque réussite", excerpt: "Nos membres, unis par une même volonté d'agir." },
     ],
@@ -130,9 +127,7 @@ const en: HomeContent = {
   },
   poles: {
     academy: { baseline: "Free training for young people and women.", text: "Courses, personal development and mentoring to help everyone gain skills and regain their independence." },
-    fermiers: { baseline: "Feeding communities and creating income.", text: "Solidarity-based farming and livestock to fight food insecurity and provide lasting livelihoods for families." },
     "technology-center": { baseline: "Putting technology at the service of communities.", text: "A space to train young people in digital skills, bridge the technology gap and design solutions to local challenges." },
-    "immigration-services": { baseline: "Supporting migration journeys, with humanity.", text: "Human, responsible support to help people prepare a legal and safe move, away from dangerous routes." },
     "la-marmite": { baseline: "Solidarity meals and job integration.", text: "Hospitality serving solidarity: sharing meals, fighting hardship and training young people in culinary trades." },
   },
   domaines: {
@@ -150,7 +145,6 @@ const en: HomeContent = {
     items: [
       { tag: "Training", title: "Our entrepreneurship workshops are training a new generation", excerpt: "Dozens of project leaders supported in structuring their business." },
       { tag: "Community", title: "The Clean Hope Center, a place to live and learn", excerpt: "Training, sewing, health: a center serving the community." },
-      { tag: "Agriculture", title: "Cœurs Braves Fermiers: farming that feeds and employs", excerpt: "Egg production and farming cooperatives in Cameroon." },
       { tag: "Health", title: "Community health initiatives close to the people", excerpt: "Prevention, awareness and support for the most vulnerable." },
       { tag: "Youth", title: "A community that celebrates every success", excerpt: "Our members, united by the same will to act." },
     ],
@@ -211,9 +205,7 @@ const de: HomeContent = {
   },
   poles: {
     academy: { baseline: "Kostenlose Ausbildung für junge Menschen und Frauen.", text: "Kurse, Persönlichkeitsentwicklung und Begleitung, um jedem zu helfen, Kompetenzen zu erwerben und Eigenständigkeit zurückzugewinnen." },
-    fermiers: { baseline: "Gemeinschaften ernähren und Einkommen schaffen.", text: "Solidarische Landwirtschaft und Tierhaltung, um Ernährungsunsicherheit zu bekämpfen und Familien dauerhafte Lebensgrundlagen zu bieten." },
     "technology-center": { baseline: "Technologie in den Dienst der Gemeinschaften stellen.", text: "Ein Raum, um junge Menschen digital auszubilden, die technologische Kluft zu verringern und Lösungen für lokale Herausforderungen zu entwickeln." },
-    "immigration-services": { baseline: "Mobilitätswege menschlich begleiten.", text: "Menschliche, verantwortungsvolle Begleitung, um Menschen zu helfen, eine legale und sichere Migration vorzubereiten – fernab gefährlicher Wege." },
     "la-marmite": { baseline: "Solidarische Mahlzeiten und Eingliederung durch Arbeit.", text: "Gastronomie im Dienst der Solidarität: Mahlzeiten teilen, Not bekämpfen und junge Menschen in Küchenberufen ausbilden." },
   },
   domaines: {
@@ -231,7 +223,6 @@ const de: HomeContent = {
     items: [
       { tag: "Ausbildung", title: "Unsere Entrepreneurship-Workshops bilden eine neue Generation aus", excerpt: "Dutzende Projektträger bei der Strukturierung ihres Unternehmens begleitet." },
       { tag: "Gemeinschaft", title: "Das Clean Hope Center, ein Ort zum Leben und Lernen", excerpt: "Ausbildung, Nähen, Gesundheit: ein Zentrum im Dienst der Gemeinschaft." },
-      { tag: "Landwirtschaft", title: "Cœurs Braves Fermiers: Tierhaltung, die ernährt und beschäftigt", excerpt: "Eierproduktion und landwirtschaftliche Genossenschaften in Kamerun." },
       { tag: "Gesundheit", title: "Gemeindenahe Gesundheitsaktionen ganz nah bei den Menschen", excerpt: "Prävention, Sensibilisierung und Begleitung der Schwächsten." },
       { tag: "Jugend", title: "Eine Gemeinschaft, die jeden Erfolg feiert", excerpt: "Unsere Mitglieder, vereint vom selben Willen zu handeln." },
     ],

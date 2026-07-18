@@ -32,6 +32,7 @@ const content: Record<Lang, JoinContent> = {
       { title: "Mentor", text: "Accompagnez les jeunes, les entrepreneurs et les porteurs de projets dans leur parcours." },
       { title: "Expert", text: "Intervenez lors de formations, de conférences ou de missions de conseil." },
       { title: "Partenaire", text: "Construisez avec nous des projets de développement humain, économique et social." },
+      { title: "Donateur", text: "Soutenez nos actions par un don, ponctuel ou régulier, quel qu'en soit le montant." },
       { title: "Investisseur ou mécène", text: "Contribuez au financement d'initiatives créatrices de valeur et d'impact." },
     ] },
     parcours: { eyebrow: "Le parcours", title: "Le parcours d'un", strong: "membre.", steps: [
@@ -63,6 +64,7 @@ const content: Record<Lang, JoinContent> = {
       { title: "Mentor", text: "Support young people, entrepreneurs and project leaders along their journey." },
       { title: "Expert", text: "Contribute to training, conferences or advisory missions." },
       { title: "Partner", text: "Build human, economic and social development projects with us." },
+      { title: "Donor", text: "Support our work with a one-off or regular donation, whatever the amount." },
       { title: "Investor or patron", text: "Help fund initiatives that create value and impact." },
     ] },
     parcours: { eyebrow: "The journey", title: "A member's", strong: "journey.", steps: [
@@ -94,6 +96,7 @@ const content: Record<Lang, JoinContent> = {
       { title: "Mentor/in", text: "Begleiten Sie junge Menschen, Unternehmer und Projektträger auf ihrem Weg." },
       { title: "Expert/in", text: "Wirken Sie bei Schulungen, Konferenzen oder Beratungsmandaten mit." },
       { title: "Partner", text: "Gestalten Sie mit uns Projekte der menschlichen, wirtschaftlichen und sozialen Entwicklung." },
+      { title: "Spender/in", text: "Unterstützen Sie unsere Arbeit mit einer einmaligen oder regelmäßigen Spende, in beliebiger Höhe." },
       { title: "Investor/in oder Förderer", text: "Tragen Sie zur Finanzierung wertvoller und wirkungsvoller Initiativen bei." },
     ] },
     parcours: { eyebrow: "Der Weg", title: "Der Weg eines", strong: "Mitglieds.", steps: [

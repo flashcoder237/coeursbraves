@@ -56,16 +56,6 @@ export const poles = [
     text: "Le centre de formation, d'éducation et de transformation humaine : développement personnel, leadership, entrepreneuriat, langues et compétences professionnelles.",
   },
   {
-    slug: "fermiers",
-    name: "Cœurs Braves Fermiers",
-    baseline: "Développer une agriculture moderne, productive et durable.",
-    color: "green",
-    icon: "sprout",
-    image: "/images/cb/farm-eggs.jpg",
-    logo: "/images/cb/logo-fermiers.png",
-    text: "Agriculture moderne, élevage, transformation alimentaire et coopératives : nourrir les communautés tout en créant des revenus durables.",
-  },
-  {
     slug: "technology-center",
     name: "The Technology Center",
     baseline: "Mettre la technologie au service des communautés.",
@@ -73,16 +63,6 @@ export const poles = [
     icon: "cpu",
     image: "/images/cb/youth-laptop-2.jpg",
     text: "Former les jeunes au numérique et imaginer des solutions aux défis locaux, pour réduire la fracture technologique.",
-  },
-  {
-    slug: "immigration-services",
-    name: "Cœurs Braves Immigration Services",
-    baseline: "Accompagner les parcours de mobilité de manière responsable et légale.",
-    color: "gold",
-    icon: "globe",
-    image: "/images/cb/young-professionals.jpg",
-    logo: "/images/cb/logo-immigration.jpg",
-    text: "Immigration légale, emploi, coaching CV Europass, visas travail, formation en langues et accompagnement administratif vers l'Europe et d'autres destinations.",
   },
   {
     slug: "la-marmite",
@@ -98,9 +78,9 @@ export const poles = [
 // Domaines d'action (page d'accueil)
 export const domaines = [
   "Entrepreneuriat", "Technologies et innovation", "Formation professionnelle",
-  "Agriculture et élevage", "Santé communautaire", "Éducation",
-  "Immigration légale", "Investissement", "Développement personnel",
-  "Emploi", "Culture", "Accompagnement associatif",
+  "Santé communautaire", "Éducation", "Investissement",
+  "Développement personnel", "Emploi", "Culture",
+  "Accompagnement associatif",
 ];
 
 // Méthode d'impact
@@ -134,12 +114,6 @@ export const actualites = [
     title: "Le Clean Hope Center, un lieu de vie et d'apprentissage",
     image: "/images/cb/team-clean-hope.jpg",
     excerpt: "Formation, couture, santé : un centre au service de la communauté.",
-  },
-  {
-    tag: "Agriculture",
-    title: "Cœurs Braves Fermiers : l'élevage qui nourrit et emploie",
-    image: "/images/cb/farm-eggs.jpg",
-    excerpt: "Production d'œufs et coopératives agricoles au Cameroun.",
   },
   {
     tag: "Santé",

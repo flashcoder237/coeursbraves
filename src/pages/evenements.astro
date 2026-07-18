@@ -33,15 +33,15 @@ const yearNum = (iso: string) => iso.slice(0, 4);
 const dateLabel = (iso: string) =>
   new Intl.DateTimeFormat(lang, { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" }).format(d(iso));
 
-// Galerie « en images » — photos réelles de la communauté (page Facebook)
+// Galerie « en images » — actions de solidarité menées sur le terrain (page Facebook)
 const gallery = [
-  { src: "/images/cb/events/diner.jpg", alt: "La Marmite des Cœurs Braves, Sangmélima" },
-  { src: "/images/cb/events/rassemblement.jpg", alt: "Rassemblement de la communauté Cœurs Braves" },
-  { src: "/images/cb/events/celebration.jpg", alt: "Célébration au sein de la communauté" },
-  { src: "/images/cb/events/supporters.jpg", alt: "Soirée communautaire à La Marmite" },
-  { src: "/images/cb/events/soiree.jpg", alt: "Soirée lounge à La Marmite des Cœurs Braves" },
-  { src: "/images/cb/events/ambiance.jpg", alt: "Ambiance d'une rencontre Cœurs Braves" },
-  { src: "/images/cb/events/supporters-2.jpg", alt: "Supporters réunis à La Marmite" },
+  { src: "/images/cb/journal/sofrech-enfants.jpg", alt: "Remise de dons au centre SOFRECH, à Bafoussam" },
+  { src: "/images/cb/journal/oyack.jpg", alt: "Rentrée solidaire au Centre social privé d'Oyack" },
+  { src: "/images/cb/journal/foods-sharing.jpg", alt: "Distribution de vivres auprès des plus fragiles" },
+  { src: "/images/cb/journal/cleau-hope-atelier.jpg", alt: "Atelier de formation au Clean Hope Center" },
+  { src: "/images/cb/journal/mbankolo.jpg", alt: "Solidarité avec les sinistrés de Mbankolo, à Yaoundé" },
+  { src: "/images/cb/journal/handicap-yaounde.jpg", alt: "Accompagnement d'enfants en situation de handicap" },
+  { src: "/images/cb/journal/sofrech-3.jpg", alt: "Remise des bulletins scolaires au centre SOFRECH" },
 ];
 ---
 <Layout title={t("nav.events")} description={t("events.subtitle")} image="/images/cb/events/rassemblement.jpg">

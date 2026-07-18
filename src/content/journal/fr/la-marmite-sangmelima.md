@@ -25,7 +25,7 @@ La Marmite des Cœurs Braves poursuit son déploiement avec l'ouverture d'un nou
 
 ## Nourrir et employer
 
-Chaque point de restauration crée des emplois locaux et forme des jeunes aux métiers de la cuisine et du service. Les repas préparés valorisent les produits des coopératives de Cœurs Braves Fermiers, dans une logique de circuit court et de qualité.
+Chaque point de restauration crée des emplois locaux et forme des jeunes aux métiers de la cuisine et du service. Les repas préparés valorisent les produits locaux, dans une logique de circuit court et de qualité.
 
 ## Un lieu de rencontre
 
