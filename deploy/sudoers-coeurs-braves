@@ -1,0 +1,13 @@
+# Permet à l'utilisateur `deploy` de recharger Nginx sans mot de passe
+# (utilisé par le SCRIPT_AFTER de GitHub Actions).
+#
+# Installation :
+#   sudo visudo -f /etc/sudoers.d/coeurs-braves-deploy
+#   (coller le contenu ci-dessous, ajuster le username si différent de "deploy")
+#
+# Tester avec : sudo -l -U deploy
+#
+# Note : sur un VPS mutualisé où plusieurs sites partagent le compte `deploy`,
+# cette règle fait double emploi avec celle des autres sites — une seule suffit.
+
+deploy ALL=(root) NOPASSWD: /usr/sbin/nginx -t, /bin/systemctl reload nginx

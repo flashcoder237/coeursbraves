@@ -1,0 +1,97 @@
+# =============================================================================
+# OverBrand — workflow GitHub Actions pour déployer un site Astro statique
+# vers le VPS mutualisé OverBrand.
+#
+# Secrets à définir (Settings > Secrets and variables > Actions > Secrets) :
+#   SSH_PRIVATE_KEY    → contenu de ~/.ssh/id_ed25519 du compte deploy@vps
+#   VPS_HOST           → coeurs-braves.com (ou IP du VPS)
+#   VPS_USER           → deploy
+#   VPS_PATH           → /var/www/coeurs-braves (chemin distant)
+#
+# Variables (onglet "Variables", non sensibles) :
+#   SITE_URL           → https://coeurs-braves.com
+#                        (lien affiché dans l'onglet GH Actions + build Astro)
+#
+# Optionnel :
+#   VPS_PORT           → port SSH custom (défaut 22)
+#
+# Note : ce site n'utilise aucune variable PUBLIC_* (pas de Stripe/Formspree).
+# Si vous en ajoutez plus tard, les déclarer ici dans le `env:` du build.
+# =============================================================================
+
+name: Build and deploy to VPS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build Astro site
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund --prefer-offline
+
+      - name: Type-check & build
+        run: npm run build
+        env:
+          NODE_ENV: production
+          # Force l'URL canonique (sitemap, Open Graph, liens absolus).
+          PUBLIC_SITE_URL: ${{ vars.SITE_URL }}
+
+      - name: Upload build artifact
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist
+          retention-days: 7
+
+  deploy:
+    name: Deploy to VPS via rsync over SSH
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment:
+      name: production
+      url: ${{ vars.SITE_URL }}
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
+
+      - name: Deploy via rsync
+        uses: easingthemes/ssh-deploy@v5.1.0
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rltgoDzvO --delete --exclude='.git' --exclude='node_modules'"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.VPS_HOST }}
+          REMOTE_USER: ${{ secrets.VPS_USER }}
+          REMOTE_PORT: ${{ secrets.VPS_PORT || '22' }}
+          TARGET: ${{ secrets.VPS_PATH }}
+          # Reload Nginx après le déploiement (commande NOPASSWD via sudoers).
+          SCRIPT_AFTER: |
+            sudo /usr/sbin/nginx -t && sudo /bin/systemctl reload nginx
+            echo "Deploy OK · $(date -u +'%Y-%m-%dT%H:%M:%SZ')"
