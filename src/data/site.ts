@@ -45,7 +45,18 @@ export const stats = [
 ];
 
 // Notre écosystème — pôles réels
-export const poles = [
+interface Pole {
+  slug: string;
+  name: string;
+  baseline: string;
+  color: string;
+  icon: string;
+  image: string;
+  logo?: string;
+  text: string;
+}
+
+export const poles: Pole[] = [
   {
     slug: "academy",
     name: "Cœurs Braves Academy",
